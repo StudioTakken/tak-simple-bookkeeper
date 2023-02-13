@@ -20,3 +20,6 @@ VroegInDeOchtend
 composer require kamona/kui-laravel-breeze --dev
 
 create BookingController
+
+
+php artisan migrate:refresh --step=1

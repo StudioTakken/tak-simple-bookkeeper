@@ -1,6 +1,14 @@
 <?php
 
 /*
+| My own little helper files
+*/
+
+ini_set("error_log", dirname(__DIR__) . "/storage/logs/php-error.log");
+require_once dirname(__DIR__) . '/app/helpers.php';
+
+
+/*
 |--------------------------------------------------------------------------
 | Create The Application
 |--------------------------------------------------------------------------

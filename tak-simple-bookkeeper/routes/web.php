@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
 
     // create the bookings route
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings-import', [BookingController::class, 'import'])->name('bookings.import');
 });
 
 // useless routes

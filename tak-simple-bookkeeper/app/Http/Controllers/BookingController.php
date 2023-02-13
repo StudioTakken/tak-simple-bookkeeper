@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -13,10 +14,16 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //r
-        //  return 'Hello from BookingController@index';
+        // return 'Hello from BookingController@index';
 
-        return view('bookings.index');
+        // $bookings = Booking::all();
+
+        // get bookings as array
+        // $bookings = Booking::all()->toArray();
+
+        //get bookings as collection
+        $bookings = Booking::all();
+        return view('bookings.index', ['bookings' => $bookings]);
     }
 
     /**
@@ -83,5 +90,114 @@ class BookingController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function import()
+    {
+
+        $imported_counter = 0;
+        $imported_allready_counter = 0;
+
+        // import the csv file
+        $file = fopen("/Users/martintakken/WebsitesLocalWork/takBH/tak-simple-bookkeeper/storage/app/public/csv/bookings.csv", "r");
+        $importData_arr = array();
+        $row = 0;
+
+        $colname = [];
+        while (($filedata = fgetcsv($file, 1000, ";")) !== FALSE) {
+            $num = count($filedata);
+
+            // Skip first row (Remove below comment if you want to skip the first row)
+            if ($row == 0) {
+
+                for ($c = 0; $c < $num; $c++) {
+                    $colname[$c] = $filedata[$c];
+                }
+
+
+                $row++;
+                continue;
+            }
+            for ($c = 0; $c < $num; $c++) {
+                $importData_arr[$row][$colname[$c]] = $filedata[$c];
+            }
+            $row++;
+        }
+        fclose($file);
+
+        // Insert to MySQL database
+        foreach ($importData_arr as $importData) {
+
+            $importData['btw'] = 0;
+            $importData['amount_inc'] = 0;
+
+            // dd($importData);
+
+            // "Datum" => "20230210"
+            // "Naam / Omschrijving" => "EUROPESE CULTURELE"
+            // "Rekening" => "NL94INGB0007001049"
+            // "Tegenrekening" => "NL36ABNA0411220160"
+            // "Code" => "OV"
+            // "Af Bij" => "Bij"
+            // "Bedrag (EUR)" => "21,78"
+            // "Mutatiesoort" => "Overschrijving"
+            // "Mededelingen" => "Naam: EUROPESE CULTURELE Omschrijving: 4004743/30042794 nummer 01 20230004 nummer 01 20230004 nummer 01 20230004 martin takken EUdayFestival Amsterdam IBAN: NL3 ▶"
+            // "Saldo na mutatie" => "1339,05"
+            // "Tag" => ""
+
+            $importData['plus_min_int'] = 1;
+
+            if ($importData['Af Bij'] === 'Bij') {
+                $importData['plus_min'] = 'plus';
+                $importData['plus_min_int'] = 1;
+                // dd($importData['Af Bij']);
+            } elseif ($importData['Af Bij'] === 'Af') {
+                $importData['plus_min'] = 'min';
+                $importData['plus_min_int'] = -1;
+            }
+
+
+            // make the value form comma to dot
+            $importData['Bedrag (EUR)'] = str_replace(',', '.', $importData['Bedrag (EUR)']);
+            $importData['btw'] = str_replace(',', '.', $importData['btw']);
+            $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
+
+
+
+
+            $insertData = array(
+
+                "date" => $importData['Datum'],
+                "account" => $importData['Rekening'],
+                "contra_account" => $importData['Tegenrekening'],
+                "description" => $importData['Naam / Omschrijving'],
+                "plus_min" => $importData['plus_min'],
+                "plus_min_int" => $importData['plus_min_int'],
+                "invoice_nr" => '0',
+                "category" => $importData['Code'],
+                "amount" => (float)$importData['Bedrag (EUR)'],
+                "btw" => $importData['btw'],
+                "amount_inc" => $importData['amount_inc'],
+                "remarks" => 'q',
+                "tag" => $importData['Tag'],
+                "mutation_type" => $importData['Mutatiesoort']
+            );
+
+            if (Booking::checkIfAllreadyImported($insertData)) {
+                // count the number of bookings that are allready imported
+                $imported_allready_counter++;
+
+
+                continue;
+            }
+
+            Booking::insertData($insertData);
+            // count the number of bookings that are imported
+            $imported_counter++;
+        }
+
+        return redirect()->route('bookings.index')
+            ->with('success', 'Bookings imported successfully. (geimporteerd: ' . $imported_counter . ', al geïmporteerd: ' . $imported_allready_counter . ')');
     }
 }
