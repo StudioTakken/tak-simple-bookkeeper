@@ -26,11 +26,11 @@ return new class extends Migration
             $table->integer('plus_min_int');
             $table->string('invoice_nr');
             $table->string('category');
-            $table->decimal('amount', 10, 2);
-            $table->decimal('btw', 10, 2);
-            $table->decimal('amount_inc', 10, 2);
+            $table->integer('amount');
+            $table->integer('btw');
+            $table->integer('amount_inc');
 
-            $table->string('remarks');
+            $table->text('remarks');
             $table->string('tag');
             $table->string('mutation_type');
         });

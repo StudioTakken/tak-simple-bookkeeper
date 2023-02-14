@@ -14,12 +14,6 @@ class BookingController extends Controller
      */
     public function index()
     {
-        // return 'Hello from BookingController@index';
-
-        // $bookings = Booking::all();
-
-        // get bookings as array
-        // $bookings = Booking::all()->toArray();
 
         //get bookings as collection
         $bookings = Booking::all();
@@ -176,10 +170,10 @@ class BookingController extends Controller
                 "plus_min_int" => $importData['plus_min_int'],
                 "invoice_nr" => '0',
                 "category" => $importData['Code'],
-                "amount" => (float)$importData['Bedrag (EUR)'],
+                "amount_inc" => (float)$importData['Bedrag (EUR)'],
                 "btw" => $importData['btw'],
-                "amount_inc" => $importData['amount_inc'],
-                "remarks" => 'q',
+                "amount" => 0,
+                "remarks" => $importData['Mededelingen'],
                 "tag" => $importData['Tag'],
                 "mutation_type" => $importData['Mutatiesoort']
             );

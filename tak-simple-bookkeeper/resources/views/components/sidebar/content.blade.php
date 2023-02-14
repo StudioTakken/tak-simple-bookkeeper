@@ -27,7 +27,7 @@
     <x-sidebar.link title="Boekingen" href="{{ route('bookings.index') }}" />
 
 
-    <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">
+    {{-- <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">
         Dummy Links
     </div>
 
@@ -37,6 +37,6 @@
 
     @foreach ($links as $index => $link)
         <x-sidebar.link title="Dummy link {{ $index + 1 }}" href="#" />
-    @endforeach
+    @endforeach --}}
 
 </x-perfect-scrollbar>

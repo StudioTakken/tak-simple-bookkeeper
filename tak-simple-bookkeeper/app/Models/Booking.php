@@ -27,6 +27,11 @@ class Booking extends Model
         'mutation_type',
     ];
 
+    //In Laravel, the get[FieldName]Attribute() function is a naming convention used to define an accessor method for a model attribute. 
+    // The accessor method is used to get the value of the attribute from the model.
+    // https://laravel.com/docs/8.x/eloquent-mutators#accessors-and-mutators
+
+
     // public function getPlusMinAttribute($value)
     // {
     //     return $value === 'plus' ? 'plus' : 'min';
@@ -47,10 +52,12 @@ class Booking extends Model
     //     $this->attributes['plus_min_int'] = $value === 'plus' ? 1 : -1;
     // }
 
-    // public function getAmountIncAttribute($value)
-    // {
-    //     return $this->amount + $this->btw;
-    // }
+    public function getAmountIncAttribute($value)
+    {
+        return $value;
+    }
+
+
 
     // public function setAmountIncAttribute($value)
     // {
@@ -58,15 +65,65 @@ class Booking extends Model
     //     $this->attributes['amount_inc'] = (float)$this->amount + $this->btw;
     // }
 
-    // public function getAmountAttribute($value)
-    // {
-    //     return $value;
-    // }
+    public function getAmountAttribute($value)
+    {
+        $value = (float)$this->amount_inc - $this->btw;
+        return $value;
+    }
 
-    // public function setAmountAttribute($value)
-    // {
-    //     $this->attributes['amount'] = $value;
-    // }
+    public function setAmountAttribute($value)
+    {
+
+
+        // strip the currency symbol
+        $value = str_replace('€', '', $value);
+
+        // strip the spaces
+        $value = str_replace(' ', '', $value);
+
+        // check if the value is a valid dutch format
+
+        if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
+            // make it a european format, with a dot as decimal separator and no thousands separator
+            $value = str_replace('.', '', $value); // remove the thousands separators
+            $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
+        }
+        // remove the thousands separators if they are there
+        $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
+
+
+        // make it a amount in cents
+        $value = (int)round($value * 100);
+
+        $this->attributes['amount'] = $value;
+    }
+
+    public function setAmountIncAttribute($value)
+    {
+
+
+        // strip the currency symbol
+        $value = str_replace('€', '', $value);
+
+        // strip the spaces
+        $value = str_replace(' ', '', $value);
+
+        // check if the value is a valid dutch format
+
+        if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
+            // make it a european format, with a dot as decimal separator and no thousands separator
+            $value = str_replace('.', '', $value); // remove the thousands separators
+            $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
+        }
+        // remove the thousands separators if they are there
+        $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
+
+
+        // make it a amount in cents
+        $value = (int)round($value * 100);
+
+        $this->attributes['amount_inc'] = $value;
+    }
 
     // public function getBtwAttribute($value)
     // {
@@ -82,7 +139,7 @@ class Booking extends Model
     public static function insertData($insertData)
     {
 
-        ddl($insertData);
+        // ddl($insertData);
         $booking = new Booking;
         $booking->date              = $insertData['date'];
         $booking->account           = $insertData['account'];
@@ -111,9 +168,9 @@ class Booking extends Model
             ->where('plus_min_int', $insertData['plus_min_int'])
             //  ->where('invoice_nr', $invoice_nr)
             // ->where('category', $category)
-            ->where('amount', $insertData['amount'])
+            //  ->where('amount', $insertData['amount'])
             //  ->where('btw', $btw)
-            //  ->where('amount_inc', $amount_inc)
+            ->where('amount_inc', $insertData['amount_inc'])
             //  ->where('remarks', $remarks)
             //  ->where('tag', $tag)
             //  ->where('mutation_type', $mutation_type)

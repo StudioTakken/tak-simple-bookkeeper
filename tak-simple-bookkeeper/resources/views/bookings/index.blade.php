@@ -41,7 +41,11 @@
                 <tr>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Date</th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Description</th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Amount</th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">Bedrag
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">Bedrag
+                        Inc BTW</th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">BTW</th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Category</th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Subcategory</th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Account</th>
@@ -57,12 +61,22 @@
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->date }}</td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->description }}
                     </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->amount }}</td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+                        {{ number_format($booking->amount / 100, 2, ',', '.') }}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+                        {{ number_format($booking->amount_inc / 100, 2, ',', '.') }}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+                        {{ number_format($booking->btw / 100, 2, ',', '.') }}
+                    </td>
+
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->category }}
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->subcategory }}
                     </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->account }}
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {{ $booking->account }}
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         {{ $booking->contra_account }}</td>
