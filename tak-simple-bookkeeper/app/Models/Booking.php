@@ -67,63 +67,63 @@ class Booking extends Model
 
     public function getAmountAttribute($value)
     {
-        $value = (float)$this->amount_inc - $this->btw;
+        //   $value = (float)$this->amount_inc - $this->btw;
         return $value;
     }
 
-    public function setAmountAttribute($value)
-    {
+    // public function setAmountAttribute($value)
+    // {
 
 
-        // strip the currency symbol
-        $value = str_replace('€', '', $value);
+    //     // strip the currency symbol
+    //     $value = str_replace('€', '', $value);
 
-        // strip the spaces
-        $value = str_replace(' ', '', $value);
+    //     // strip the spaces
+    //     $value = str_replace(' ', '', $value);
 
-        // check if the value is a valid dutch format
+    //     // check if the value is a valid dutch format
 
-        if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
-            // make it a european format, with a dot as decimal separator and no thousands separator
-            $value = str_replace('.', '', $value); // remove the thousands separators
-            $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
-        }
-        // remove the thousands separators if they are there
-        $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
-
-
-        // make it a amount in cents
-        $value = (int)round($value * 100);
-
-        $this->attributes['amount'] = $value;
-    }
-
-    public function setAmountIncAttribute($value)
-    {
+    //     if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
+    //         // make it a european format, with a dot as decimal separator and no thousands separator
+    //         $value = str_replace('.', '', $value); // remove the thousands separators
+    //         $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
+    //     }
+    //     // remove the thousands separators if they are there
+    //     $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
 
 
-        // strip the currency symbol
-        $value = str_replace('€', '', $value);
+    //     // make it a amount in cents
+    //     $value = (int)round($value * 100);
 
-        // strip the spaces
-        $value = str_replace(' ', '', $value);
+    //     $this->attributes['amount'] = $value;
+    // }
 
-        // check if the value is a valid dutch format
-
-        if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
-            // make it a european format, with a dot as decimal separator and no thousands separator
-            $value = str_replace('.', '', $value); // remove the thousands separators
-            $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
-        }
-        // remove the thousands separators if they are there
-        $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
+    // public function setAmountIncAttribute($value)
+    // {
 
 
-        // make it a amount in cents
-        $value = (int)round($value * 100);
+    //     // strip the currency symbol
+    //     $value = str_replace('€', '', $value);
 
-        $this->attributes['amount_inc'] = $value;
-    }
+    //     // strip the spaces
+    //     $value = str_replace(' ', '', $value);
+
+    //     // check if the value is a valid dutch format
+
+    //     if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
+    //         // make it a european format, with a dot as decimal separator and no thousands separator
+    //         $value = str_replace('.', '', $value); // remove the thousands separators
+    //         $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
+    //     }
+    //     // remove the thousands separators if they are there
+    //     $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
+
+
+    //     // make it a amount in cents
+    //     $value = (int)round($value * 100);
+
+    //     $this->attributes['amount_inc'] = $value;
+    // }
 
     // public function getBtwAttribute($value)
     // {
@@ -134,6 +134,45 @@ class Booking extends Model
     // {
     //     $this->attributes['btw'] = $value * $this->plus_min_int;
     // }
+
+
+    public function splitAmountBtw()
+    {
+
+        ddl($this->btw);
+        ddl($this->amount);
+        ddl($this->amount_inc);
+
+        $this->btw = ($this->amount_inc / 121) * 0.21;
+        $this->amount = (int)$this->amount_inc - (int)$this->btw;
+
+        ddl($this->btw);
+        ddl($this->amount);
+        ddl($this->amount_inc);
+
+        $this->save();
+    }
+
+
+    // CalcAmountIncAndBtw
+    public function CalcAmountIncAndBtw()
+    {
+        $this->btw = $this->amount * 0.21;
+        $this->amount_inc = $this->amount + $this->btw;
+        $this->save();
+    }
+
+    public function NoBTW()
+    {
+        $this->btw = 0;
+        if ($this->amount_inc == 0) {
+            $this->amount_inc = $this->amount;
+        } else {
+            $this->amount = $this->amount_inc;
+        }
+
+        $this->save();
+    }
 
 
     public static function insertData($insertData)

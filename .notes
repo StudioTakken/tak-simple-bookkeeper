@@ -23,3 +23,6 @@ create BookingController
 
 
 php artisan migrate:refresh --step=1
+
+
+php artisan make:livewire AdminRowBooking

@@ -41,10 +41,11 @@
                 <tr>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Date</th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Description</th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">Bedrag
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">Bedrag Incl BTW
                     </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">Bedrag
-                        Inc BTW</th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">Bewerk</th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">Bedrag Excl BTW
+                    </th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-right">BTW</th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Category</th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Subcategory</th>
@@ -56,33 +57,7 @@
 
 
             @foreach ($bookings as $booking)
-                {{-- create a table with the following columns: date, description, amount, category, subcategory, account, tags --}}
-                <tr>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->date }}</td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->description }}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
-                        {{ number_format($booking->amount / 100, 2, ',', '.') }}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
-                        {{ number_format($booking->amount_inc / 100, 2, ',', '.') }}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
-                        {{ number_format($booking->btw / 100, 2, ',', '.') }}
-                    </td>
-
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->category }}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->subcategory }}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{ $booking->account }}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{ $booking->contra_account }}</td>
-
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->tags }}</td>
-                </tr>
+                @livewire('admin-row-booking', ['booking' => $booking])
             @endforeach
         </table>
 
