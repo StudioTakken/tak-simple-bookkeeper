@@ -25,6 +25,7 @@
 
 
     <x-sidebar.link title="Boekingen" href="{{ route('bookings.index') }}" />
+    <x-sidebar.link title="Debiteuren" href="{{ route('debiteuren.index') }}" />
 
 
     {{-- <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">

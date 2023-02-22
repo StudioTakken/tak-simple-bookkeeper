@@ -10,8 +10,10 @@ class Booking extends Model
     use HasFactory;
 
     protected $casts = [
-        'originals' => 'array'
+        'originals' => 'array',
+        'start_date' => 'date:Y-m-d'
     ];
+
 
     protected $fillable = [
         'date',
@@ -46,54 +48,13 @@ class Booking extends Model
         return $value;
     }
 
-    public static function Centify($value)
-    {
-
-        // strip the currency symbol
-        $value = str_replace('€', '', $value);
-
-        // strip the spaces
-        $value = str_replace(' ', '', $value);
-
-        // check if the value is a valid dutch format
-
-        if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
-            // make it a european format, with a dot as decimal separator and no thousands separator
-            $value = str_replace('.', '', $value); // remove the thousands separators
-            $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
-        }
-        // remove the thousands separators if they are there
-        $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
-
-
-        // make it a amount in cents
-        $value = (int)round($value * 100);
-
-        // $this->attributes['amount'] = $value;
-
-        return $value;
-    }
-
-
-
-
 
 
     public function splitAmountBtw()
     {
-
-        // ddl($this->btw);
-        // ddl($this->amount);
-        // ddl($this->amount_inc);
-
         $this->btw = ($this->amount_inc / 121) * 0.21;
         $this->amount = (int)$this->amount_inc - (int)$this->btw;
-
-        // ddl($this->btw);
-        // ddl($this->amount);
-        // ddl($this->amount_inc);
-
-        $this->save();
+        return $this->save();
     }
 
 
@@ -102,7 +63,7 @@ class Booking extends Model
     {
         $this->btw = $this->amount * 0.21;
         $this->amount_inc = $this->amount + $this->btw;
-        $this->save();
+        return $this->save();
     }
 
     public function NoBTW()
@@ -113,8 +74,7 @@ class Booking extends Model
         } else {
             $this->amount = $this->amount_inc;
         }
-
-        $this->save();
+        return $this->save();
     }
 
 
@@ -195,6 +155,18 @@ class Booking extends Model
         $this->mutation_type     = $insertData['mutation_type'];
         $this->category          = $insertData['category'];
 
-        $this->save();
+        return $this->save();
+    }
+
+
+    public function scopeDebiteuren($query)
+    {
+        return $query->where('category', 'debiteuren');
+    }
+
+    public function scopePeriod($query)
+    {
+
+        return $query->where('date', '>=', session('startDate'));
     }
 }

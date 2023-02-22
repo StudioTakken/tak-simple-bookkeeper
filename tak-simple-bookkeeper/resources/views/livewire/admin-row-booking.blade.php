@@ -1,7 +1,23 @@
-{{-- The whole world belongs to you. --}}
+<tr class="   
+@if (session()->has('message')) @if (session('message') === 'success') 
+success-fader @endif
+@endif
+@if (session()->has('message')) @if (session('message') === 'error') 
+error-fader @endif
+@endif
+"
+    wire:loading.class.remove="success-fader" wire:loading.class.remove="error-fader">
 
 
-<tr>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+
+        @if (session()->has('message'))
+            @if (session('message') === 'error')
+                X - reload! @endif
+        @endif
+
+
+    </td>
     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->date }}</td>
     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->description }}
     </td>

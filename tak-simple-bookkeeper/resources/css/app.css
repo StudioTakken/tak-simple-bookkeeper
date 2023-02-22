@@ -35,3 +35,49 @@
     color: red !important;
     border: 1px solid red !important;
 } */
+
+
+@keyframes successAnim {
+    0% {
+        background-color: green;
+    }
+
+    100% {
+        background-color: white;
+    }
+}
+
+.success-fader {
+    background-color: transparent;
+
+    animation-name: successAnim;
+    animation-iteration-count: 1;
+    animation-duration: 2s;
+
+    -webkit-animation-name: successAnim;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-duration: 2s;
+}
+
+
+@keyframes errorAnim {
+    0% {
+        background-color: rgb(255, 0, 0);
+    }
+
+    100% {
+        background-color: white;
+    }
+}
+
+.error-fader {
+    background-color: transparent;
+
+    animation-name: errorAnim;
+    animation-iteration-count: 1;
+    animation-duration: 10s;
+
+    -webkit-animation-name: errorAnim;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-duration: 10s;
+}

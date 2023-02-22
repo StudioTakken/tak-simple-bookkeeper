@@ -23,6 +23,7 @@ class AdminRowBooking extends Component
 
     public function render()
     {
+
         return view('livewire.admin-row-booking');
     }
 
@@ -32,23 +33,27 @@ class AdminRowBooking extends Component
      */
     public function splitAmountBtw()
     {
-        $this->booking->splitAmountBtw();
+        $ok = $this->booking->splitAmountBtw();
+        $this->blink($ok);
     }
 
 
     public function CalcAmountIncAndBtw()
     {
-        $this->booking->CalcAmountIncAndBtw();
+        $ok = $this->booking->CalcAmountIncAndBtw();
+        $this->blink($ok);
     }
 
     public function NoBTW()
     {
-        $this->booking->NoBTW();
+        $ok = $this->booking->NoBTW();
+        $this->blink($ok);
     }
 
     public function resetBooking()
     {
-        $this->booking->resetBooking();
+        $ok = $this->booking->resetBooking();
+        $this->blink($ok);
     }
 
 
@@ -56,7 +61,19 @@ class AdminRowBooking extends Component
     public function updatedCategory()
     {
         $this->booking->category = $this->category;
-        //  ddl($this->booking->category);
-        $this->booking->save();
+        $ok = $this->booking->save();
+        $this->blink($ok);
+    }
+
+
+
+    public function blink($saved)
+    {
+
+        if ($saved) {
+            session()->flash('message', 'success');
+        } else {
+            session()->flash('message', 'error');
+        }
     }
 }

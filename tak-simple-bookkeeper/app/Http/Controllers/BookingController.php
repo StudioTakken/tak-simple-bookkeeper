@@ -16,8 +16,8 @@ class BookingController extends Controller
     {
 
         //get bookings as collection
-        $bookings = Booking::all();
-        return view('bookings.index', ['bookings' => $bookings]);
+        $bookings = Booking::period()->get();
+        return view('bookings.index', ['bookings' => $bookings, 'scope' => 'boekingen']);
     }
 
     /**
@@ -145,9 +145,9 @@ class BookingController extends Controller
             $importData['btw'] = str_replace(',', '.', $importData['btw']);
             $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
 
-            $importData['Bedrag (EUR)']           = Booking::centify($importData['Bedrag (EUR)']);
-            $importData['btw']              = Booking::centify($importData['btw']);
-            $importData['amount_inc']       = Booking::centify($importData['amount_inc']);
+            $importData['Bedrag (EUR)']           = Centify($importData['Bedrag (EUR)']);
+            $importData['btw']              = Centify($importData['btw']);
+            $importData['amount_inc']       = Centify($importData['amount_inc']);
 
             $insertData = array(
 
