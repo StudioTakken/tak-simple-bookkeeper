@@ -53,12 +53,13 @@ class DateSettings extends Component
         }
 
         session(['startDate' => $value]);
-        ddl('it should refresh!');
-        $this->emit('refreshBookings');
-        ddl('did it?');
-
+        // ddl('it should refresh!');
+        // $this->emit('refreshBookings');
+        // ddl('did it?');
 
         $this->emit('startDate', $value);
+        // reload the page
+        $this->redirect(route('bookings.index'));
     }
 
     public function updatedStopDate($value)
@@ -71,6 +72,7 @@ class DateSettings extends Component
 
         session(['stopDate' => $value]);
         $this->emit('stopDate', $value);
+        $this->redirect(route('bookings.index'));
     }
 
 
@@ -78,30 +80,35 @@ class DateSettings extends Component
     {
         session(['startDate' => Carbon::now()->startOfYear()->format('Y-m-d')]);
         session(['stopDate' => Carbon::now()->endOfYear()->format('Y-m-d')]);
+        $this->redirect(route('bookings.index'));
     }
 
     public function lastYear()
     {
         session(['startDate' => Carbon::now()->subYear()->startOfYear()->format('Y-m-d')]);
         session(['stopDate' => Carbon::now()->subYear()->endOfYear()->format('Y-m-d')]);
+        $this->redirect(route('bookings.index'));
     }
 
     public function thisMonth()
     {
         session(['startDate' => Carbon::now()->startOfMonth()->format('Y-m-d')]);
         session(['stopDate' => Carbon::now()->endOfMonth()->format('Y-m-d')]);
+        $this->redirect(route('bookings.index'));
     }
 
     public function lastMonth()
     {
         session(['startDate' => Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d')]);
         session(['stopDate' => Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d')]);
+        $this->redirect(route('bookings.index'));
     }
 
     public function thisWeek()
     {
         session(['startDate' => Carbon::now()->startOfWeek()->format('Y-m-d')]);
         session(['stopDate' => Carbon::now()->endOfWeek()->format('Y-m-d')]);
+        $this->redirect(route('bookings.index'));
     }
 
     public function lastWeek()
@@ -114,12 +121,14 @@ class DateSettings extends Component
     {
         session(['startDate' => Carbon::now()->startOfQuarter()->format('Y-m-d')]);
         session(['stopDate' => Carbon::now()->endOfQuarter()->format('Y-m-d')]);
+        $this->redirect(route('bookings.index'));
     }
 
     public function lastQuarter()
     {
         session(['startDate' => Carbon::now()->subQuarter()->startOfQuarter()->format('Y-m-d')]);
         session(['stopDate' => Carbon::now()->subQuarter()->endOfQuarter()->format('Y-m-d')]);
+        $this->redirect(route('bookings.index'));
     }
 
     public function updating()

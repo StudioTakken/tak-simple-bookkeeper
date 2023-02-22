@@ -173,6 +173,6 @@ class Booking extends Model
         //     $mysql_start_date = $date->format('Y-m-d');
         // }
 
-        return $query->where('date', '>=', session('startDate'));
+        return $query->where('date', '>=', session('startDate'))->where('date', '<=', session('stopDate'));
     }
 }

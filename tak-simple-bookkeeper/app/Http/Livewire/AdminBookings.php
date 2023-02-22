@@ -16,10 +16,10 @@ class AdminBookings extends Component
 
     public function render()
     {
-        ddl('render');
-        $this->freshnow = now();
+        // ddl('render');
+        // $this->freshnow = now();
         $this->bookings = Booking::period()->orderBy('date')->orderBy('id')->get();
-        return view('livewire.admin-bookings');
+        return view('livewire.admin-bookings', ['bookings' => $this->bookings]);
     }
 
 
