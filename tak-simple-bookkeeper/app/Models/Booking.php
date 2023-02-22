@@ -10,8 +10,7 @@ class Booking extends Model
     use HasFactory;
 
     protected $casts = [
-        'originals' => 'array',
-        'start_date' => 'date:Y-m-d'
+        'originals' => 'array'
     ];
 
 
@@ -166,6 +165,13 @@ class Booking extends Model
 
     public function scopePeriod($query)
     {
+        ddl(session('startDate'));
+
+        // if session('startDate') is in the format dd-mm-yyyy than convert to yyyy-mm-dd
+        // if (preg_match('/^\d{2}-\d{2}-\d{4}$/', session('startDate'))) {
+        //     $date = \DateTime::createFromFormat('d-m-Y', session('startDate'));
+        //     $mysql_start_date = $date->format('Y-m-d');
+        // }
 
         return $query->where('date', '>=', session('startDate'));
     }

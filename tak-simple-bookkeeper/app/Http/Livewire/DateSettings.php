@@ -12,6 +12,9 @@ class DateSettings extends Component
     public $stopDate;
 
 
+
+
+
     public function mount()
     {
 
@@ -33,6 +36,8 @@ class DateSettings extends Component
 
     public function render()
     {
+
+
         $this->startDate = session('startDate');
         $this->stopDate = session('stopDate');
         return view('livewire.date-settings');
@@ -48,6 +53,11 @@ class DateSettings extends Component
         }
 
         session(['startDate' => $value]);
+        ddl('it should refresh!');
+        $this->emit('refreshBookings');
+        ddl('did it?');
+
+
         $this->emit('startDate', $value);
     }
 
