@@ -26,3 +26,14 @@ php artisan migrate:refresh --step=1
 
 
 php artisan make:livewire AdminRowBooking
+
+php artisan make:controller 
+
+
+
+php artisan make:seeder UserSeeder
+
+
+
+php artisan migrate
+php artisan db:seed --class=UserSeeder

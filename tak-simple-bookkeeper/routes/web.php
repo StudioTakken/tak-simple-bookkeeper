@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
-
+use App\Http\Controllers\DebiteurenController;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/test', function (Request $request) {
+//     $uri = $request->fullUrl();
+//     return $uri;
+// });
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -31,6 +37,8 @@ Route::middleware('auth')->group(function () {
     // create the bookings route
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings-import', [BookingController::class, 'import'])->name('bookings.import');
+
+    Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
 });
 
 // useless routes

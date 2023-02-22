@@ -9,6 +9,9 @@ class Booking extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'originals' => 'array'
+    ];
 
     protected $fillable = [
         'date',
@@ -18,39 +21,18 @@ class Booking extends Model
         'plus_min',
         'plus_min_int',
         'invoice_nr',
-        'category',
+        'bank_code',
         'amount',
         'btw',
         'amount_inc',
         'remarks',
         'tag',
         'mutation_type',
+        'category',
+        'originals',
     ];
 
-    //In Laravel, the get[FieldName]Attribute() function is a naming convention used to define an accessor method for a model attribute. 
-    // The accessor method is used to get the value of the attribute from the model.
-    // https://laravel.com/docs/8.x/eloquent-mutators#accessors-and-mutators
 
-
-    // public function getPlusMinAttribute($value)
-    // {
-    //     return $value === 'plus' ? 'plus' : 'min';
-    // }
-
-    // public function getPlusMinIntAttribute($value)
-    // {
-    //     return $value === 'plus' ? 1 : -1;
-    // }
-
-    // public function setPlusMinAttribute($value)
-    // {
-    //     $this->attributes['plus_min'] = $value === 'plus' ? 'plus' : 'min';
-    // }
-
-    // public function setPlusMinIntAttribute($value)
-    // {
-    //     $this->attributes['plus_min_int'] = $value === 'plus' ? 1 : -1;
-    // }
 
     public function getAmountIncAttribute($value)
     {
@@ -58,97 +40,58 @@ class Booking extends Model
     }
 
 
-
-    // public function setAmountIncAttribute($value)
-    // {
-    //     //     dd($this->btw);
-    //     $this->attributes['amount_inc'] = (float)$this->amount + $this->btw;
-    // }
-
     public function getAmountAttribute($value)
     {
         //   $value = (float)$this->amount_inc - $this->btw;
         return $value;
     }
 
-    // public function setAmountAttribute($value)
-    // {
+    public static function Centify($value)
+    {
+
+        // strip the currency symbol
+        $value = str_replace('€', '', $value);
+
+        // strip the spaces
+        $value = str_replace(' ', '', $value);
+
+        // check if the value is a valid dutch format
+
+        if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
+            // make it a european format, with a dot as decimal separator and no thousands separator
+            $value = str_replace('.', '', $value); // remove the thousands separators
+            $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
+        }
+        // remove the thousands separators if they are there
+        $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
 
 
-    //     // strip the currency symbol
-    //     $value = str_replace('€', '', $value);
+        // make it a amount in cents
+        $value = (int)round($value * 100);
 
-    //     // strip the spaces
-    //     $value = str_replace(' ', '', $value);
+        // $this->attributes['amount'] = $value;
 
-    //     // check if the value is a valid dutch format
-
-    //     if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
-    //         // make it a european format, with a dot as decimal separator and no thousands separator
-    //         $value = str_replace('.', '', $value); // remove the thousands separators
-    //         $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
-    //     }
-    //     // remove the thousands separators if they are there
-    //     $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
+        return $value;
+    }
 
 
-    //     // make it a amount in cents
-    //     $value = (int)round($value * 100);
-
-    //     $this->attributes['amount'] = $value;
-    // }
-
-    // public function setAmountIncAttribute($value)
-    // {
 
 
-    //     // strip the currency symbol
-    //     $value = str_replace('€', '', $value);
-
-    //     // strip the spaces
-    //     $value = str_replace(' ', '', $value);
-
-    //     // check if the value is a valid dutch format
-
-    //     if (preg_match('/^\d{1,3}(\.\d{3})*,\d{2}$/', $value)) {
-    //         // make it a european format, with a dot as decimal separator and no thousands separator
-    //         $value = str_replace('.', '', $value); // remove the thousands separators
-    //         $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
-    //     }
-    //     // remove the thousands separators if they are there
-    //     $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
-
-
-    //     // make it a amount in cents
-    //     $value = (int)round($value * 100);
-
-    //     $this->attributes['amount_inc'] = $value;
-    // }
-
-    // public function getBtwAttribute($value)
-    // {
-    //     return $value * $this->plus_min_int;
-    // }
-
-    // public function setBtwAttribute($value)
-    // {
-    //     $this->attributes['btw'] = $value * $this->plus_min_int;
-    // }
 
 
     public function splitAmountBtw()
     {
 
-        ddl($this->btw);
-        ddl($this->amount);
-        ddl($this->amount_inc);
+        // ddl($this->btw);
+        // ddl($this->amount);
+        // ddl($this->amount_inc);
 
         $this->btw = ($this->amount_inc / 121) * 0.21;
         $this->amount = (int)$this->amount_inc - (int)$this->btw;
 
-        ddl($this->btw);
-        ddl($this->amount);
-        ddl($this->amount_inc);
+        // ddl($this->btw);
+        // ddl($this->amount);
+        // ddl($this->amount_inc);
 
         $this->save();
     }
@@ -178,7 +121,8 @@ class Booking extends Model
     public static function insertData($insertData)
     {
 
-        // ddl($insertData);
+
+
         $booking = new Booking;
         $booking->date              = $insertData['date'];
         $booking->account           = $insertData['account'];
@@ -187,13 +131,19 @@ class Booking extends Model
         $booking->plus_min          = $insertData['plus_min'];
         $booking->plus_min_int      = $insertData['plus_min_int'];
         $booking->invoice_nr        = $insertData['invoice_nr'];
-        $booking->category          = $insertData['category'];
+        $booking->bank_code          = $insertData['bank_code'];
         $booking->amount            = $insertData['amount'];
         $booking->btw               = $insertData['btw'];
         $booking->amount_inc        = $insertData['amount_inc'];
         $booking->remarks           = $insertData['remarks'];
         $booking->tag               = $insertData['tag'];
         $booking->mutation_type     = $insertData['mutation_type'];
+        $booking->category          = $insertData['category'];
+
+
+        $booking->originals = $insertData['originals'];
+
+
         $booking->save();
     }
 
@@ -219,5 +169,32 @@ class Booking extends Model
         } else {
             return false;
         }
+    }
+
+
+
+    public function resetBooking()
+    {
+
+
+        $insertData = $this->originals;
+
+        $this->date              = $insertData['date'];
+        $this->account           = $insertData['account'];
+        $this->contra_account    = $insertData['contra_account'];
+        $this->description       = $insertData['description'];
+        $this->plus_min          = $insertData['plus_min'];
+        $this->plus_min_int      = $insertData['plus_min_int'];
+        $this->invoice_nr        = $insertData['invoice_nr'];
+        $this->bank_code         = $insertData['bank_code'];
+        $this->amount            = $insertData['amount'];
+        $this->btw               = $insertData['btw'];
+        $this->amount_inc        = $insertData['amount_inc'];
+        $this->remarks           = $insertData['remarks'];
+        $this->tag               = $insertData['tag'];
+        $this->mutation_type     = $insertData['mutation_type'];
+        $this->category          = $insertData['category'];
+
+        $this->save();
     }
 }

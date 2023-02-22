@@ -2,6 +2,10 @@
 
 return [
 
+    'testadminname' => env('TESTADMINNAME', 'admin'),
+    'testadminmail' => env('TESTADMINMAIL', 'admin@admin.com'),
+    'testadminpass' => env('TESTADMINPASS', 'password'),
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

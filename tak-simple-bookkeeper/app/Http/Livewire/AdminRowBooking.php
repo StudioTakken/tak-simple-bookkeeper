@@ -7,6 +7,19 @@ use Livewire\Component;
 class AdminRowBooking extends Component
 {
     public $booking;
+    public $category = '';
+
+
+
+    public function mount()
+    {
+
+        if ($this->booking->category) {
+            $this->category = $this->booking->category;
+        }
+    }
+
+
 
     public function render()
     {
@@ -31,5 +44,19 @@ class AdminRowBooking extends Component
     public function NoBTW()
     {
         $this->booking->NoBTW();
+    }
+
+    public function resetBooking()
+    {
+        $this->booking->resetBooking();
+    }
+
+
+
+    public function updatedCategory()
+    {
+        $this->booking->category = $this->category;
+        //  ddl($this->booking->category);
+        $this->booking->save();
     }
 }

@@ -126,19 +126,7 @@ class BookingController extends Controller
             $importData['btw'] = 0;
             $importData['amount_inc'] = 0;
 
-            // dd($importData);
 
-            // "Datum" => "20230210"
-            // "Naam / Omschrijving" => "EUROPESE CULTURELE"
-            // "Rekening" => "NL94INGB0007001049"
-            // "Tegenrekening" => "NL36ABNA0411220160"
-            // "Code" => "OV"
-            // "Af Bij" => "Bij"
-            // "Bedrag (EUR)" => "21,78"
-            // "Mutatiesoort" => "Overschrijving"
-            // "Mededelingen" => "Naam: EUROPESE CULTURELE Omschrijving: 4004743/30042794 nummer 01 20230004 nummer 01 20230004 nummer 01 20230004 martin takken EUdayFestival Amsterdam IBAN: NL3 ▶"
-            // "Saldo na mutatie" => "1339,05"
-            // "Tag" => ""
 
             $importData['plus_min_int'] = 1;
 
@@ -157,8 +145,9 @@ class BookingController extends Controller
             $importData['btw'] = str_replace(',', '.', $importData['btw']);
             $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
 
-
-
+            $importData['Bedrag (EUR)']           = Booking::centify($importData['Bedrag (EUR)']);
+            $importData['btw']              = Booking::centify($importData['btw']);
+            $importData['amount_inc']       = Booking::centify($importData['amount_inc']);
 
             $insertData = array(
 
@@ -169,22 +158,27 @@ class BookingController extends Controller
                 "plus_min" => $importData['plus_min'],
                 "plus_min_int" => $importData['plus_min_int'],
                 "invoice_nr" => '0',
-                "category" => $importData['Code'],
+                "bank_code" => $importData['Code'],
                 "amount_inc" => (float)$importData['Bedrag (EUR)'],
                 "btw" => $importData['btw'],
                 "amount" => 0,
                 "remarks" => $importData['Mededelingen'],
                 "tag" => $importData['Tag'],
-                "mutation_type" => $importData['Mutatiesoort']
+                "mutation_type" => $importData['Mutatiesoort'],
+                "category" => '',
             );
 
             if (Booking::checkIfAllreadyImported($insertData)) {
                 // count the number of bookings that are allready imported
                 $imported_allready_counter++;
-
-
                 continue;
             }
+
+            $aOriginals = $insertData;
+
+            // append $aOriginals with the original values
+            $insertData['originals'] = $aOriginals;
+
 
             Booking::insertData($insertData);
             // count the number of bookings that are imported
