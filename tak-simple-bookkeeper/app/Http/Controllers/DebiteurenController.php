@@ -14,9 +14,7 @@ class DebiteurenController extends BookingController
      */
     public function index()
     {
-        //get bookings as collection
-        $bookings = Booking::debiteuren()->get();
-        return view('bookings.index', ['bookings' => $bookings, 'scope' => 'debiteuren']);
+        return view('bookings.index', ['scope' => 'debiteuren']);
     }
 
 

@@ -8,6 +8,7 @@ use Livewire\Component;
 class AdminBookings extends Component
 {
 
+    public $scope;
     public $bookings;
     public $freshnow;
     protected $listeners = ['refreshBookings' => 'refreshThis'];
@@ -16,19 +17,19 @@ class AdminBookings extends Component
 
     public function render()
     {
-        // ddl('render');
-        // $this->freshnow = now();
-        $this->bookings = Booking::period()->orderBy('date')->orderBy('id')->get();
+
+        if ($this->scope == 'debiteuren') {
+            $this->bookings = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->get();
+        } else {
+            $this->bookings = Booking::period()->orderBy('date')->orderBy('id')->get();
+        }
+
         return view('livewire.admin-bookings', ['bookings' => $this->bookings]);
     }
 
 
     public function refreshThis()
     {
-
         $this->freshnow = now();
-        ddl('refreshThis');
-        // $this->bookings = Booking::period()->get();
-        //  $this->bookings = Booking::period()->orderBy('date')->get();
     }
 }

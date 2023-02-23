@@ -14,10 +14,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-
-        //get bookings as collection
-        //    $bookings = Booking::period()->orderBy('date')->orderBy('id')->get();
-        return view('bookings.index');
+        return view('bookings.index', ['scope' => 'bookings']);
     }
 
     /**

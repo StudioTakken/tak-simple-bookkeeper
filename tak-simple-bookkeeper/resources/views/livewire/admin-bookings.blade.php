@@ -24,7 +24,7 @@
 
 
         @foreach ($bookings as $booking)
-            @livewire('admin-row-booking', ['booking' => $booking, 'key' => now()])
+            @livewire('admin-row-booking', ['booking' => $booking])
         @endforeach
     </table>
 </div>
