@@ -20,6 +20,8 @@ class AdminBookings extends Component
 
         if ($this->scope == 'debiteuren') {
             $this->bookings = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->get();
+        } elseif ($this->scope != 'bookings') {
+            $this->bookings = Booking::period()->where('category', $this->scope)->orderBy('date')->orderBy('id')->get();
         } else {
             $this->bookings = Booking::period()->orderBy('date')->orderBy('id')->get();
         }

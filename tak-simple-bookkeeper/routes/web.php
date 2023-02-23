@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DebiteurenController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings-import', [BookingController::class, 'import'])->name('bookings.import');
 
     Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
+    Route::get('/category/{category}', [CategoryController::class, 'oncategory'])->name('category.oncategory');
 });
 
 // useless routes

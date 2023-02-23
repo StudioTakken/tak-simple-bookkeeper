@@ -5,16 +5,19 @@ return [
 
     'categories' => [
         'debiteuren' => 'Debiteuren',
+        'crediteuren' => 'Crediteuren',
+
         'bankkosten' => 'Bankkosten',
-        'telefoon' => 'telefoon',
-        'serverkosten' => 'serverkosten',
-        'werk-derden' => 'Werk door Derden',
-        'computer' => 'Computer',
         'belasting' => 'belasting',
+        'computer' => 'Computer',
         'huisvesting' => 'Huisvesting',
         'prive' => 'Privé',
-        'verzekering' => 'Verzekering',
+        'reiskosten' => 'Reiskosten',
+        'serverkosten' => 'serverkosten',
+        'telefoon' => 'telefoon',
         'spaarrekening' => 'Oranje spaarrekening',
+        'verzekering' => 'Verzekering',
+        'werk-derden' => 'Werk door Derden',
     ],
 
 ];

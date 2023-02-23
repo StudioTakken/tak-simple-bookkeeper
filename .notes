@@ -27,7 +27,7 @@ php artisan migrate:refresh --step=1
 
 php artisan make:livewire AdminRowBooking
 
-php artisan make:controller 
+php artisan make:controller categoryController
 
 
 

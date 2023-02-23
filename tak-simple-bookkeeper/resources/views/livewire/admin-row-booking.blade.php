@@ -23,9 +23,23 @@ error-fader @endif
     </td>
 
 
-    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
-        {{ number_format($booking->amount_inc / 100, 2, ',', '.') }}
-    </td>
+
+    @if ($booking->plus_min_int < 0)
+        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+
+        </td>
+        <td class="text-sm font-light px-6 py-4 whitespace-nowrap text-right text-red-700">
+            {{ number_format($booking->amount_inc / 100, 2, ',', '.') }}
+        </td>
+    @else
+        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+            {{ number_format($booking->amount_inc / 100, 2, ',', '.') }}
+        </td>
+        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+
+        </td>
+
+    @endif
 
     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
 
@@ -47,12 +61,16 @@ error-fader @endif
 
     </td>
 
-    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+
+
+    <td
+        class="text-sm @if ($booking->plus_min_int < 0) text-red-600 @else text-gray-900 @endif font-light px-6 py-4 whitespace-nowrap text-right">
         {{ number_format($booking->amount / 100, 2, ',', '.') }}
     </td>
 
 
-    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+    <td
+        class="text-sm @if ($booking->plus_min_int < 0) text-red-600 @else text-gray-900 @endif font-light px-6 py-4 whitespace-nowrap text-right">
         {{ number_format($booking->btw / 100, 2, ',', '.') }}
     </td>
 
@@ -83,5 +101,10 @@ error-fader @endif
         {{ $booking->contra_account }}</td>
 
     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->tags }}</td>
-    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->remarks }}</td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 w-60">
+        <div class="w-full h-6 overflow-auto  hover:h-full">
+            <p class="overflow-auto">
+                {{ $booking->remarks }}</p>
+        </div>
+    </td>
 </tr>
