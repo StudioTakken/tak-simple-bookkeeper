@@ -11,6 +11,9 @@
                 <input type="date" wire:model="stopDate" id="stopDate" name="stopDate">
             </div>
             <div class="flex flex-col m-5">
+                <button class="btn btn-blue btn-small" wire:click="lastYear">Vorig jaar</button>
+            </div>
+            <div class="flex flex-col m-5">
                 <button class="btn btn-blue btn-small" wire:click="thisYear">Dit jaar</button>
             </div>
             <div class="flex flex-col m-5">

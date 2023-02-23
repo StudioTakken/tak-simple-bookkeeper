@@ -12,16 +12,8 @@ class DateSettings extends Component
     public $stopDate;
 
 
-
-
-
     public function mount()
     {
-
-        // unset the session variables
-        //   session()->forget('startDate');
-        //  session()->forget('stopDate');
-
         if (!session('startDate')) {
             session(['startDate' => Carbon::now()->subYear()->format('Y-m-d')]);
         }
@@ -36,8 +28,6 @@ class DateSettings extends Component
 
     public function render()
     {
-
-
         $this->startDate = session('startDate');
         $this->stopDate = session('stopDate');
         return view('livewire.date-settings');
@@ -46,94 +36,90 @@ class DateSettings extends Component
 
     public function updatedStartDate($value)
     {
-
         if ($value > $this->stopDate) {
             $this->stopDate = $value;
-            session(['stopDate' => $value]);
         }
-
-        session(['startDate' => $value]);
-        // ddl('it should refresh!');
-        // $this->emit('refreshBookings');
-        // ddl('did it?');
-
-        $this->emit('startDate', $value);
-        // reload the page
-        $this->redirect(route('bookings.index'));
+        $this->refreshView();
     }
 
     public function updatedStopDate($value)
     {
-
         if ($value < $this->startDate) {
             $this->startDate = $value;
-            session(['startDate' => $value]);
         }
-
-        session(['stopDate' => $value]);
-        $this->emit('stopDate', $value);
-        $this->redirect(route('bookings.index'));
+        $this->refreshView();
     }
 
 
     public function thisYear()
     {
-        session(['startDate' => Carbon::now()->startOfYear()->format('Y-m-d')]);
-        session(['stopDate' => Carbon::now()->endOfYear()->format('Y-m-d')]);
-        $this->redirect(route('bookings.index'));
+        $this->startDate = Carbon::now()->startOfYear()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->endOfYear()->format('Y-m-d');
+        $this->refreshView();
     }
 
     public function lastYear()
     {
-        session(['startDate' => Carbon::now()->subYear()->startOfYear()->format('Y-m-d')]);
-        session(['stopDate' => Carbon::now()->subYear()->endOfYear()->format('Y-m-d')]);
-        $this->redirect(route('bookings.index'));
+        $this->startDate = Carbon::now()->subYear()->startOfYear()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->subYear()->endOfYear()->format('Y-m-d');
+        $this->refreshView();
     }
 
     public function thisMonth()
     {
-        session(['startDate' => Carbon::now()->startOfMonth()->format('Y-m-d')]);
-        session(['stopDate' => Carbon::now()->endOfMonth()->format('Y-m-d')]);
-        $this->redirect(route('bookings.index'));
+        $this->startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->endOfMonth()->format('Y-m-d');
+        $this->refreshView();
     }
 
     public function lastMonth()
     {
-        session(['startDate' => Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d')]);
-        session(['stopDate' => Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d')]);
-        $this->redirect(route('bookings.index'));
+        $this->startDate = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
+        $this->refreshView();
     }
 
     public function thisWeek()
     {
-        session(['startDate' => Carbon::now()->startOfWeek()->format('Y-m-d')]);
-        session(['stopDate' => Carbon::now()->endOfWeek()->format('Y-m-d')]);
-        $this->redirect(route('bookings.index'));
+        $this->startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->endOfWeek()->format('Y-m-d');
+        $this->refreshView();
     }
 
     public function lastWeek()
     {
-        session(['startDate' => Carbon::now()->subWeek()->startOfWeek()->format('Y-m-d')]);
-        session(['stopDate' => Carbon::now()->subWeek()->endOfWeek()->format('Y-m-d')]);
+        $this->startDate = Carbon::now()->subWeek()->startOfWeek()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->subWeek()->endOfWeek()->format('Y-m-d');
+        $this->refreshView();
     }
 
     public function thisQuarter()
     {
-        session(['startDate' => Carbon::now()->startOfQuarter()->format('Y-m-d')]);
-        session(['stopDate' => Carbon::now()->endOfQuarter()->format('Y-m-d')]);
-        $this->redirect(route('bookings.index'));
+        $this->startDate = Carbon::now()->startOfQuarter()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->endOfQuarter()->format('Y-m-d');
+        $this->refreshView();
     }
 
     public function lastQuarter()
     {
-        session(['startDate' => Carbon::now()->subQuarter()->startOfQuarter()->format('Y-m-d')]);
-        session(['stopDate' => Carbon::now()->subQuarter()->endOfQuarter()->format('Y-m-d')]);
-        $this->redirect(route('bookings.index'));
+        $this->startDate = Carbon::now()->subQuarter()->startOfQuarter()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->subQuarter()->endOfQuarter()->format('Y-m-d');
+        $this->refreshView();
     }
 
-    public function updating()
+
+
+    public function refreshView()
     {
+
         session(['startDate' => $this->startDate]);
+        $this->emit('startDate', $this->startDate);
         session(['stopDate' => $this->stopDate]);
+        $this->emit('stopDate', $this->stopDate);
+
+        //  $this->emit('refreshBookings');
+        // TODO: I dont know why this is not working so u use a refresh instead
+        // redirect back to the request uri
+        $this->redirect(url()->previous());
     }
 }
