@@ -83,6 +83,5 @@
 }
 
 .numberinputfield {
-    @apply px-1 py-1 bg-white rounded text-sm border-0 shadow outline-none text-right;
-
+    @apply px-1 py-1 bg-white rounded text-sm border-0 shadow outline-none text-right w-20;
 }
