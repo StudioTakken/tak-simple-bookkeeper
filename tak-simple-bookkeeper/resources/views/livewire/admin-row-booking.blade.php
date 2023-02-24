@@ -13,11 +13,13 @@ error-fader @endif
 
         @if (session()->has('message'))
             @if (session('message') === 'error')
-                X - reload! @endif
+                X - please reload! @endif
         @endif
 
 
     </td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->id }}</td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->parent_id }}</td>
     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->date }}</td>
     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ $booking->description }}
     </td>
@@ -29,6 +31,8 @@ error-fader @endif
 
         </td>
         <td class="text-sm font-light px-6 py-4 whitespace-nowrap text-right text-red-700">
+
+
             {{ number_format($booking->amount_inc / 100, 2, ',', '.') }}
         </td>
     @else
@@ -53,11 +57,15 @@ error-fader @endif
 
 
         @if ($booking->amount_inc == 0 or $booking->amount == 0)
-            <br /><button class="btn btn-red btn-small" wire:click="NoBTW">geen btw</button>
+            <button class="btn btn-red btn-small" wire:click="NoBTW">geen btw</button>
         @endif
 
-        <br />
-        <button class="btn btn-red btn-small" wire:click="resetBooking">reset</button>
+        @if ($booking->originals)
+            <button class="btn btn-red btn-small" wire:click="resetBooking">reset</button>
+        @endif
+
+
+        <button class="btn btn-red btn-small" wire:click="splitBooking">split</button>
 
     </td>
 
@@ -108,3 +116,10 @@ error-fader @endif
         </div>
     </td>
 </tr>
+
+
+@if ($booking->children)
+    @foreach ($booking->children as $child)
+        @livewire('admin-row-booking', ['booking' => $child])
+    @endforeach
+@endif

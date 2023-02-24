@@ -140,6 +140,10 @@ class Booking extends Model
 
         $insertData = $this->originals;
 
+        if ($insertData == null) {
+            return false;
+        }
+
         $this->date              = $insertData['date'];
         $this->account           = $insertData['account'];
         $this->contra_account    = $insertData['contra_account'];
@@ -156,8 +160,42 @@ class Booking extends Model
         $this->mutation_type     = $insertData['mutation_type'];
         $this->category          = $insertData['category'];
 
+
+        // delete children
+        $children = Booking::where('parent_id', $this->id)->get();
+        foreach ($children as $child) {
+            $child->delete();
+        }
+
         return $this->save();
     }
+
+
+
+    public function splitBooking()
+    {
+
+        // create a new booking
+        $newBooking = new Booking;
+        $newBooking->parent_id = $this->id;
+        $newBooking->date = $this->date;
+        $newBooking->account = $this->account;
+        $newBooking->contra_account = $this->contra_account;
+        $newBooking->description = $this->description;
+        $newBooking->plus_min = $this->plus_min;
+        $newBooking->plus_min_int = $this->plus_min_int;
+        $newBooking->invoice_nr = $this->invoice_nr;
+        $newBooking->bank_code = $this->bank_code;
+        $newBooking->amount = $this->amount / 2;
+        $newBooking->btw = $this->btw / 2;
+        $newBooking->amount_inc = $this->amount_inc / 2;
+        $newBooking->remarks = $this->remarks;
+        $newBooking->tag = $this->tag;
+        $newBooking->mutation_type = $this->mutation_type;
+        $newBooking->category = $this->category;
+        return $newBooking->save();
+    }
+
 
 
     public function scopeDebiteuren($query)
