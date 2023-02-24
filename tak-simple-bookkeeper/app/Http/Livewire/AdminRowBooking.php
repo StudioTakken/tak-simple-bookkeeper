@@ -10,9 +10,6 @@ class AdminRowBooking extends Component
     public $booking;
     public $category = '';
     public $hasChildren = false;
-
-    public $amount;
-    public $btw;
     public $amount_inc;
 
 
@@ -20,12 +17,13 @@ class AdminRowBooking extends Component
     {
 
 
-        $this->amount = $this->booking->amount;
-        $this->btw = $this->booking->btw;
-        $this->amount_inc = $this->booking->amount_inc;
+
 
         if ($this->booking->category) {
             $this->category = $this->booking->category;
+        }
+        if ($this->booking->amount_inc) {
+            $this->amount_inc = $this->booking->amount_inc;
         }
 
         // // if there is a booking with this id as parent_id, then there are children
@@ -63,6 +61,7 @@ class AdminRowBooking extends Component
     public function render()
     {
         $this->calculateChildren();
+        $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
         return view('livewire.admin-row-booking');
     }
 
@@ -80,6 +79,15 @@ class AdminRowBooking extends Component
     public function CalcAmountIncAndBtw()
     {
         $ok = $this->booking->CalcAmountIncAndBtw();
+        $this->blink($ok);
+    }
+
+
+
+    public function updateAmountInc()
+    {
+        $this->booking->amount_inc       = Centify($this->amount_inc);
+        $ok = $this->booking->save();
         $this->blink($ok);
     }
 
