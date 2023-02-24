@@ -48,8 +48,8 @@ class AdminRowBooking extends Component
 
             foreach ($this->booking->children as $child) {
 
-                $this->booking->amount = $this->booking->amount - $child->amount;
-                $this->booking->btw = $this->booking->btw - $child->btw;
+                //  $this->booking->amount = $this->booking->amount - $child->amount;
+                //   $this->booking->btw = $this->booking->btw - $child->btw;
                 $this->booking->amount_inc = $this->booking->amount_inc - $child->amount_inc;
             }
         }
@@ -101,7 +101,7 @@ class AdminRowBooking extends Component
     {
         $ok = $this->booking->resetBooking();
         $this->blink($ok);
-        // $this->emit('refreshBookings');
+        //  $this->emit('refreshBookings');
         $this->redirect(url()->previous());
     }
 
@@ -109,6 +109,14 @@ class AdminRowBooking extends Component
     public function splitBooking()
     {
         $ok = $this->booking->splitBooking();
+        $this->blink($ok);
+        //    $this->emit('refreshBookings');
+        $this->redirect(url()->previous());
+    }
+
+    public function splitBookingBtw()
+    {
+        $ok = $this->booking->splitBookingBtw();
         $this->blink($ok);
         //    $this->emit('refreshBookings');
         $this->redirect(url()->previous());

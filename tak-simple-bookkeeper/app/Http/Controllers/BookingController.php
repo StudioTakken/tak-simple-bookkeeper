@@ -141,12 +141,12 @@ class BookingController extends Controller
 
             // make the value form comma to dot
             $importData['Bedrag (EUR)'] = str_replace(',', '.', $importData['Bedrag (EUR)']);
-            $importData['btw'] = str_replace(',', '.', $importData['btw']);
-            $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
+            //  $importData['btw'] = str_replace(',', '.', $importData['btw']);
+            //  $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
 
             $importData['Bedrag (EUR)']           = Centify($importData['Bedrag (EUR)']);
-            $importData['btw']              = Centify($importData['btw']);
-            $importData['amount_inc']       = Centify($importData['amount_inc']);
+            //   $importData['btw']              = Centify($importData['btw']);
+            //  $importData['amount_inc']       = Centify($importData['amount_inc']);
 
             $insertData = array(
 
@@ -159,8 +159,8 @@ class BookingController extends Controller
                 "invoice_nr" => '0',
                 "bank_code" => $importData['Code'],
                 "amount_inc" => (float)$importData['Bedrag (EUR)'],
-                "btw" => $importData['btw'],
-                "amount" => 0,
+                // "btw" => $importData['btw'],
+                // "amount" => 0,
                 "remarks" => $importData['Mededelingen'],
                 "tag" => $importData['Tag'],
                 "mutation_type" => $importData['Mutatiesoort'],

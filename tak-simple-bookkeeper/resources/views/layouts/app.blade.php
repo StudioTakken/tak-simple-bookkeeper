@@ -20,6 +20,8 @@
         }
     </style>
 
+    <script src="https://use.fontawesome.com/14d6312af9.js"></script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

@@ -11,7 +11,7 @@ error-fader @endif
     wire:loading.class.remove="success-fader" wire:loading.class.remove="error-fader">
 
 
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap ">
+    <td id="{{ $booking->id }}" class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap ">
 
         @if (session()->has('message'))
             @if (session('message') === 'error')
@@ -60,39 +60,46 @@ error-fader @endif
     <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right">
 
 
-        @if ($booking->amount == 0 and $booking->btw == 0)
+        {{-- @if ($booking->amount == 0 and $booking->btw == 0)
             <button class="btn btn-blue btn-small" wire:click="splitAmountBtw">-> btw</button>
         @endif
         @if ($booking->amount_inc == 0 and $booking->btw == 0)
             <button class="btn btn-blue btn-small" wire:click="CalcAmountIncAndBtw">btw <- </button>
-        @endif
+        @endif --}}
 
 
-        @if ($booking->amount_inc == 0 or $booking->amount == 0)
+        {{-- @if ($booking->amount_inc == 0 or $booking->amount == 0)
             <button class="btn btn-red btn-small" wire:click="NoBTW">geen btw</button>
-        @endif
+        @endif --}}
 
         @if ($booking->originals)
-            <button class="btn btn-red btn-small" wire:click="resetBooking">reset</button>
+
+            <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
+                    aria-hidden="true"></i></button>
         @endif
 
 
-        <button class="btn btn-red btn-small" wire:click="splitBooking">split</button>
+        {{-- <button class="btn btn-red btn-small" wire:click="splitBooking">50%</button> --}}
+
+        @if ($booking->category != 'btw')
+            <button class="btn btn-red btn-small" wire:click="splitBookingBtw">21%</button>
+        @endif
+        {{-- <button class="btn btn-red btn-small" wire:click="splitBookingBtw">21%</button> --}}
 
     </td>
 
 
 
-    <td
+    {{-- <td
         class="text-sm @if ($booking->plus_min_int < 0) text-red-600 @else text-gray-900 @endif font-light px-1 py-1 whitespace-nowrap text-right">
         {{ number_format($booking->amount / 100, 2, ',', '.') }}
-    </td>
+    </td> --}}
 
-
+    {{-- 
     <td
         class="text-sm @if ($booking->plus_min_int < 0) text-red-600 @else text-gray-900 @endif font-light px-1 py-1 whitespace-nowrap text-right">
         {{ number_format($booking->btw / 100, 2, ',', '.') }}
-    </td>
+    </td> --}}
 
     <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
 
@@ -105,14 +112,12 @@ error-fader @endif
                 <option class="pr-3" value='{{ $category }}'>{{ $catname }}</option>
             @endforeach
         </select>
-
-
-
-
-
-
     </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->bank_code }}
+    <td class="text-sm text-gray-900 font-light px-1 py-1 w-60">
+        <div class="w-full h-6 overflow-auto  hover:h-full">
+            <p class="overflow-auto">
+                {{ $booking->remarks }}</p>
+        </div>
     </td>
     <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
         {{ $booking->account }}
@@ -120,13 +125,9 @@ error-fader @endif
     <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
         {{ $booking->contra_account }}</td>
 
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->tags }}</td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 w-60">
-        <div class="w-full h-6 overflow-auto  hover:h-full">
-            <p class="overflow-auto">
-                {{ $booking->remarks }}</p>
-        </div>
+    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->bank_code }}
     </td>
+    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->tags }}</td>
 </tr>
 
 

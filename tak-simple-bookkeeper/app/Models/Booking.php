@@ -24,8 +24,8 @@ class Booking extends Model
         'plus_min_int',
         'invoice_nr',
         'bank_code',
-        'amount',
-        'btw',
+        // 'amount',
+        // 'btw',
         'amount_inc',
         'remarks',
         'tag',
@@ -52,30 +52,30 @@ class Booking extends Model
 
     public function splitAmountBtw()
     {
-        $this->btw = ($this->amount_inc / 121) * 0.21;
-        $this->amount = (int)$this->amount_inc - (int)$this->btw;
+        // $this->btw = ($this->amount_inc / 121) * 0.21;
+        //  $this->amount = (int)$this->amount_inc - (int)$this->btw;
         return $this->save();
     }
 
 
     // CalcAmountIncAndBtw
-    public function CalcAmountIncAndBtw()
-    {
-        $this->btw = $this->amount * 0.21;
-        $this->amount_inc = $this->amount + $this->btw;
-        return $this->save();
-    }
+    // public function CalcAmountIncAndBtw()
+    // {
+    //     $this->btw = $this->amount * 0.21;
+    //     $this->amount_inc = $this->amount + $this->btw;
+    //     return $this->save();
+    // }
 
-    public function NoBTW()
-    {
-        $this->btw = 0;
-        if ($this->amount_inc == 0) {
-            $this->amount_inc = $this->amount;
-        } else {
-            $this->amount = $this->amount_inc;
-        }
-        return $this->save();
-    }
+    // public function NoBTW()
+    // {
+    //     $this->btw = 0;
+    //     if ($this->amount_inc == 0) {
+    //         $this->amount_inc = $this->amount;
+    //     } else {
+    //         $this->amount = $this->amount_inc;
+    //     }
+    //     return $this->save();
+    // }
 
 
     public static function insertData($insertData)
@@ -95,8 +95,8 @@ class Booking extends Model
         $booking->plus_min_int      = $insertData['plus_min_int'];
         $booking->invoice_nr        = $insertData['invoice_nr'];
         $booking->bank_code         = $insertData['bank_code'];
-        $booking->amount            = $insertData['amount'];
-        $booking->btw               = $insertData['btw'];
+        //  $booking->amount            = $insertData['amount'];
+        //  $booking->btw               = $insertData['btw'];
         $booking->amount_inc        = $insertData['amount_inc'];
         $booking->remarks           = $insertData['remarks'];
         $booking->tag               = $insertData['tag'];
@@ -152,8 +152,8 @@ class Booking extends Model
         $this->plus_min_int      = $insertData['plus_min_int'];
         $this->invoice_nr        = $insertData['invoice_nr'];
         $this->bank_code         = $insertData['bank_code'];
-        $this->amount            = $insertData['amount'];
-        $this->btw               = $insertData['btw'];
+        //  $this->amount            = $insertData['amount'];
+        //  $this->btw               = $insertData['btw'];
         $this->amount_inc        = $insertData['amount_inc'];
         $this->remarks           = $insertData['remarks'];
         $this->tag               = $insertData['tag'];
@@ -186,13 +186,41 @@ class Booking extends Model
         $newBooking->plus_min_int = $this->plus_min_int;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        $newBooking->amount = $this->amount / 2;
-        $newBooking->btw = $this->btw / 2;
+        // $newBooking->amount = $this->amount / 2;
+        //  $newBooking->btw = $this->btw / 2;
         $newBooking->amount_inc = $this->amount_inc / 2;
         $newBooking->remarks = $this->remarks;
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
         $newBooking->category = $this->category;
+        return $newBooking->save();
+    }
+
+    public function splitBookingBtw()
+    {
+
+        $btw = $this->amount_inc / 121 * 21;
+        $this->amount_inc = $this->amount_inc - $btw;
+        $this->save();
+
+        // create a new booking
+        $newBooking = new Booking;
+        $newBooking->parent_id = $this->id;
+        $newBooking->date = $this->date;
+        $newBooking->account = $this->account;
+        $newBooking->contra_account = $this->contra_account;
+        $newBooking->description = $this->description . ' 21% btw';
+        $newBooking->plus_min = $this->plus_min;
+        $newBooking->plus_min_int = $this->plus_min_int;
+        $newBooking->invoice_nr = $this->invoice_nr;
+        $newBooking->bank_code = $this->bank_code;
+        // $newBooking->amount = $this->amount / 2;
+        //  $newBooking->btw = $this->btw / 2;
+        $newBooking->amount_inc = $btw;
+        $newBooking->remarks = $this->remarks;
+        $newBooking->tag = $this->tag;
+        $newBooking->mutation_type = $this->mutation_type;
+        $newBooking->category = 'btw';
         return $newBooking->save();
     }
 

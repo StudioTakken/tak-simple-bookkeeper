@@ -53,10 +53,9 @@ function Centify($value)
     $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
 
 
-    // make it a amount in cents
+    // change in cents
     $value = (int)round($value * 100);
 
-    // $this->attributes['amount'] = $value;
 
     return $value;
 }

@@ -4,6 +4,7 @@
 return [
 
     'categories' => [
+        'btw' => '21% BTW',
         'debiteuren' => 'Debiteuren',
         'crediteuren' => 'Crediteuren',
 
