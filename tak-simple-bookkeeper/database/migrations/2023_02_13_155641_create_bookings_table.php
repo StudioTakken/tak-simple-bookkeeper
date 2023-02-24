@@ -15,9 +15,7 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-
-            // set date	Rekening	Tegenrekening	Omschrijving	plusMin	invoice_nr	category	Bedrag	Btw	Bedrag_inc	Mededelingen	Tag	Mutatiesoort
+            $table->integer('parent_id')->nullable();
             $table->date('date');
             $table->string('account');
             $table->string('contra_account');
@@ -34,6 +32,8 @@ return new class extends Migration
             $table->string('mutation_type');
             $table->text('category')->nullable();
             $table->json('originals')->nullable();
+
+            $table->timestamps();
         });
     }
 

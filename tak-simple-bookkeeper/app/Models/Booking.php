@@ -15,6 +15,7 @@ class Booking extends Model
 
 
     protected $fillable = [
+        'parent_id',
         'date',
         'account',
         'contra_account',
@@ -83,6 +84,9 @@ class Booking extends Model
 
 
         $booking = new Booking;
+
+        // $booking->parent_id         = $booking->id;
+
         $booking->date              = $insertData['date'];
         $booking->account           = $insertData['account'];
         $booking->contra_account    = $insertData['contra_account'];
@@ -90,7 +94,7 @@ class Booking extends Model
         $booking->plus_min          = $insertData['plus_min'];
         $booking->plus_min_int      = $insertData['plus_min_int'];
         $booking->invoice_nr        = $insertData['invoice_nr'];
-        $booking->bank_code          = $insertData['bank_code'];
+        $booking->bank_code         = $insertData['bank_code'];
         $booking->amount            = $insertData['amount'];
         $booking->btw               = $insertData['btw'];
         $booking->amount_inc        = $insertData['amount_inc'];
@@ -99,9 +103,7 @@ class Booking extends Model
         $booking->mutation_type     = $insertData['mutation_type'];
         $booking->category          = $insertData['category'];
 
-
         $booking->originals = $insertData['originals'];
-
 
         $booking->save();
     }
