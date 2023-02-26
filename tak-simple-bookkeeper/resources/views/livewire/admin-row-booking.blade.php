@@ -72,7 +72,7 @@ error-fader @endif
             <button class="btn btn-red btn-small" wire:click="NoBTW">geen btw</button>
         @endif --}}
 
-        <button class="btn btn-red btn-small" wire:click="openSidePanel"><i class="fa fab fa-angellist"
+        <button class="btn btn-red btn-small" wire:click="openSidePanel"><i class="fa fas fa-info"
                 aria-hidden="true"></i></button>
 
 
