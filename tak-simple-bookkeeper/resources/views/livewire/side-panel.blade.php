@@ -1,12 +1,13 @@
-<section x-data="{ open: @entangle('open') }" @keydown.window.escape="open = false" x-show="open" x-cloak class="relative z-10"
+<section x-data="{ open: @entangle('open') }" {{-- @keydown.window.escape="open = false" --}} x-show="open" x-cloak class="relative z-10"
     aria-labelledby="slide-over-title" x-ref="dialog" aria-modal="true">
 
     <div x-show="open" x-cloak x-transition:enter="ease-in-out duration-500" x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-500"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-        class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" {{-- class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" --}}></div>
 
-    <div class="fixed inset-0 overflow-hidden">
+    <div class="
+    {{-- fixed inset-0 overflow-hidden --}}
+    ">
         <div class="absolute inset-0 overflow-hidden">
             <div class="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none">
 
@@ -15,12 +16,12 @@
                     x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
                     x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
                     x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
-                    class="w-screen max-w-md pointer-events-auto" @click.away="open = false">
+                    class="w-screen max-w-md pointer-events-auto" {{-- @click.away="open = false" --}}>
                     <div class="flex flex-col h-full py-6 overflow-y-scroll bg-white shadow-xl">
                         <header class="px-4 sm:px-6">
                             <div class="flex items-start justify-between">
                                 <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
-                                    Panel title
+                                    {{ $title }}
                                 </h2>
                                 <div class="flex items-center ml-3 h-7">
                                     <button type="button"
@@ -39,7 +40,8 @@
                         </header>
                         <article class="relative flex-1 px-4 mt-6 sm:px-6">
                             @if ($component)
-                                @livewire($component)
+                                {{-- 'admin-edit-booking' --}}
+                                @livewire($component, ['booking' => $booking], key($booking->id . '-' . Str::random()))
                             @else
                                 <div class="absolute inset-0 px-4 sm:px-6">
                                     <div class="h-full border-2 border-gray-200 border-dashed" aria-hidden="true"></div>

@@ -1,25 +1,25 @@
 <div>
     -- {{ $freshnow }} --
-    <table class="min-w-full">
+    <table class="w-2/3">
         <thead class="border-b">
             <tr>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left"></th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Id</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">PId</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Date</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Description</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-right">Deb Incl BTW</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-right">Cred Incl BTW</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-right">Bewerk</th>
-                {{-- <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-right">Bedrag Excl BTW --}}
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900"></th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Id</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">PId</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Date</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Description</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Deb Incl BTW</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Cred Incl BTW</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Bewerk</th>
+                {{-- <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Bedrag Excl BTW --}}
                 {{-- </th> --}}
-                {{-- <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-right">BTW</th> --}}
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Category</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Remarks</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Account</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Tegenrekening</th>
-                {{-- <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Subcategory</th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-1 py-1 text-left">Tags</th> --}}
+                {{-- <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">BTW</th> --}}
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Category</th>
+                {{-- <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Remarks</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Account</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Tegenrekening</th> --}}
+                {{-- <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Subcategory</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Tags</th> --}}
             </tr>
         </thead>
 

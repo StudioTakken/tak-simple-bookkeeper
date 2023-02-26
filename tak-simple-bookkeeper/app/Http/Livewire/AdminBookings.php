@@ -11,8 +11,8 @@ class AdminBookings extends Component
     public $scope;
     public $bookings;
     public $freshnow;
-    protected $listeners = ['refreshBookings' => 'refreshThis'];
 
+    protected $listeners = ['refreshBookings' => 'refreshThis'];
 
 
     public function render()

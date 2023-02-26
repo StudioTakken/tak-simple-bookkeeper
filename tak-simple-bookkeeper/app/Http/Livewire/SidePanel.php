@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire;
 
-use Illuminate\Contracts\View\View as ViewContract;
+use App\Models\Booking;
 use Illuminate\Support\Facades\View;
 use Livewire\Component;
 
@@ -13,16 +13,18 @@ final class SidePanel extends Component
     public bool $open = false;
     public string $title = 'Default Panel';
     public string $component = '';
+    public $booking;
 
     protected $listeners = [
-        'openPanel'
+        'openRightPanel'
     ];
 
-    public function openPanel(string $title, string $component): void
+    public function openRightPanel(string $title, string $component, Booking $booking): void
     {
         $this->open = true;
         $this->title = $title;
         $this->component = $component;
+        $this->booking = $booking;
     }
 
     public function render()

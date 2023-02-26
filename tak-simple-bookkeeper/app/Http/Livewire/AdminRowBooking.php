@@ -12,6 +12,7 @@ class AdminRowBooking extends Component
     public $hasChildren = false;
     public $amount_inc;
 
+
     protected $listeners = [
         'openSidePanel'
     ];
@@ -20,25 +21,12 @@ class AdminRowBooking extends Component
     public function mount()
     {
 
-
-
-
         if ($this->booking->category) {
             $this->category = $this->booking->category;
         }
         if ($this->booking->amount_inc) {
             $this->amount_inc = $this->booking->amount_inc;
         }
-
-        // // if there is a booking with this id as parent_id, then there are children
-        // $this->hasChildren = Booking::where('parent_id', $this->booking->id)->exists();
-
-        // if ($this->hasChildren) {
-        //     $this->booking->children = Booking::period()->orderBy('date')->orderBy('id')->where('parent_id', $this->booking->id)->get();
-
-
-        //     // $this->calculateChildren();
-        // }
     }
 
 
@@ -49,18 +37,8 @@ class AdminRowBooking extends Component
 
         if ($this->hasChildren) {
             $this->booking->children = Booking::period()->orderBy('date')->orderBy('id')->where('parent_id', $this->booking->id)->get();
-
-            foreach ($this->booking->children as $child) {
-
-                //  $this->booking->amount = $this->booking->amount - $child->amount;
-                //   $this->booking->btw = $this->booking->btw - $child->btw;
-                $this->booking->amount_inc = $this->booking->amount_inc - $child->amount_inc;
-            }
         }
     }
-
-
-
 
     public function render()
     {
@@ -90,9 +68,10 @@ class AdminRowBooking extends Component
 
     public function updateAmountInc()
     {
-        $this->booking->amount_inc       = Centify($this->amount_inc);
+        $this->booking->amount_inc = Centify($this->amount_inc);
         $ok = $this->booking->save();
         $this->blink($ok);
+        $this->emit('refreshBookings');
     }
 
     public function NoBTW()
@@ -106,7 +85,6 @@ class AdminRowBooking extends Component
         $ok = $this->booking->resetBooking();
         $this->blink($ok);
         $this->emit('refreshBookings');
-        //$this->redirect(url()->previous());
     }
 
 
@@ -115,7 +93,6 @@ class AdminRowBooking extends Component
         $ok = $this->booking->splitBooking();
         $this->blink($ok);
         $this->emit('refreshBookings');
-        // $this->redirect(url()->previous());
     }
 
     public function splitBookingBtw()
@@ -123,7 +100,6 @@ class AdminRowBooking extends Component
         $ok = $this->booking->splitBookingBtw();
         $this->blink($ok);
         $this->emit('refreshBookings');
-        // $this->redirect(url()->previous());
     }
 
 
@@ -132,9 +108,8 @@ class AdminRowBooking extends Component
         $this->booking->category = $this->category;
         $ok = $this->booking->save();
         $this->blink($ok);
+        $this->emit('refreshBookings');
     }
-
-
 
     public function blink($saved)
     {
@@ -148,10 +123,6 @@ class AdminRowBooking extends Component
 
     public function openSidePanel()
     {
-        ddl('wat if');
-        //    $this->emit('openPanel', $title, $component, $params);
-
-        //     $params = ['booking' => $this->booking];
-        $this->emit('openPanel', 'Edit Booking', 'admin-edit-booking', $this->booking);
+        $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()));
     }
 }
