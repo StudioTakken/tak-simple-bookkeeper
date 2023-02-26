@@ -38,6 +38,7 @@
 
         @livewire('admin-bookings', ['scope' => $scope], key(now() . '-' . Str::random()))
 
+        @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))
 
 
 

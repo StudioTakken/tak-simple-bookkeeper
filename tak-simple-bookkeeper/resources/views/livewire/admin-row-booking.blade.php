@@ -11,7 +11,7 @@ error-fader @endif
     wire:loading.class.remove="success-fader" wire:loading.class.remove="error-fader">
 
 
-    <td id="{{ $booking->id }}" class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap ">
+    <td id="{{ $booking->id }}" class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap ">
 
         @if (session()->has('message'))
             @if (session('message') === 'error')
@@ -20,26 +20,26 @@ error-fader @endif
 
 
     </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->id }}</td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->parent_id }}</td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->date }}</td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->description }}
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->id }}</td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->parent_id }}</td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->date }}</td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->description }}
     </td>
 
 
 
     @if ($booking->plus_min_int < 0)
-        <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right">
+        <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
         </td>
-        <td class=" text-red-700">
+        <td class="text-red-700 ">
 
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
 
         </td>
     @else
-        {{-- <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right"> --}}
+        {{-- <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap"> --}}
         {{--  --}}
         {{-- {{ number_format($booking->amount_inc / 100, 2, ',', '.') }} --}}
         {{-- </td> --}}
@@ -51,13 +51,13 @@ error-fader @endif
         </td>
 
 
-        <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right">
+        <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
         </td>
 
     @endif
 
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right">
+    <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
 
         {{-- @if ($booking->amount == 0 and $booking->btw == 0)
@@ -71,6 +71,10 @@ error-fader @endif
         {{-- @if ($booking->amount_inc == 0 or $booking->amount == 0)
             <button class="btn btn-red btn-small" wire:click="NoBTW">geen btw</button>
         @endif --}}
+
+        <button class="btn btn-red btn-small" wire:click="openSidePanel"><i class="fa fab fa-angellist"
+                aria-hidden="true"></i></button>
+
 
         @if ($booking->originals)
 
@@ -101,10 +105,10 @@ error-fader @endif
         {{ number_format($booking->btw / 100, 2, ',', '.') }}
     </td> --}}
 
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
 
         <select @if ($booking->category == '') style="color:#ff0000 !important;" @endif wire:model="category"
-            class="px-2 py-1 pr-8 bg-white rounded text-sm border-0 shadow outline-none text-right" name="category">
+            class="px-2 py-1 pr-8 text-sm text-right bg-white border-0 rounded shadow outline-none" name="category">
             <option value="">
                 Selecteer een categorie</option>
 
@@ -113,19 +117,19 @@ error-fader @endif
             @endforeach
         </select>
     </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 w-60">
-        <div class="w-full h-6 overflow-auto  hover:h-full">
+    <td class="px-1 py-1 text-sm font-light text-gray-900 w-60">
+        <div class="w-full h-6 overflow-auto hover:h-full">
             <p class="overflow-auto">
                 {{ $booking->remarks }}</p>
         </div>
     </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
         {{ $booking->account }}
     </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
         {{ $booking->contra_account }}</td>
 
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->bank_code }}
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->bank_code }}
     </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->tags }}</td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->tags }}</td>
 </tr>

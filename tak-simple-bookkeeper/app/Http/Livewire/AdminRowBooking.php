@@ -12,6 +12,10 @@ class AdminRowBooking extends Component
     public $hasChildren = false;
     public $amount_inc;
 
+    protected $listeners = [
+        'openSidePanel'
+    ];
+
 
     public function mount()
     {
@@ -140,5 +144,14 @@ class AdminRowBooking extends Component
         } else {
             session()->flash('message', 'error');
         }
+    }
+
+    public function openSidePanel()
+    {
+        ddl('wat if');
+        //    $this->emit('openPanel', $title, $component, $params);
+
+        //     $params = ['booking' => $this->booking];
+        $this->emit('openPanel', 'Edit Booking', 'admin-edit-booking', $this->booking);
     }
 }
