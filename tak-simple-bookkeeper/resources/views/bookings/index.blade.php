@@ -19,6 +19,8 @@
     <div class="py-6">
 
 
+        <button x-data @click="alert('I\'ve been clicked!')">Click Me</button>
+
         <a href="{{ route('bookings.import') }}">
             <x-button size="base" class="items-center gap-2">
                 <x-heroicon-o-home aria-hidden="true" class="w-4 h-4" />
