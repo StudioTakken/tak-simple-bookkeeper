@@ -81,3 +81,7 @@
     -webkit-animation-iteration-count: 1;
     -webkit-animation-duration: 10s;
 }
+
+.numberinputfield {
+    @apply px-1 py-1 bg-white rounded text-sm border-0 shadow outline-none text-right w-20;
+}

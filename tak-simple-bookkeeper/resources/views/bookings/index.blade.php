@@ -9,7 +9,6 @@
 
     @livewire('date-settings')
 
-
     @if (session()->has('success'))
         <div class="alert alert-success">
             {{ session()->get('success') }}
@@ -34,7 +33,9 @@
                 <span>Create</span>
             </x-button>
         </a> --}}
-        @livewire('admin-bookings', ['scope' => $scope])
+
+        @livewire('admin-bookings', ['scope' => $scope], key(now() . '-' . Str::random()))
+
 
 
 

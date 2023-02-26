@@ -110,41 +110,43 @@ class BookingController extends Controller
                 $row++;
                 continue;
             }
+
+
             for ($c = 0; $c < $num; $c++) {
                 $importData_arr[$row][$colname[$c]] = $filedata[$c];
             }
+
+
             $row++;
         }
         fclose($file);
+
+        // bookings from my bank come in reverse order so I need to inverse the array
+        $importData_arr = array_reverse($importData_arr);
 
         // Insert to MySQL database
         foreach ($importData_arr as $importData) {
 
             $importData['btw'] = 0;
             $importData['amount_inc'] = 0;
-
-
-
             $importData['plus_min_int'] = 1;
 
             if ($importData['Af Bij'] === 'Bij') {
                 $importData['plus_min'] = 'plus';
                 $importData['plus_min_int'] = 1;
-                // dd($importData['Af Bij']);
             } elseif ($importData['Af Bij'] === 'Af') {
                 $importData['plus_min'] = 'min';
                 $importData['plus_min_int'] = -1;
             }
 
-
             // make the value form comma to dot
             $importData['Bedrag (EUR)'] = str_replace(',', '.', $importData['Bedrag (EUR)']);
-            $importData['btw'] = str_replace(',', '.', $importData['btw']);
-            $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
+            //  $importData['btw'] = str_replace(',', '.', $importData['btw']);
+            //  $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
 
             $importData['Bedrag (EUR)']           = Centify($importData['Bedrag (EUR)']);
-            $importData['btw']              = Centify($importData['btw']);
-            $importData['amount_inc']       = Centify($importData['amount_inc']);
+            //   $importData['btw']              = Centify($importData['btw']);
+            //  $importData['amount_inc']       = Centify($importData['amount_inc']);
 
             $insertData = array(
 
@@ -157,8 +159,8 @@ class BookingController extends Controller
                 "invoice_nr" => '0',
                 "bank_code" => $importData['Code'],
                 "amount_inc" => (float)$importData['Bedrag (EUR)'],
-                "btw" => $importData['btw'],
-                "amount" => 0,
+                // "btw" => $importData['btw'],
+                // "amount" => 0,
                 "remarks" => $importData['Mededelingen'],
                 "tag" => $importData['Tag'],
                 "mutation_type" => $importData['Mutatiesoort'],

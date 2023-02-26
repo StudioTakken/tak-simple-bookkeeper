@@ -17,7 +17,7 @@ it('displays debiteuren pagina', function () {
 
 
 it('can import file', function () {
-    $user = User::find(2);
+    $user = User::find(1);
     $this->actingAs($user);
     $importer = new BookingController();
     $importer->import();
