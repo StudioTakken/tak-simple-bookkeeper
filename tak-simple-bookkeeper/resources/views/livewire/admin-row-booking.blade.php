@@ -133,6 +133,6 @@ error-fader @endif
 
 @if ($booking->children)
     @foreach ($booking->children as $child)
-        @livewire('admin-row-booking', ['booking' => $child])
+        @livewire('admin-row-booking', ['booking' => $child], key($child->id . '-' . Str::random()))
     @endforeach
 @endif

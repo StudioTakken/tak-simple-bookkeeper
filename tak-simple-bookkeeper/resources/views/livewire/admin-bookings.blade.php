@@ -26,7 +26,7 @@
 
 
         @foreach ($bookings as $booking)
-            @livewire('admin-row-booking', ['booking' => $booking])
+            @livewire('admin-row-booking', ['booking' => $booking], key($booking->id . '-' . Str::random()))
         @endforeach
     </table>
 </div>

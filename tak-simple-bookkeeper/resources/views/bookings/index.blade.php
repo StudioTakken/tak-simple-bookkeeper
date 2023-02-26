@@ -33,7 +33,9 @@
                 <span>Create</span>
             </x-button>
         </a> --}}
-        @livewire('admin-bookings', ['scope' => $scope])
+
+        @livewire('admin-bookings', ['scope' => $scope], key(now() . '-' . Str::random()))
+
 
 
 

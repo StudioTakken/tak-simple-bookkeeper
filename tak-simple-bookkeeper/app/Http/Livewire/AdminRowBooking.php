@@ -101,8 +101,8 @@ class AdminRowBooking extends Component
     {
         $ok = $this->booking->resetBooking();
         $this->blink($ok);
-        //  $this->emit('refreshBookings');
-        $this->redirect(url()->previous());
+        $this->emit('refreshBookings');
+        //$this->redirect(url()->previous());
     }
 
 
@@ -110,16 +110,16 @@ class AdminRowBooking extends Component
     {
         $ok = $this->booking->splitBooking();
         $this->blink($ok);
-        //    $this->emit('refreshBookings');
-        $this->redirect(url()->previous());
+        $this->emit('refreshBookings');
+        // $this->redirect(url()->previous());
     }
 
     public function splitBookingBtw()
     {
         $ok = $this->booking->splitBookingBtw();
         $this->blink($ok);
-        //    $this->emit('refreshBookings');
-        $this->redirect(url()->previous());
+        $this->emit('refreshBookings');
+        // $this->redirect(url()->previous());
     }
 
 
