@@ -1,4 +1,5 @@
-<tr class="   
+<tr wire:click="openSidePanel"
+    class="   
 
 border-t-2 border-gray-200
 @if (session()->has('message')) @if (session('message') === 'success') 
