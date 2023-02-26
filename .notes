@@ -37,3 +37,5 @@ php artisan make:seeder UserSeeder
 
 php artisan migrate
 php artisan db:seed --class=UserSeeder
+
+https://laravel-news.com/building-a-slide-over-panel-component-with-livewire
