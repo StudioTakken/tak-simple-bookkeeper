@@ -27,6 +27,17 @@
 
         @foreach ($bookings as $booking)
             @livewire('admin-row-booking', ['booking' => $booking], key($booking->id . '-' . Str::random()))
+
+            @if ($booking->children)
+                @foreach ($booking->children as $child)
+                    @livewire('admin-row-booking', ['booking' => $child], key($child->id . '-' . Str::random()))
+                @endforeach
+            @endif
         @endforeach
+
+
+
+
+
     </table>
 </div>

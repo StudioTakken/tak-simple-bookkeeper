@@ -129,10 +129,3 @@ error-fader @endif
     </td>
     <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->tags }}</td>
 </tr>
-
-
-@if ($booking->children)
-    @foreach ($booking->children as $child)
-        @livewire('admin-row-booking', ['booking' => $child], key($child->id . '-' . Str::random()))
-    @endforeach
-@endif
