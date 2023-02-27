@@ -28,6 +28,7 @@ php artisan make:livewire AdminRowBooking
 
 php artisan make:controller categoryController
 
+php artisan make:controller ImportController
 
 
 php artisan make:seeder UserSeeder
