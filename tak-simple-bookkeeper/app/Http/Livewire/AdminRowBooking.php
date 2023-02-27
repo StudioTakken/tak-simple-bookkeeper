@@ -43,13 +43,19 @@ class AdminRowBooking extends Component
 
     public function render()
     {
+        $this->beforeRender();
+        return view('livewire.admin-row-booking');
+    }
+
+    public function beforeRender()
+    {
         $this->calculateChildren();
         $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
         $this->description = $this->booking->description;
         $this->date = $this->booking->date;
-
-        return view('livewire.admin-row-booking');
     }
+
+
 
     /**
      * Split the amount_inc into amount and btw

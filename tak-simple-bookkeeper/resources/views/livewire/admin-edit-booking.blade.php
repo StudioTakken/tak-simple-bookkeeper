@@ -37,7 +37,9 @@ error-fader @endif
             <tr class='font-bold'>
                 <td class="px-2 align-top border border-slate-300">Datum</td>
                 <td class="px-2 align-top border border-slate-300">
-                    {{ $booking->date }}
+                    {{-- {{ $booking->date }} --}}
+                    <input class="py-0 border-gray-400" type="date" wire:model.debounce.4s="date"
+                        wire:change="updateDate">
                 </td>
             </tr>
 
@@ -152,19 +154,6 @@ error-fader @endif
 
 
 </div>
-
-
-{{-- <input type="text" class="numberinputfield" placeholder="0000" /> --}}
-
-
-
-
-
-
-
-{{-- <button class="btn btn-red btn-small" wire:click="splitBookingBtw"><i
-                                    class="fa fa-share-alt" aria-hidden="true"></i>
-                                uitsplitsen</button> --}}
 
 
 </td>
