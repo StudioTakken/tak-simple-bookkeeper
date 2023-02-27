@@ -1,5 +1,4 @@
 <div>
-    -- {{ $freshnow }} --
     <table class="w-2/3">
         <thead class="border-b">
             <tr>

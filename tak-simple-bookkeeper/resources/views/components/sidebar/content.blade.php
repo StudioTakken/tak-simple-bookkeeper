@@ -45,8 +45,6 @@
                 href="{{ route('category.oncategory', ['category' => $key]) }}" :active="Str::startsWith(Request::getPathInfo(), '/category/' . $key)" />
         @endforeach
 
-
-
     </x-sidebar.dropdown>
 
 
@@ -63,8 +61,8 @@
     @endforeach --}}
 
 
-    {{-- 
-    <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">
+
+    {{-- <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">
         Dummy Links
     </div>
 

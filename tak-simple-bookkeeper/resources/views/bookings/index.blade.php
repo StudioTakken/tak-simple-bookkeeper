@@ -7,8 +7,6 @@
         </div>
     </x-slot>
 
-    @livewire('date-settings')
-
     @if (session()->has('success'))
         <div class="alert alert-success">
             {{ session()->get('success') }}
@@ -19,7 +17,6 @@
     <div class="py-6">
 
 
-        <button x-data @click="alert('I\'ve been clicked!')">Click Me</button>
 
         <a href="{{ route('bookings.import') }}">
             <x-button size="base" class="items-center gap-2">
@@ -37,7 +34,6 @@
         </a> --}}
 
         @livewire('admin-bookings', ['scope' => $scope], key(now() . '-' . Str::random()))
-
         @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))
 
 
