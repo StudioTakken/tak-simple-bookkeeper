@@ -13,8 +13,7 @@ npm install
 npm run dev
 
 
-VroegInDeOchtend
-
+https://github.com/Kamona-WD/kui-laravel-breeze
 
 
 composer require kamona/kui-laravel-breeze --dev
