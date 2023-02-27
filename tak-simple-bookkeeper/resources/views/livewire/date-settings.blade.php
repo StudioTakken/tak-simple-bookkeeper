@@ -10,16 +10,16 @@
         </div>
 
         <div class="flex flex-col mx-2 my-1 ml-4">
-            <button class="btn btn-blue btn-small" wire:click="lastYear">Vorig jaar</button>
+            <button class="btn btn-gray-500 btn-small" wire:click="lastYear">Vorig jaar</button>
         </div>
         <div class="flex flex-col mx-2 my-1">
-            <button class="btn btn-blue btn-small" wire:click="thisYear">Dit jaar</button>
+            <button class="btn btn-gray-500 btn-small" wire:click="thisYear">Dit jaar</button>
         </div>
         <div class="flex flex-col mx-2 my-1">
-            <button class="btn btn-blue btn-small" wire:click="thisQuarter">Dit kwartaal</button>
+            <button class="btn btn-gray-500 btn-small" wire:click="thisQuarter">Dit kwartaal</button>
         </div>
         <div class="flex flex-col mx-2 my-1">
-            <button class="btn btn-blue btn-small" wire:click="lastQuarter">Vorig kwartaal</button>
+            <button class="btn btn-gray-500 btn-small" wire:click="lastQuarter">Vorig kwartaal</button>
         </div>
     </div>
 </div>

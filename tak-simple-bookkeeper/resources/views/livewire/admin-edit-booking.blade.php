@@ -34,8 +34,14 @@ error-fader @endif
                     {{ $amount_inc }}
                 </td>
             </tr>
+            <tr class='font-bold'>
+                <td class="px-2 align-top border border-slate-300">Datum</td>
+                <td class="px-2 align-top border border-slate-300">
+                    {{ $booking->date }}
+                </td>
+            </tr>
 
-            <tr class=''>
+            <tr class='font-bold'>
                 <td class="px-2 align-top border border-slate-300">Description</td>
                 <td class="px-2 align-top border border-slate-300">
                     {{ $booking->description }}
@@ -134,17 +140,16 @@ error-fader @endif
                     </td>
                 </tr>
                 <tr class=''>
-                    <td class="px-2 align-top border border-slate-300">Splitsen </td>
+                    <td class="px-2 align-top border border-slate-300"> <input class="text-right numberinputfield"
+                            type="text" wire:model="splitOffAmount" placeholder="00,00" /> </td>
                     <td class="px-2 align-top border border-slate-300">
-
 
 
                         <button class="btn btn-red btn-small" wire:click="splitOffAction"><i class="fa fa-share-alt"
                                 aria-hidden="true"></i>
                             uitsplitsen</button>
 
-                        <input class="numberinputfield" type="text" wire:model="splitOffAmount"
-                            placeholder="00,00" />
+
 
 </div>
 

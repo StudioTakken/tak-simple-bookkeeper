@@ -12,6 +12,9 @@ class AdminRowBooking extends Component
     public $hasChildren = false;
     public $amount_inc;
     public $description;
+    public $date;
+
+
     public $splitOffAmount;
 
     protected $listeners = [
@@ -43,6 +46,7 @@ class AdminRowBooking extends Component
         $this->calculateChildren();
         $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
         $this->description = $this->booking->description;
+        $this->date = $this->booking->date;
 
         return view('livewire.admin-row-booking');
     }
@@ -74,6 +78,14 @@ class AdminRowBooking extends Component
     public function updateDescription()
     {
         $this->booking->description = $this->description;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
+    public function updateDate()
+    {
+        $this->booking->date = $this->date;
         $ok = $this->booking->save();
         $this->blink($ok);
         $this->emit('refreshBookings');
