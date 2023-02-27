@@ -11,7 +11,7 @@ class AdminRowBooking extends Component
     public $category = '';
     public $hasChildren = false;
     public $amount_inc;
-
+    public $splitOffAmount;
 
     protected $listeners = [
         'openSidePanel'
@@ -29,12 +29,9 @@ class AdminRowBooking extends Component
         }
     }
 
-
-
     public function calculateChildren()
     {
         $this->hasChildren = Booking::where('parent_id', $this->booking->id)->exists();
-
         if ($this->hasChildren) {
             $this->booking->children = Booking::period()->orderBy('date')->orderBy('id')->where('parent_id', $this->booking->id)->get();
         }
@@ -124,5 +121,15 @@ class AdminRowBooking extends Component
     public function openSidePanel()
     {
         $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()));
+    }
+
+    public function splitOffAction()
+    {
+
+        $splitOffCents = Centify($this->splitOffAmount);
+        $ok = $this->booking->splitBooking($splitOffCents);
+        $this->blink($ok);
+        $this->splitOffAmount = '';
+        $this->emit('refreshBookings');
     }
 }

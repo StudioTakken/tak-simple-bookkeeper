@@ -10,12 +10,12 @@ class AdminEditBooking extends AdminRowBooking
 
     public $booking;
     public $freshnow;
+    public $splitOffAmount;
 
     protected $listeners = ['refreshBookings' => 'refreshThis'];
 
     public function render()
     {
-
         $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
         return view('livewire.admin-edit-booking');
     }

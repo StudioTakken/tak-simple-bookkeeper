@@ -31,12 +31,22 @@ if (!function_exists('ddl')) {
 function Centify($value)
 {
 
+    if (is_null($value)) {
+        return null;
+    }
+
     // strip the currency symbol
     $value = str_replace('€', '', $value);
     // $value = str_replace('.', '', $value);
 
     // strip the spaces
     $value = str_replace(' ', '', $value);
+
+
+    // strip all non numeric characters
+    $value = preg_replace('/[^0-9\,]/', '', $value);
+
+
 
     // check if the value is a valid dutch format
 

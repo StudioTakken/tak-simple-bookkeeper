@@ -8,35 +8,190 @@ error-fader @endif
 @endif
 ">
 
-    <ul>
+    {{--  a div the aligns on the right side --}}
 
-        {{-- <li>
-            <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
-                class="numberinputfield" />
-        </li> --}}
-
-
-        <li>{{ $amount_inc }} </li>
-        @if ($booking->parent_id)
-            <li>Parent booking: {{ $booking->parent_id }} </li>
+    <div class="flex justify-end mb-3">
+        @if ($booking->plus_min_int === 1)
+            <div class="text-white btn bg-takgreen-500 btn-big"><i class="fa fas fa-plus " aria-hidden="true"></i>
+            </div>
+        @else
+            <div class="text-white btn bg-takred-500 btn-big"><i class="fa fas fa-minus " aria-hidden="true"></i></div>
         @endif
-        <li>Description: {{ $booking->description }} </li>
-        <li>Plus Min: {{ $booking->plus_min }} </li>
-        <li>Plus Min Int: {{ $booking->plus_min_int }} </li>
-        <li>Invoice Nr: {{ $booking->invoice_nr }} </li>
-        <li>Bank Code: {{ $booking->bank_code }} </li>
-        <li>Remarks: {{ $booking->remarks }} </li>
-        <li>Tag: {{ $booking->tag }} </li>
-        <li>Mutation Type: {{ $booking->mutation_type }} </li>
-        <li>Category: {{ $booking->category }} </li>
 
-        {{-- <li>Originals: {{ $booking->originals }} </li> --}}
+    </div>
 
 
-    </ul>
 
 
-    {{-- 
+
+    <table class="w-full align-top border border-collapse border-slate-400">
+
+        <tbody>
+
+            <tr class='font-bold'>
+                <td class="px-2 align-top border border-slate-300">Bedrag</td>
+                <td class="px-2 align-top border border-slate-300">
+                    {{ $amount_inc }}
+                </td>
+            </tr>
+
+            <tr class=''>
+                <td class="px-2 align-top border border-slate-300">Description</td>
+                <td class="px-2 align-top border border-slate-300">
+                    {{ $booking->description }}
+                </td>
+            </tr>
+
+            @if ($booking->parent_id)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Parent booking</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->parent_id }}
+                    </td>
+                </tr>
+            @endif
+
+            @if ($booking->invoice_nr)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Invoice Nr</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->invoice_nr }}
+                    </td>
+                </tr>
+            @endif
+
+            @if ($booking->bank_code)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Bank code</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->bank_code }}
+                    </td>
+                </tr>
+            @endif
+            @if ($booking->bank_code)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Bank code</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->bank_code }}
+                    </td>
+                </tr>
+            @endif
+            @if ($booking->tag)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Tag</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->tag }}
+                    </td>
+                </tr>
+            @endif
+
+            @if ($booking->mutation_type)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Mutation type</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->mutation_type }}
+                    </td>
+                </tr>
+            @endif
+
+            @if ($booking->category)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Categorie</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->category }}
+                    </td>
+                </tr>
+            @endif
+
+            @if ($booking->remarks)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Remarks</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->remarks }}
+                    </td>
+                </tr>
+            @endif
+
+            @if ($booking->contra_account)
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Tegenrekening</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        {{ $booking->contra_account }}
+                    </td>
+                </tr>
+            @endif
+
+
+
+
+            @if ($booking->category != 'btw')
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">BTW </td>
+                    <td class="px-2 align-top border border-slate-300">
+                        <button class="btn btn-red btn-small" wire:click="splitBookingBtw"><i class="fa fa-share-alt"
+                                aria-hidden="true"></i> 21% btw
+                            uitsplitsen</button>
+                    </td>
+                </tr>
+                <tr class=''>
+                    <td class="px-2 align-top border border-slate-300">Bedrag splitsen </td>
+                    <td class="px-2 align-top border border-slate-300">
+
+
+
+                        <button class="btn btn-red btn-small" wire:click="splitOffAction"><i class="fa fa-share-alt"
+                                aria-hidden="true"></i>
+                            uitsplitsen</button>
+
+                        <input class="numberinputfield" type="text" wire:model="splitOffAmount"
+                            placeholder="00,00" />
+
+</div>
+
+
+{{-- <input type="text" class="numberinputfield" placeholder="0000" /> --}}
+
+
+
+
+
+
+
+{{-- <button class="btn btn-red btn-small" wire:click="splitBookingBtw"><i
+                                    class="fa fa-share-alt" aria-hidden="true"></i>
+                                uitsplitsen</button> --}}
+
+
+</td>
+</tr>
+
+@endif
+
+
+
+@if ($booking->originals)
+    <tr class=''>
+        <td class="px-2 align-top border border-slate-300">Reset</td>
+        <td class="px-2 align-top border border-slate-300">
+            <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
+                    aria-hidden="true"></i> terug naar origineel </button>
+        </td>
+    </tr>
+@endif
+
+</tbody>
+</table>
+{{-- 
+    @if ($booking->originals)
+        <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
+                aria-hidden="true"></i></button>
+    @endif
+    @if ($booking->category != 'btw')
+        <button class="btn btn-red btn-small" wire:click="splitBookingBtw">21%</button>
+    @endif --}}
+
+
+{{-- 
     {
     "id":3,
     "parent_id":null,

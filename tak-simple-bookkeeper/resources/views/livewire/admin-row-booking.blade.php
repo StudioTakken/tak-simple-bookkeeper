@@ -49,8 +49,8 @@ error-fader @endif
 
     <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
-        <button class="btn btn-red btn-small" wire:click="openSidePanel"><i class="fa fas fa-info"
-                aria-hidden="true"></i></button>
+        {{-- <button class="btn btn-red btn-small" wire:click="openSidePanel"><i class="fa fas fa-info"
+                aria-hidden="true"></i></button> --}}
 
 
         @if ($booking->originals)
@@ -94,3 +94,8 @@ error-fader @endif
     </td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->tags }}</td> --}}
 </tr>
+@if ($booking->children)
+    @foreach ($booking->children as $child)
+        @livewire('admin-row-booking', ['booking' => $child], key($child->id . '-' . Str::random()))
+    @endforeach
+@endif

@@ -137,7 +137,6 @@ class Booking extends Model
     public function resetBooking()
     {
 
-
         $insertData = $this->originals;
 
         if ($insertData == null) {
@@ -172,8 +171,13 @@ class Booking extends Model
 
 
 
-    public function splitBooking()
+    public function splitBooking($splitOffCents)
     {
+
+        if ($splitOffCents == 0) {
+            return false;
+        }
+
 
         // create a new booking
         $newBooking = new Booking;
@@ -181,18 +185,23 @@ class Booking extends Model
         $newBooking->date = $this->date;
         $newBooking->account = $this->account;
         $newBooking->contra_account = $this->contra_account;
-        $newBooking->description = $this->description;
+        $newBooking->description = $this->description . ' (split off)';
         $newBooking->plus_min = $this->plus_min;
         $newBooking->plus_min_int = $this->plus_min_int;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        // $newBooking->amount = $this->amount / 2;
+        //  $newBooking->amount = $splitOffCents;
         //  $newBooking->btw = $this->btw / 2;
-        $newBooking->amount_inc = $this->amount_inc / 2;
-        $newBooking->remarks = $this->remarks;
+        $newBooking->amount_inc = $splitOffCents;
+        $newBooking->remarks = $this->remarks . ' (split off)';
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
         $newBooking->category = $this->category;
+
+
+        $this->amount_inc = $this->amount_inc - $splitOffCents;
+        $this->save();
+
         return $newBooking->save();
     }
 
@@ -221,6 +230,7 @@ class Booking extends Model
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
         $newBooking->category = 'btw';
+
         return $newBooking->save();
     }
 

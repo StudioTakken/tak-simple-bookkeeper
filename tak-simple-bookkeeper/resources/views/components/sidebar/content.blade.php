@@ -22,8 +22,10 @@
     </x-sidebar.dropdown> --}}
 
 
+    <x-sidebar.link title="Boeking" href="{{ route('bookings.edit', 1) }}" />
     <x-sidebar.link title="Boekingen" href="{{ route('bookings.index') }}" />
     {{-- <x-sidebar.link title="Debiteuren" href="{{ route('debiteuren.index') }}" /> --}}
+
 
 
     <x-sidebar.dropdown title="Categories" :active="Str::startsWith(

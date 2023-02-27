@@ -57,7 +57,9 @@ class BookingController extends Controller
      */
     public function edit($id)
     {
-        //
+        // return view('bookings.edit', ['booking' => Booking::find($id), 'scope' => 'bookings']);
+
+        return view('bookings.edit', ['booking' => Booking::find($id), 'scope' => 'Edit']);
     }
 
     /**
