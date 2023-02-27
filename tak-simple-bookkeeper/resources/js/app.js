@@ -4,6 +4,7 @@ import Alpine from 'alpinejs'
 import collapse from '@alpinejs/collapse'
 import PerfectScrollbar from 'perfect-scrollbar'
 
+
 window.PerfectScrollbar = PerfectScrollbar
 
 document.addEventListener('alpine:init', () => {
@@ -40,8 +41,18 @@ document.addEventListener('alpine:init', () => {
                 window.matchMedia('(prefers-color-scheme: dark)').matches
             )
         }
+        const getSidebar = () => {
+
+            if (window.localStorage.getItem('isSidebarOpen')) {
+                return JSON.parse(window.localStorage.getItem('isSidebarOpen'))
+            }
+
+        }
         const setTheme = (value) => {
             window.localStorage.setItem('dark', value)
+        }
+        const setSidebar = (value) => {
+            window.localStorage.setItem('isSidebarOpen', value)
         }
         return {
             init,
@@ -51,6 +62,7 @@ document.addEventListener('alpine:init', () => {
                 setTheme(this.isDarkMode)
             },
             isSidebarOpen: window.innerWidth > 1024,
+            isSidebarOpen: getSidebar(),
             isSidebarHovered: false,
             handleSidebarHover(value) {
                 if (window.innerWidth < 1024) {
@@ -64,7 +76,14 @@ document.addEventListener('alpine:init', () => {
                 } else {
                     this.isSidebarOpen = true
                 }
+               
             },
+            
+            toggleSidebar() { 
+                this.isSidebarOpen = !this.isSidebarOpen
+                setSidebar(this.isSidebarOpen)               
+            },
+
             scrollingDown: false,
             scrollingUp: false,
         }
@@ -73,5 +92,6 @@ document.addEventListener('alpine:init', () => {
 
 window.Alpine = Alpine
 Alpine.plugin(collapse)
+
 
 Alpine.start()
