@@ -134,7 +134,7 @@ error-fader @endif
                     </td>
                 </tr>
                 <tr class=''>
-                    <td class="px-2 align-top border border-slate-300">Bedrag splitsen </td>
+                    <td class="px-2 align-top border border-slate-300">Splitsen </td>
                     <td class="px-2 align-top border border-slate-300">
 
 

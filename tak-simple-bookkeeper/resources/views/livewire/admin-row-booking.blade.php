@@ -22,7 +22,12 @@ error-fader @endif
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->id }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->parent_id }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->date }}</td>
-    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->description }}
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
+        {{-- {{ $booking->description }} --}}
+
+        <input type="text" wire:model.debounce.4s="description" wire:change="updateDescription"
+            class="descriptioninputfield" />
+
     </td>
 
     @if ($booking->plus_min_int < 0)
@@ -47,23 +52,6 @@ error-fader @endif
 
     @endif
 
-    <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap">
-
-        {{-- <button class="btn btn-red btn-small" wire:click="openSidePanel"><i class="fa fas fa-info"
-                aria-hidden="true"></i></button> --}}
-
-
-        @if ($booking->originals)
-            <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
-                    aria-hidden="true"></i></button>
-        @endif
-
-        @if ($booking->category != 'btw')
-            <button class="btn btn-red btn-small" wire:click="splitBookingBtw">21%</button>
-        @endif
-
-    </td>
-
 
 
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
@@ -78,24 +66,5 @@ error-fader @endif
             @endforeach
         </select>
     </td>
-    {{-- <td class="px-1 py-1 text-sm font-light text-gray-900 w-60">
-        <div class="w-full h-6 overflow-auto hover:h-full">
-            <p class="overflow-auto">
-                {{ $booking->remarks }}</p>
-        </div>
-    </td>
-    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
-        {{ $booking->account }}
-    </td>
-    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
-        {{ $booking->contra_account }}</td>
 
-    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->bank_code }}
-    </td>
-    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->tags }}</td> --}}
 </tr>
-@if ($booking->children)
-    @foreach ($booking->children as $child)
-        @livewire('admin-row-booking', ['booking' => $child], key($child->id . '-' . Str::random()))
-    @endforeach
-@endif
