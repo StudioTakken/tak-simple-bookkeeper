@@ -35,9 +35,6 @@ function Centify($value)
         return null;
     }
 
-    // strip the currency symbol
-    $value = str_replace('€', '', $value);
-
     // strip the spaces
     $value = str_replace(' ', '', $value);
 
@@ -46,7 +43,7 @@ function Centify($value)
         $value .= ',00';
     }
 
-    // no remove all non numeric characters
+    // now remove all non numeric characters
     $value = preg_replace('/[^0-9]/', '', $value);
 
     return $value;
