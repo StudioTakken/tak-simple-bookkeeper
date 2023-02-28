@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 class BookingController extends Controller
 {
@@ -86,18 +91,50 @@ class BookingController extends Controller
     }
 
 
-    public function import()
+    public function import($filePath)
     {
+
+
 
         $imported_counter = 0;
         $imported_allready_counter = 0;
 
         // import the csv file
-        $file = fopen("/Users/martintakken/WebsitesLocalWork/takBH/tak-simple-bookkeeper/storage/app/public/csv/bookings.csv", "r");
+        //    $file = fopen("/Users/martintakken/WebsitesLocalWork/takBH/tak-simple-bookkeeper/storage/app/public/csv/NL94INGB0007001049_13-02-2023_27-02-2023.csv", "r");
+        $file = fopen($filePath, "r");
         $importData_arr = array();
         $row = 0;
 
         $colname = [];
+
+
+        // if file is an xlsx file then read the xlsx file
+        if (pathinfo($filePath, PATHINFO_EXTENSION) === 'xlsx') {
+            ddl('exel');
+            ddl($filePath);
+            // $inputFileType = 'xlsx';
+
+
+            // $spreadsheet = IOFactory::load($file);
+            // $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+
+
+            // read the xlsx file and put it in an array
+            $reader = new Xlsx();
+            $spreadsheet = $reader->load($filePath);
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+
+            ddl($sheetData);
+
+            exit;
+        }
+
+
+
+
+
+
+
         while (($filedata = fgetcsv($file, 1000, ";")) !== FALSE) {
             $num = count($filedata);
 
@@ -108,11 +145,9 @@ class BookingController extends Controller
                     $colname[$c] = $filedata[$c];
                 }
 
-
                 $row++;
                 continue;
             }
-
 
             for ($c = 0; $c < $num; $c++) {
                 $importData_arr[$row][$colname[$c]] = $filedata[$c];
@@ -121,10 +156,18 @@ class BookingController extends Controller
 
             $row++;
         }
+
+
+
+
         fclose($file);
 
         // bookings from my bank come in reverse order so I need to inverse the array
         $importData_arr = array_reverse($importData_arr);
+
+
+
+
 
         // Insert to MySQL database
         foreach ($importData_arr as $importData) {

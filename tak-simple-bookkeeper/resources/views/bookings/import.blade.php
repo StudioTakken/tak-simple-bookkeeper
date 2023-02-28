@@ -17,33 +17,32 @@
     @endif
 
 
-    <div class="py-6">
-
-
-
-        <a href="{{ route('bookings.import') }}">
-            <x-button size="base" class="items-center gap-2">
-                <x-heroicon-o-home aria-hidden="true" class="w-4 h-4" />
-                <span>Import</span>
-            </x-button>
-        </a>
-
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{{ route('dropzone.store') }}" method="post" enctype="multipart/form-data"
+                    id="bank-csv-upload" class="dropzone">
+                    @csrf
+                    <div class="dz-message" data-dz-message><span>Drop je ING Bank cvs hier</span></div>
+                    <input type="hidden" name="gb_rek" value="ING">
+                </form>
+            </div>
+        </div>
     </div>
+
+
+
+
 
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-
-
-
                 <form action="{{ route('dropzone.store') }}" method="post" enctype="multipart/form-data"
-                    id="image-upload" class="dropzone">
+                    id="debiteuren-csv-upload" class="dropzone">
+
                     @csrf
-                    <div class="dz-message" data-dz-message><span>Drop je Bank cvs hier</span></div>
-                    {{-- <div>
-                        <h4>Upload Multiple Image By Click On Box</h4>
-                    </div> --}}
+                    <div class="dz-message" data-dz-message><span>Drop je Debiteuren excel hier</span></div>
+                    <input type="hidden" name="gb_rek" value="Debiteuren">
                 </form>
             </div>
         </div>
@@ -55,10 +54,16 @@
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
 
-        var dropzone = new Dropzone('#image-upload', {
+        var dropzone = new Dropzone('#bank-csv-upload', {
             thumbnailWidth: 200,
             maxFilesize: 1,
             acceptedFiles: ".csv"
+        });
+
+        var dropzone = new Dropzone('#debiteuren-csv-upload', {
+            thumbnailWidth: 200,
+            maxFilesize: 1,
+            acceptedFiles: ".xlsx"
         });
     </script>
 
