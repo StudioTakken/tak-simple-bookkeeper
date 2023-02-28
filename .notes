@@ -2,7 +2,6 @@ composer create-project laravel/laravel tak-simple-bookkeeper
 
 cd tak-simple-bookkeeper
 
-
 php artisan migrate
 composer require laravel/breeze --dev
 
@@ -39,3 +38,9 @@ php artisan migrate
 php artisan db:seed --class=UserSeeder
 
 https://laravel-news.com/building-a-slide-over-panel-component-with-livewire
+
+
+https://www.xicons.org/#/
+
+// interessant?
+https://github.com/laradumps/app

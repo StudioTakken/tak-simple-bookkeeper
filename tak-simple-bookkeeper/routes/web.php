@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DebiteurenController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ImportController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings-import', [BookingController::class, 'import'])->name('bookings.import');
     Route::get('/booking/{booking}', [BookingController::class, 'edit'])->name('bookings.edit');
+
+    Route::get('/importeren', [ImportController::class, 'index'])->name('importing');
+    Route::post('dropzone/store', [ImportController::class, 'store'])->name('dropzone.store');
 
     Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
     Route::get('/category/{category}', [CategoryController::class, 'oncategory'])->name('category.oncategory');

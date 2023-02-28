@@ -43,9 +43,6 @@ function Centify($value)
     $value = str_replace(' ', '', $value);
 
 
-    // strip all non numeric characters
-    $value = preg_replace('/[^0-9\,]/', '', $value);
-
 
 
     // check if the value is a valid dutch format
@@ -57,14 +54,18 @@ function Centify($value)
     ) {
         // make it a european format, with a dot as decimal separator and no thousands separator
         $value = str_replace('.', '', $value); // remove the thousands separators
-        $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
+        // $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
     }
     // remove the thousands separators if they are there
     $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
 
+    // strip all non numeric characters
+    $value = preg_replace('/[^0-9\,.]/', '', $value);
 
     // change in cents
     $value = (int)round($value * 100);
+
+
 
 
     return $value;

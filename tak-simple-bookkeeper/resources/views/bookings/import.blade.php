@@ -35,9 +35,12 @@
         <div class="row">
             <div class="col-md-12">
 
+
+
                 <form action="{{ route('dropzone.store') }}" method="post" enctype="multipart/form-data"
                     id="image-upload" class="dropzone">
                     @csrf
+                    <div class="dz-message" data-dz-message><span>Drop je Bank cvs hier</span></div>
                     {{-- <div>
                         <h4>Upload Multiple Image By Click On Box</h4>
                     </div> --}}
@@ -55,7 +58,7 @@
         var dropzone = new Dropzone('#image-upload', {
             thumbnailWidth: 200,
             maxFilesize: 1,
-            acceptedFiles: ".jpeg,.jpg,.png,.gif"
+            acceptedFiles: ".csv"
         });
     </script>
 

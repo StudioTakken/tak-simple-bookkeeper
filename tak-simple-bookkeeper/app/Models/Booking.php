@@ -243,6 +243,15 @@ class Booking extends Model
 
     public function scopePeriod($query)
     {
+
+        if (session('startDate') == null) {
+            session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
+        }
+        if (session('stopDate') == null) {
+            session(['stopDate' => date('Y-m-d')]);
+        }
+
+
         return $query->where('date', '>=', session('startDate'))->where('date', '<=', session('stopDate'));
     }
 }

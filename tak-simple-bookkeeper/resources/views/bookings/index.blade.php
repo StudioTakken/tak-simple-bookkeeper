@@ -18,12 +18,6 @@
 
 
 
-        <a href="{{ route('bookings.import') }}">
-            <x-button size="base" class="items-center gap-2">
-                <x-heroicon-o-home aria-hidden="true" class="w-4 h-4" />
-                <span>Import</span>
-            </x-button>
-        </a>
 
 
         {{-- <a href="{{ route('bookings.create') }}">
