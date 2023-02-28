@@ -111,19 +111,25 @@ class Booking extends Model
     public static function checkIfAllreadyImported($insertData)
     {
         $booking = Booking::where('date', $insertData['date'])
+
+            // not changing fields
             ->where('account', $insertData['account'])
-            ->where('contra_account', $insertData['contra_account'])
             ->where('description', $insertData['description'])
             ->where('plus_min',    $insertData['plus_min'])
             ->where('plus_min_int', $insertData['plus_min_int'])
+            ->where('mutation_type', $insertData['mutation_type'])
+
+            // changing fields
+            ->whereJsonContains('originals->contra_account', $insertData['contra_account'])
+            ->whereJsonContains('originals->amount_inc', $insertData['amount_inc'])
+
             //  ->where('invoice_nr', $invoice_nr)
             // ->where('category', $category)
             //  ->where('amount', $insertData['amount'])
             //  ->where('btw', $btw)
-            ->where('amount_inc', $insertData['amount_inc'])
+            //   ->where('amount_inc', $insertData['amount_inc'])
             //  ->where('remarks', $remarks)
             //  ->where('tag', $tag)
-            //  ->where('mutation_type', $mutation_type)
             ->first();
         if ($booking) {
             return true;
