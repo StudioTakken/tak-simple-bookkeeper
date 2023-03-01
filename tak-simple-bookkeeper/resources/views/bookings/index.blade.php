@@ -13,11 +13,7 @@
         </div>
     @endif
 
-
     <div class="py-6">
-
-
-
 
 
         {{-- <a href="{{ route('bookings.create') }}">

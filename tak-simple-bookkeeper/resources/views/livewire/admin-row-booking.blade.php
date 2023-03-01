@@ -25,6 +25,7 @@ error-fader @endif
         {{ $booking->date }}
         {{-- <input class="py-0 border-gray-400" type="date" wire:model.debounce.4s="date" wire:change="updateDate"> --}}
     </td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->account }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
         {{-- {{ $booking->description }} --}}
 

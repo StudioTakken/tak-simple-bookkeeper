@@ -260,11 +260,8 @@ class BookingController extends Controller
 
 
 
-
-
     protected function mapImportKey($key, $gb_rek)
     {
-
 
         $map = [
             'Datum' => 'date',

@@ -20,13 +20,15 @@ class AdminBookings extends Component
 
         if ($this->scope == 'debiteuren') {
 
-            $this->bookings = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->get();
+            $this->bookings = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
+            // we moeten de debiteuren categorie omkeren van +  naar -
+
         } elseif ($this->scope != 'bookings') {
 
             $this->bookings = Booking::period()->where('category', $this->scope)->orderBy('date')->orderBy('id')->get();
         } else {
 
-            $this->bookings = Booking::period()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
+            $this->bookings = Booking::period()->bookings()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
         }
 
         return view('livewire.admin-bookings', ['bookings' => $this->bookings]);

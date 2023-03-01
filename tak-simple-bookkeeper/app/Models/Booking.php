@@ -24,8 +24,6 @@ class Booking extends Model
         'plus_min_int',
         'invoice_nr',
         'bank_code',
-        // 'amount',
-        // 'btw',
         'amount_inc',
         'remarks',
         'tag',
@@ -44,38 +42,11 @@ class Booking extends Model
 
     public function getAmountAttribute($value)
     {
-        //   $value = (float)$this->amount_inc - $this->btw;
+
         return $value;
     }
 
 
-
-    public function splitAmountBtw()
-    {
-        // $this->btw = ($this->amount_inc / 121) * 0.21;
-        //  $this->amount = (int)$this->amount_inc - (int)$this->btw;
-        return $this->save();
-    }
-
-
-    // CalcAmountIncAndBtw
-    // public function CalcAmountIncAndBtw()
-    // {
-    //     $this->btw = $this->amount * 0.21;
-    //     $this->amount_inc = $this->amount + $this->btw;
-    //     return $this->save();
-    // }
-
-    // public function NoBTW()
-    // {
-    //     $this->btw = 0;
-    //     if ($this->amount_inc == 0) {
-    //         $this->amount_inc = $this->amount;
-    //     } else {
-    //         $this->amount = $this->amount_inc;
-    //     }
-    //     return $this->save();
-    // }
 
 
     public static function insertData($insertData)
@@ -192,8 +163,6 @@ class Booking extends Model
         $newBooking->plus_min_int = $this->plus_min_int;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        //  $newBooking->amount = $splitOffCents;
-        //  $newBooking->btw = $this->btw / 2;
         $newBooking->amount_inc = $splitOffCents;
         $newBooking->remarks = $this->remarks . ' (split off)';
         $newBooking->tag = $this->tag;
@@ -225,8 +194,6 @@ class Booking extends Model
         $newBooking->plus_min_int = $this->plus_min_int;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        // $newBooking->amount = $this->amount / 2;
-        //  $newBooking->btw = $this->btw / 2;
         $newBooking->amount_inc = $btw;
         $newBooking->remarks = $this->remarks;
         $newBooking->tag = $this->tag;
@@ -238,9 +205,18 @@ class Booking extends Model
 
 
 
+    public function scopeBookings($query)
+    {
+        return $query
+            ->where('account', 'NL94INGB0007001049');
+    }
+
+
     public function scopeDebiteuren($query)
     {
-        return $query->where('category', 'debiteuren');
+        return $query
+            ->where('category', 'debiteuren')
+            ->orWhere('account', 'debiteuren');
     }
 
     public function scopePeriod($query)

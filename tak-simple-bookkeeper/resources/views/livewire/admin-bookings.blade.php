@@ -12,6 +12,9 @@
                     Date
                 </th>
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                    Account</th>
+
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Description</th>
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Deb
                     Incl BTW</th>
