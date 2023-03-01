@@ -81,11 +81,7 @@ class Booking extends Model
     public static function insertData($insertData)
     {
 
-
-
         $booking = new Booking;
-
-        // $booking->parent_id         = $booking->id;
 
         $booking->date              = $insertData['date'];
         $booking->account           = $insertData['account'];
@@ -95,8 +91,6 @@ class Booking extends Model
         $booking->plus_min_int      = $insertData['plus_min_int'];
         $booking->invoice_nr        = $insertData['invoice_nr'];
         $booking->bank_code         = $insertData['bank_code'];
-        //  $booking->amount            = $insertData['amount'];
-        //  $booking->btw               = $insertData['btw'];
         $booking->amount_inc        = $insertData['amount_inc'];
         $booking->remarks           = $insertData['remarks'];
         $booking->tag               = $insertData['tag'];
@@ -104,9 +98,11 @@ class Booking extends Model
         $booking->category          = $insertData['category'];
 
         $booking->originals = $insertData['originals'];
-
         $booking->save();
+        return $booking->id;
     }
+
+
 
     public static function checkIfAllreadyImported($insertData)
     {

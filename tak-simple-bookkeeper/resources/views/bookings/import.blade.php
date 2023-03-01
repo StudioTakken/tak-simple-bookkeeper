@@ -23,7 +23,9 @@
                 <form action="{{ route('dropzone.store') }}" method="post" enctype="multipart/form-data"
                     id="bank-csv-upload" class="dropzone">
                     @csrf
-                    <div class="dz-message" data-dz-message><span>Drop je ING Bank cvs hier</span></div>
+                    <div class="dz-message" data-dz-message><span>Drop je ING Bank <b>cvs</b> hier</span>
+                        <br /> De standaard export vanuit ing.nl
+                    </div>
                     <input type="hidden" name="gb_rek" value="ING">
                 </form>
             </div>
@@ -41,7 +43,15 @@
                     id="debiteuren-csv-upload" class="dropzone">
 
                     @csrf
-                    <div class="dz-message" data-dz-message><span>Drop je Debiteuren excel hier</span></div>
+                    <div class="dz-message" data-dz-message><span>Drop je Debiteuren <b>excel</b> hier.</span>
+                        <br />Velden die nodig zijn:<br />
+                        Datum <br />
+                        Rekening <br />
+                        project <br />
+                        klant <br />
+                        excl <br />
+
+                    </div>
                     <input type="hidden" name="gb_rek" value="Debiteuren">
                 </form>
             </div>

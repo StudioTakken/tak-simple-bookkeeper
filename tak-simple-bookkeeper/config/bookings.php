@@ -7,7 +7,7 @@ return [
         'btw' => '21% BTW',
         'debiteuren' => 'Debiteuren',
         'crediteuren' => 'Crediteuren',
-
+        'inkomsten' => 'Inkomsten',
         'bankkosten' => 'Bankkosten',
         'belasting' => 'belasting',
         'computer' => 'Computer',

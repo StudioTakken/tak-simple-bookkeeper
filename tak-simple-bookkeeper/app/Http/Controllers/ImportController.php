@@ -24,33 +24,32 @@ class ImportController extends Controller
     public function store(Request $request, BookingController $importer)
     {
 
-        ddl('store');
-        // // get the post 'gb_rek' value from the form    
+
+        // get the post 'gb_rek' value from the form    
         $gb_rek = $request->input('gb_rek');
 
-        ddl($gb_rek);
 
 
-        // if ($request->input('gb_rek') === 'ING') {
 
-        //     $csv = $request->file('file');
-        //     $csvName = time() . '.' . $csv->extension();
-        //     $csv->move(public_path('csv'), $csvName);
-        //     $importer->import(public_path('csv') . '/' . $csvName);
+        if ($request->input('gb_rek') === 'ING') {
 
-        //     // remove the file
-        //     unlink(public_path('csv') . '/' . $csvName);
-        // }
+            $csv = $request->file('file');
+            $csvName = time() . '.' . $csv->extension();
+            $csv->move(public_path('csv'), $csvName);
+            $importer->import(public_path('csv') . '/' . $csvName, $gb_rek);
+
+            // remove the file
+            unlink(public_path('csv') . '/' . $csvName);
+        }
 
 
         if ($gb_rek == 'Debiteuren') {
 
-            ddl('deb');
             $csv = $request->file('file');
             $csvName = time() . '.' . $csv->extension();
             $csv->move(public_path('csv'), $csvName);
 
-            $importer->import(public_path('csv') . '/' . $csvName);
+            $importer->import(public_path('csv') . '/' . $csvName, $gb_rek);
 
             // remove the file
             unlink(public_path('csv') . '/' . $csvName);
