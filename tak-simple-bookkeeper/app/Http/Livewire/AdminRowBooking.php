@@ -55,19 +55,6 @@ class AdminRowBooking extends Component
         $this->date = $this->booking->date;
     }
 
-
-
-    /**
-     * Split the amount_inc into amount and btw
-     * @return void 
-     */
-    // public function splitAmountBtw()
-    // {
-    //     $ok = $this->booking->splitAmountBtw();
-    //     $this->blink($ok);
-    // }
-
-
     public function CalcAmountIncAndBtw()
     {
         $ok = $this->booking->CalcAmountIncAndBtw();

@@ -38,14 +38,14 @@ error-fader @endif
         <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
         </td>
-        <td class="text-red-700 ">
+        <td class="text-right text-red-700">
 
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
 
         </td>
     @else
-        <td class="">
+        <td class="text-right">
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
 

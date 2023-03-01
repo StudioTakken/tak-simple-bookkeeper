@@ -29,22 +29,22 @@ class Booking extends Model
         'tag',
         'mutation_type',
         'category',
-        'originals',
+        'originals'
     ];
 
 
 
-    public function getAmountIncAttribute($value)
-    {
-        return $value;
-    }
+    // public function getAmountIncAttribute($value)
+    // {
+    //     return $value;
+    // }
 
 
-    public function getAmountAttribute($value)
-    {
+    // public function getAmountAttribute($value)
+    // {
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
 
 
@@ -214,6 +214,11 @@ class Booking extends Model
 
     public function scopeDebiteuren($query)
     {
+
+
+        global $scope;
+        $scope = 'debiteuren';
+
         return $query
             ->where('category', 'debiteuren')
             ->orWhere('account', 'debiteuren');
@@ -231,5 +236,19 @@ class Booking extends Model
 
 
         return $query->where('date', '>=', session('startDate'))->where('date', '<=', session('stopDate'));
+    }
+
+    public function getPlusMinIntAttribute($value)
+    {
+        global $scope;
+
+        if (
+            $scope == 'debiteuren'
+            and $this->category == 'debiteuren'
+        ) {
+            return -$value;
+        } else {
+            return $value;
+        }
     }
 }

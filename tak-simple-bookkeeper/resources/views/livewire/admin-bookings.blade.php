@@ -44,6 +44,39 @@
 
 
 
+        <tr class="">
+            <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
+            </th>
+            <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
+            </th>
+            <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
+            </th>
+            <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
+
+            </th>
+            <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
+            </th>
+
+            <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
+            </th>
+            <th scope="col" class="px-1 text-sm font-bold text-right text-gray-900 py-7">
+                {{ $debet }}
+            </th>
+            <th scope="col" class="px-1 text-sm font-bold text-right text-takred-900 py-7">{{ $credit }}
+            </th>
+            {{-- <th scope="col" class="px-1 text-sm font-medium text-right text-gray-900 py-7">Bewerk</th> --}}
+            {{-- <th scope="col" class="px-1 text-sm font-medium text-right text-gray-900 py-7">Bedrag Excl BTW --}}
+            {{-- </th> --}}
+            {{-- <th scope="col" class="px-1 text-sm font-medium text-right text-gray-900 py-7">BTW</th> --}}
+            <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
+            </th>
+            {{-- <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">Remarks</th>
+                <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">Account</th>
+                <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">Tegenrekening</th> --}}
+            {{-- <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">Subcategory</th>
+                <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">Tags</th> --}}
+        </tr>
+
 
 
 
