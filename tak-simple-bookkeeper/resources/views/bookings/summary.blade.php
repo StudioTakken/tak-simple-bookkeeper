@@ -2,12 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <h2 class="text-xl font-semibold leading-tight">
-
-
-
-                {{-- {{ ucfirst(Session::get('viewscope')) }} --}}
-                Summary
-
+                Summary periode: {{ Session::get('startDate') }} - {{ Session::get('stopDate') }}
 
             </h2>
         </div>
@@ -21,39 +16,70 @@
 
     <div class="py-6">
 
+        <div class="flex items-start w-4/6 grid-cols-2 gap-8">
 
-        <div class="grid grid-cols-4 gap-4">
-            <div>
-                Debit
-
-
-                <div class="grid grid-cols-4 gap-4">
-                    <div>
-                        item
-                    </div>
-                    <div>
-                        123,-
-                    </div>
-                </div>
-
-
+            <div class="grid w-1/2 grid-cols-2 gap-4">
+                @foreach ($summery as $key => $item)
+                    @if ($item['debet'] > 0)
+                        <div>
+                            {{ $item['name'] }} - {{ $key }}
+                        </div>
+                        <div class='text-right'>
+                            {{ $item['debet'] }}
+                        </div>
+                    @endif
+                @endforeach
             </div>
-            <div>
-                Credit
 
-                <div class="grid grid-cols-4 gap-4">
-                    <div>
-                        item
-                    </div>
-                    <div>
-                        123,-
-                    </div>
-                </div>
-
-
-
+            <div class="grid w-1/2 grid-cols-2 gap-4">
+                @foreach ($summery as $key => $item)
+                    @if ($item['credit'] > 0)
+                        <div>
+                            {{ $item['name'] }} - {{ $key }}
+                        </div>
+                        <div class='text-right'>
+                            {{ $item['credit'] }}
+                        </div>
+                    @endif
+                @endforeach
             </div>
+
         </div>
+
+
+        {{-- here the divs for the totals --}}
+        <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-8 font-bold">
+
+            <div class="grid w-1/2 grid-cols-2 gap-4">
+
+
+                <div>
+                    Totaal
+                </div>
+                <div class='text-right'>
+                    {{ $totals['debet'] }}
+                </div>
+
+
+            </div>
+
+            <div class="grid w-1/2 grid-cols-2 gap-4">
+
+
+                <div>
+                    Totaal
+                </div>
+                <div class='text-right'>
+                    {{ $totals['credit'] }}
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
 
     </div>
 </x-app-layout>

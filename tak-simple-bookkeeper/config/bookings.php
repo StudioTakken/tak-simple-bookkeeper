@@ -9,7 +9,7 @@ return [
         'crediteuren' => 'Crediteuren',
         'inkomsten' => 'Inkomsten',
         'bankkosten' => 'Bankkosten',
-        'belasting' => 'belasting',
+        'belasting' => 'Belasting',
         'computer' => 'Computer',
         'huisvesting' => 'Huisvesting',
         'prive' => 'Privé',
@@ -19,6 +19,14 @@ return [
         'spaarrekening' => 'Oranje spaarrekening',
         'verzekering' => 'Verzekering',
         'werk-derden' => 'Werk door Derden',
+        'apparatuur' => 'Apparatuur',
     ],
+    'accounts' => [
+        'debiteuren' => 'Debiteuren',
+        'crediteuren' => 'Crediteuren',
+        'spaarrekening' => 'Oranje spaarrekening',
+        'apparatuur' => 'Apparatuur',
+
+    ]
 
 ];

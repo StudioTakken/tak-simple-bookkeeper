@@ -204,6 +204,8 @@ class Booking extends Model
     }
 
 
+    // @TODO make this work for all types of accounts
+    // https://laravel.com/docs/9.x/eloquent#dynamic-scopes
     public function scopeBookings($query)
     {
         return $query
