@@ -238,6 +238,7 @@ class Booking extends Model
     {
 
         $viewscope = session('viewscope');
+
         if (
             $viewscope == 'debiteuren'
             and $this->category == 'debiteuren'

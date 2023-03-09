@@ -21,7 +21,8 @@ class CategoryController extends BookingController
         if (array_key_exists($sCategory, $existing)) {
 
             session(['viewscope' => $sCategory]);
-            return view('bookings.index', ['include_children' => false]);
+
+            return view('bookings.index', ['method' => 'oncategory', 'include_children' => false]);
         } else {
             return view('bookings.sorry');
         }

@@ -28,7 +28,14 @@
             </x-button>
         </a> --}}
 
-        @livewire('admin-bookings', ['include_children' => $include_children], key(now() . '-' . Str::random()))
+        @livewire(
+            'admin-bookings',
+            [
+                'method' => $method,
+                'include_children' => $include_children,
+            ],
+            key(now() . '-' . Str::random())
+        )
         @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))
 
 

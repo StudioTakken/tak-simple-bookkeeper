@@ -45,17 +45,6 @@
 
 
 
-
-    <x-sidebar.link title="Importeren" href="{{ route('importing') }}">
-        <x-slot name="icon">
-            <x-icons.upload class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
-        </x-slot>
-    </x-sidebar.link>
-
-
-
-
-
     <x-sidebar.dropdown title="Categories" :active="Str::startsWith(
         request()
             ->route()
@@ -78,6 +67,15 @@
     </x-sidebar.dropdown>
 
 
+
+
+
+
+    <x-sidebar.link title="Importeren" href="{{ route('importing') }}">
+        <x-slot name="icon">
+            <x-icons.upload class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
 
 
 

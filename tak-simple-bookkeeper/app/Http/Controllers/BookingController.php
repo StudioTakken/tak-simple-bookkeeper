@@ -21,7 +21,7 @@ class BookingController extends Controller
     {
         // set the session variable viewscope to 'bookings'
         session(['viewscope' => 'bookings']);
-        return view('bookings.index');
+        return view('bookings.index', ['method' => 'bookingcontroller.index', 'include_children' => true]);
     }
 
     /**
