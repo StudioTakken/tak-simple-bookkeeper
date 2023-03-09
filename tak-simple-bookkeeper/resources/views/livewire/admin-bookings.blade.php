@@ -40,7 +40,10 @@
 
 
         @foreach ($bookings as $booking)
-            @include('livewire.admin-row-booking-req', ['booking' => $booking])
+            @include('livewire.admin-row-booking-req', [
+                'booking' => $booking,
+                'include_children' => $include_children,
+            ])
         @endforeach
 
 

@@ -8,7 +8,6 @@
                 {{ ucfirst(Session::get('viewscope')) }}
 
 
-
             </h2>
         </div>
     </x-slot>
@@ -29,7 +28,7 @@
             </x-button>
         </a> --}}
 
-        @livewire('admin-bookings', key(now() . '-' . Str::random()))
+        @livewire('admin-bookings', ['include_children' => $include_children], key(now() . '-' . Str::random()))
         @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))
 
 

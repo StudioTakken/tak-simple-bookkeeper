@@ -21,7 +21,7 @@ class CategoryController extends BookingController
         if (array_key_exists($sCategory, $existing)) {
 
             session(['viewscope' => $sCategory]);
-            return view('bookings.index');
+            return view('bookings.index', ['include_children' => false]);
         } else {
             return view('bookings.sorry');
         }
@@ -39,5 +39,13 @@ class CategoryController extends BookingController
     public function setCategoryList()
     {
         $this->categoryList = config('bookings.categories');
+    }
+
+
+
+    public function summary()
+    {
+        $this->setCategoryList();
+        return view('bookings.summary', ['categoryList' => $this->categoryList]);
     }
 }

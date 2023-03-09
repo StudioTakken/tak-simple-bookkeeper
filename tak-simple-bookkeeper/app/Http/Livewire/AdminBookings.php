@@ -13,6 +13,7 @@ class AdminBookings extends Component
     public $freshnow;
     public $debet;
     public $credit;
+    public $include_children = true;
 
     protected $listeners = ['refreshBookings' => 'refreshThis'];
 
@@ -30,6 +31,8 @@ class AdminBookings extends Component
             $this->credit       = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->where('account', '!=', 'Debiteuren')->sum('amount_inc');
         } elseif ($this->viewscope != 'bookings') {
 
+            // no children in category!
+            $this->include_children = false;
             $this->bookings     = Booking::period()->where('category', $this->viewscope)->orderBy('date')->orderBy('id')->get();
             $this->debet        = Booking::period()->where('category', $this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
             $this->credit       = Booking::period()->where('category', $this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
@@ -45,7 +48,7 @@ class AdminBookings extends Component
 
 
 
-        return view('livewire.admin-bookings', ['bookings' => $this->bookings, 'debet' => $this->debet, 'credit' => $this->credit]);
+        return view('livewire.admin-bookings', ['bookings' => $this->bookings, 'debet' => $this->debet, 'credit' => $this->credit, 'include_children' => $this->include_children]);
     }
 
 

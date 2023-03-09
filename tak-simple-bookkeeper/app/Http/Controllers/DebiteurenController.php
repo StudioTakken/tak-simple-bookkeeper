@@ -17,8 +17,7 @@ class DebiteurenController extends BookingController
 
         // set the session variable viewscope to 'debiteuren'
         session(['viewscope' => 'debiteuren']);
-
-        return view('bookings.index');
+        return view('bookings.index', ['include_children' => true]);
     }
 
 

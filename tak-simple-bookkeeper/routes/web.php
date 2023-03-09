@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
     Route::get('/category/{category}', [CategoryController::class, 'oncategory'])->name('category.oncategory');
+    Route::get('/summary', [CategoryController::class, 'summary'])->name('summary');
 });
 
 // useless routes
