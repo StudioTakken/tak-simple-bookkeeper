@@ -1,4 +1,7 @@
 <div>
+
+
+
     <table class="w-2/3 ">
         <thead class="border-b ">
             <tr>
@@ -16,10 +19,8 @@
 
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Description</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Deb
-                    Incl BTW</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">Cred
-                    Incl BTW</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Debet</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Credit</th>
                 {{-- <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Bewerk</th> --}}
                 {{-- <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Bedrag Excl BTW --}}
                 {{-- </th> --}}

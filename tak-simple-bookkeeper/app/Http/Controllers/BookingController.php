@@ -19,7 +19,9 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return view('bookings.index', ['scope' => 'bookings']);
+        // set the session variable viewscope to 'bookings'
+        session(['viewscope' => 'bookings']);
+        return view('bookings.index');
     }
 
     /**

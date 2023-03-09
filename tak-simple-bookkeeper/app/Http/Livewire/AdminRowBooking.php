@@ -25,12 +25,13 @@ class AdminRowBooking extends Component
     public function mount()
     {
 
+
         if ($this->booking->category) {
             $this->category = $this->booking->category;
         }
-        if ($this->booking->amount_inc) {
-            $this->amount_inc = $this->booking->amount_inc;
-        }
+        // if ($this->booking->amount_inc) {
+        //     $this->amount_inc = $this->booking->amount_inc;
+        // }
     }
 
     public function calculateChildren()

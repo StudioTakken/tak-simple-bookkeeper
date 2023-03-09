@@ -2,7 +2,13 @@
     <x-slot name="header">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <h2 class="text-xl font-semibold leading-tight">
-                {{ ucfirst($scope) }}
+
+
+
+                {{ ucfirst(Session::get('viewscope')) }}
+
+
+
             </h2>
         </div>
     </x-slot>
@@ -23,7 +29,7 @@
             </x-button>
         </a> --}}
 
-        @livewire('admin-bookings', ['scope' => $scope], key(now() . '-' . Str::random()))
+        @livewire('admin-bookings', key(now() . '-' . Str::random()))
         @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))
 
 

@@ -8,7 +8,7 @@ use Livewire\Component;
 class AdminBookings extends Component
 {
 
-    public $scope;
+    public $viewscope;
     public $bookings;
     public $freshnow;
     public $debet;
@@ -20,16 +20,19 @@ class AdminBookings extends Component
     public function render()
     {
 
-        if ($this->scope == 'debiteuren') {
+        // get the session variable viewscope
+        $this->viewscope = session('viewscope');
+
+        if ($this->viewscope == 'debiteuren') {
 
             $this->bookings     = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
             $this->debet        = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->where('account', 'Debiteuren')->sum('amount_inc');
             $this->credit       = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->where('account', '!=', 'Debiteuren')->sum('amount_inc');
-        } elseif ($this->scope != 'bookings') {
+        } elseif ($this->viewscope != 'bookings') {
 
-            $this->bookings     = Booking::period()->where('category', $this->scope)->orderBy('date')->orderBy('id')->get();
-            $this->debet        = Booking::period()->where('category', $this->scope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
-            $this->credit       = Booking::period()->where('category', $this->scope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+            $this->bookings     = Booking::period()->where('category', $this->viewscope)->orderBy('date')->orderBy('id')->get();
+            $this->debet        = Booking::period()->where('category', $this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
+            $this->credit       = Booking::period()->where('category', $this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
         } else {
 
             $this->bookings     = Booking::period()->bookings()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
@@ -42,7 +45,7 @@ class AdminBookings extends Component
 
 
 
-        return view('livewire.admin-bookings', ['bookings' => $this->bookings, 'scope' => $this->scope, 'debet' => $this->debet, 'credit' => $this->credit]);
+        return view('livewire.admin-bookings', ['bookings' => $this->bookings, 'debet' => $this->debet, 'credit' => $this->credit]);
     }
 
 

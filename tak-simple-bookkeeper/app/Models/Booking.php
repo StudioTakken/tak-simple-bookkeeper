@@ -204,7 +204,6 @@ class Booking extends Model
     }
 
 
-
     public function scopeBookings($query)
     {
         return $query
@@ -215,9 +214,6 @@ class Booking extends Model
     public function scopeDebiteuren($query)
     {
 
-
-        global $scope;
-        $scope = 'debiteuren';
 
         return $query
             ->where('category', 'debiteuren')
@@ -240,10 +236,10 @@ class Booking extends Model
 
     public function getPlusMinIntAttribute($value)
     {
-        global $scope;
 
+        $viewscope = session('viewscope');
         if (
-            $scope == 'debiteuren'
+            $viewscope == 'debiteuren'
             and $this->category == 'debiteuren'
         ) {
             return -$value;

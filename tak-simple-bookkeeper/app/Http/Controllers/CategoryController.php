@@ -19,9 +19,11 @@ class CategoryController extends BookingController
 
         $existing =  $this->listCategories();
         if (array_key_exists($sCategory, $existing)) {
-            return view('bookings.index', ['scope' => $sCategory]);
+
+            session(['viewscope' => $sCategory]);
+            return view('bookings.index');
         } else {
-            return view('bookings.sorry', ['scope' => $sCategory]);
+            return view('bookings.sorry');
         }
     }
 

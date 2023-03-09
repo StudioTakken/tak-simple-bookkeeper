@@ -11,7 +11,8 @@ class ImportController extends Controller
 {
     public function index()
     {
-        return view('bookings.import', ['scope' => 'import']);
+        session(['viewscope' => 'importeren']);
+        return view('bookings.import');
     }
 
     /**
