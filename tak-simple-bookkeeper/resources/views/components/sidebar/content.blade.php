@@ -36,7 +36,7 @@
         </x-slot>
     </x-sidebar.link> --}}
 
-
+    {{-- 
 
     @foreach (config('bookings.accounts') as $key => $account)
         <x-sidebar.link title="{{ $account }}" href="{{ route('account.onaccount', ['account' => $key]) }}">
@@ -45,6 +45,10 @@
             </x-slot>
         </x-sidebar.link>
     @endforeach
+ --}}
+
+
+    @livewire('booking-account-menu')
 
 
 

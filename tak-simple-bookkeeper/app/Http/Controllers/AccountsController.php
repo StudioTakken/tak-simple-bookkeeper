@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookingAccount;
 use Illuminate\Http\Request;
 
 class AccountsController extends BookingController
@@ -25,7 +26,11 @@ class AccountsController extends BookingController
 
     public function onAccount($sAccount)
     {
-        session(['viewscope' => $sAccount]);
-        return view('bookings.index', ['method' => 'account.onaccount', 'include_children' => true]);
+
+        // get the bookingaccount on the slug
+        $account = BookingAccount::where('slug', $sAccount)->first();
+
+        session(['viewscope' => $account->key]);
+        return view('bookings.index', ['method' => 'account.onaccount', 'include_children' => $account->include_children]);
     }
 }

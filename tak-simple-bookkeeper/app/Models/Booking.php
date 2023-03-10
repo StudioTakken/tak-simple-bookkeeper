@@ -34,21 +34,6 @@ class Booking extends Model
 
 
 
-    // public function getAmountIncAttribute($value)
-    // {
-    //     return $value;
-    // }
-
-
-    // public function getAmountAttribute($value)
-    // {
-
-    //     return $value;
-    // }
-
-
-
-
     public static function insertData($insertData)
     {
 
@@ -256,8 +241,7 @@ class Booking extends Model
         // ddl($this->category);
 
         if (
-            $viewscope == 'debiteuren'
-            and $this->category == 'debiteuren'
+            $viewscope == $this->category
         ) {
             return -$value;
         } else {

@@ -1,6 +1,8 @@
 @livewire('admin-row-booking', ['booking' => $booking], key($booking->id . '-' . Str::random()))
-@if ($booking->children and $include_children)
+@if ($booking->children)
     @foreach ($booking->children as $child)
-        @include('livewire.admin-row-booking-req', ['booking' => $child])
+        @if ($include_children or $child->category == $booking->category)
+            @include('livewire.admin-row-booking-req', ['booking' => $child])
+        @endif
     @endforeach
 @endif

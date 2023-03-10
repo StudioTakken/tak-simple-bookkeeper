@@ -20,6 +20,7 @@ return [
         'verzekering' => 'Verzekering',
         'werk-derden' => 'Werk door Derden',
         'apparatuur' => 'Apparatuur',
+        'afschrijving_apparatuur' => 'Afschrijving Apparatuur',
     ],
     'accounts' => [
         'debiteuren' => 'Debiteuren',

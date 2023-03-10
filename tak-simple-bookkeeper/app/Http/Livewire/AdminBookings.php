@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Booking;
+use App\Models\BookingAccount;
 use Livewire\Component;
 
 class AdminBookings extends Component
@@ -34,26 +35,28 @@ class AdminBookings extends Component
         }
 
 
+        // get the account from the BookingAccount model
+        $bookingAccount = BookingAccount::where('key', $this->viewscope)->first();
 
         // ddl($this->method);
         // ddl($this->viewscope);
         if ($this->method == 'account.onaccount') {
 
             // hier moeten we verschillend reageren obv account settings
+            $this->include_children = $bookingAccount->include_children;
 
+            //    if ($this->viewscope == 'NL94INGB0007001049') {
+            if ($bookingAccount->include_children == true) {
 
-            if ($this->viewscope == 'NL94INGB0007001049') {
+                ddl('a');
                 $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
                 $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
                 $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
-                //  $this->include_children = false;
             } else {
+
                 $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
-                $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('category', '!=', $this->viewscope)->sum('amount_inc');
-                $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('category', '=', $this->viewscope)->sum('amount_inc');
-                //  $this->include_children = false;
-
-
+                $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('category', '=', $this->viewscope)->sum('amount_inc');
+                $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('category', '!=', $this->viewscope)->sum('amount_inc');
             }
         } elseif ($this->viewscope == 'debiteuren' and $this->method != 'oncategory') {
 
