@@ -36,6 +36,7 @@ php artisan make:seeder UserSeeder
 
 php artisan migrate
 php artisan db:seed --class=UserSeeder
+php artisan db:seed --class=BookingAccountSeeder
 
 https://laravel-news.com/building-a-slide-over-panel-component-with-livewire
 
@@ -44,3 +45,24 @@ https://www.xicons.org/#/
 
 // interessant?
 https://github.com/laradumps/app
+
+
+
+
+tijd voor een accounts tabel
+
+        'debiteuren' => 'Debiteuren',
+        'crediteuren' => 'Crediteuren',
+        'spaarrekening' => 'Oranje spaarrekening',
+        'apparatuur' => 'Apparatuur',
+        'NL94INGB0007001049' => 'NL94INGB0007001049',
+
+
+
+id
+slug
+name
+include_children
+start_balance
+
+php artisan make:model BookingAccount -mfsc
