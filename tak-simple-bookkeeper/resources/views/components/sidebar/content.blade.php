@@ -29,12 +29,24 @@
         </x-slot>
     </x-sidebar.link>
 
-
+    {{-- 
     <x-sidebar.link title="Debiteuren" href="{{ route('debiteuren.index') }}">
         <x-slot name="icon">
             <x-icons.list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
-    </x-sidebar.link>
+    </x-sidebar.link> --}}
+
+
+
+    @foreach (config('bookings.accounts') as $key => $account)
+        <x-sidebar.link title="{{ $account }}" href="{{ route('account.onaccount', ['account' => $key]) }}">
+            <x-slot name="icon">
+                <x-icons.list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            </x-slot>
+        </x-sidebar.link>
+    @endforeach
+
+
 
 
     <x-sidebar.link title="Summary" href="{{ route('summary') }}">

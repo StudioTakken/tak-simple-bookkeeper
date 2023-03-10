@@ -35,8 +35,13 @@ class AdminBookings extends Component
 
 
 
-
-        if ($this->viewscope == 'debiteuren' and $this->method != 'oncategory') {
+        // ddl($this->method);
+        // ddl($this->viewscope);
+        if ($this->method == 'account.onaccount') {
+            $this->bookings     = Booking::period()->where('account', $this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
+            $this->debet        = Booking::period()->where('account', $this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
+            $this->credit       = Booking::period()->where('account', $this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+        } elseif ($this->viewscope == 'debiteuren' and $this->method != 'oncategory') {
 
             $this->bookings     = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
             $this->debet        = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->where('account', 'Debiteuren')->sum('amount_inc');
@@ -44,8 +49,6 @@ class AdminBookings extends Component
         } elseif ($this->viewscope != 'bookings') {
 
             // no children in category!
-            // $this->include_children = false;
-
             $category = $this->viewscope;
 
             if ($category == 'debiteuren') {

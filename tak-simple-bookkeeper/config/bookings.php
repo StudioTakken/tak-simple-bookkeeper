@@ -26,6 +26,7 @@ return [
         'crediteuren' => 'Crediteuren',
         'spaarrekening' => 'Oranje spaarrekening',
         'apparatuur' => 'Apparatuur',
+        'NL94INGB0007001049' => 'NL94INGB0007001049',
 
     ]
 

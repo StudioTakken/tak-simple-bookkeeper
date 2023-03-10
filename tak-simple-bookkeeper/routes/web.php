@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DebiteurenController;
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ImportController;
 
@@ -44,7 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/importeren', [ImportController::class, 'index'])->name('importing');
     Route::post('dropzone/store', [ImportController::class, 'store'])->name('dropzone.store');
 
-    Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
+    //  Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
+
+    Route::get('/accounts/{account}', [AccountsController::class, 'onaccount'])->name('account.onaccount');
+
     Route::get('/category/{category}', [CategoryController::class, 'oncategory'])->name('category.oncategory');
     Route::get('/summary', [CategoryController::class, 'summary'])->name('summary');
 });
