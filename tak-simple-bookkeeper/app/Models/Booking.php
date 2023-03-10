@@ -204,8 +204,7 @@ class Booking extends Model
     }
 
 
-    // @TODO make this work for all types of accounts
-    // https://laravel.com/docs/9.x/eloquent#dynamic-scopes
+
     public function scopeBookings($query)
     {
         return $query
@@ -213,9 +212,20 @@ class Booking extends Model
     }
 
 
-    public function scopeDebiteuren($query)
+    // https://laravel.com/docs/9.x/eloquent#dynamic-scopes
+    public function scopeOfAccount($query, $type)
     {
 
+
+        return $query
+            ->where('account', $type)
+            ->orWhere('category', $type);
+    }
+
+
+
+    public function scopeDebiteuren($query)
+    {
 
         return $query
             ->where('category', 'debiteuren')
@@ -240,6 +250,10 @@ class Booking extends Model
     {
 
         $viewscope = session('viewscope');
+
+        // ddl($viewscope);
+        // ddl($this->account);
+        // ddl($this->category);
 
         if (
             $viewscope == 'debiteuren'

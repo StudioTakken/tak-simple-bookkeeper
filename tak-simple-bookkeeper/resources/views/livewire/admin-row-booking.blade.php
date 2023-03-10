@@ -27,10 +27,11 @@ error-fader @endif
     </td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->account }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
-        {{-- {{ $booking->description }} --}}
 
-        <input type="text" wire:model.debounce.4s="description" wire:change="updateDescription"
-            class="descriptioninputfield" />
+        {{-- <input type="text" wire:model.debounce.4s="description" wire:change="updateDescription"
+            class="descriptioninputfield" /> --}}
+
+        {{ $booking->description }}
 
     </td>
 
@@ -43,11 +44,14 @@ error-fader @endif
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
 
+            {{-- {{ $booking->amount_inc }} --}}
         </td>
     @else
         <td class="text-right">
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
+
+            {{-- {{ $booking->amount_inc }} --}}
 
         </td>
 

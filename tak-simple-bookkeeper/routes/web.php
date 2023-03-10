@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/importeren', [ImportController::class, 'index'])->name('importing');
     Route::post('dropzone/store', [ImportController::class, 'store'])->name('dropzone.store');
 
-    //  Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
+    Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
 
     Route::get('/accounts/{account}', [AccountsController::class, 'onaccount'])->name('account.onaccount');
 
