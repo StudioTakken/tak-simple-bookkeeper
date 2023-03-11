@@ -1,4 +1,4 @@
-<tr wire:click="openSidePanel"
+<tr {{-- wire:click="openSidePanel" --}}
     class="   
 
 border-t-2 border-gray-200
@@ -19,7 +19,10 @@ error-fader @endif
         @endif
 
     </td>
-    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->id }}</td>
+
+
+    <td class="px-1 py-1 text-sm font-light text-gray-900 cursor-pointer whitespace-nowrap" wire:click="openSidePanel">
+        {{ $booking->id }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->parent_id }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
         {{ $booking->date }}
@@ -63,7 +66,6 @@ error-fader @endif
 
 
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
-
         <select @if ($booking->category == '') style="color:#ff0000 !important;" @endif wire:model="category"
             class="px-2 py-1 pr-8 text-sm text-left bg-white border-0 rounded shadow outline-none" name="category">
             <option value="">
@@ -74,5 +76,10 @@ error-fader @endif
             @endforeach
         </select>
     </td>
+
+    @if ($booking->category == 'kruispost')
+        @livewire ('booking-account-chooser', ['booking' => $booking], key($booking->id))
+    @endif
+
 
 </tr>

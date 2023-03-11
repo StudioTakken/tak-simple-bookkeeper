@@ -16,10 +16,13 @@ return new class extends Migration
         Schema::create('booking_accounts', function (Blueprint $table) {
             $table->id();
             $table->string('slug');
-            $table->string('key');
+            $table->string('named_id');
             $table->string('name');
+            $table->integer('intern');
+            $table->integer('plus_min_int');
             $table->string('include_children')->nullable();
             $table->integer('start_balance')->nullable();
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

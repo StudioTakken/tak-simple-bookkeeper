@@ -29,6 +29,7 @@ class Booking extends Model
         'tag',
         'mutation_type',
         'category',
+        'cross_account',
         'originals'
     ];
 
@@ -52,6 +53,7 @@ class Booking extends Model
         $booking->tag               = $insertData['tag'];
         $booking->mutation_type     = $insertData['mutation_type'];
         $booking->category          = $insertData['category'];
+        $booking->cross_account     = $insertData['cross_account'];
 
         $booking->originals = $insertData['originals'];
         $booking->save();
@@ -109,13 +111,12 @@ class Booking extends Model
         $this->plus_min_int      = $insertData['plus_min_int'];
         $this->invoice_nr        = $insertData['invoice_nr'];
         $this->bank_code         = $insertData['bank_code'];
-        //  $this->amount            = $insertData['amount'];
-        //  $this->btw               = $insertData['btw'];
         $this->amount_inc        = $insertData['amount_inc'];
         $this->remarks           = $insertData['remarks'];
         $this->tag               = $insertData['tag'];
         $this->mutation_type     = $insertData['mutation_type'];
         $this->category          = $insertData['category'];
+        $this->cross_account     = '';
 
 
         // delete children
@@ -153,6 +154,7 @@ class Booking extends Model
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
         $newBooking->category = $this->category;
+        $newBooking->cross_account = $this->cross_account;
 
 
         $this->amount_inc = $this->amount_inc - $splitOffCents;
@@ -204,7 +206,7 @@ class Booking extends Model
 
         return $query
             ->where('account', $type)
-            ->orWhere('category', $type);
+            ->orWhere('cross_account', $type);
     }
 
 
@@ -236,16 +238,18 @@ class Booking extends Model
 
         $viewscope = session('viewscope');
 
-        // ddl($viewscope);
-        // ddl($this->account);
-        // ddl($this->category);
+        if ($this->cross_account) {
+            $bookingCrossAccount = BookingAccount::where('named_id', $this->cross_account)->first();
+        }
 
         if (
-            $viewscope == $this->category
+            isset($bookingCrossAccount) and $bookingCrossAccount->intern  == 1
+            and $viewscope == $bookingCrossAccount->named_id
         ) {
             return -$value;
         } else {
             return $value;
         }
+        return $value;
     }
 }

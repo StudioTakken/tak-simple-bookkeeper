@@ -25,12 +25,6 @@ class AdminEditBooking extends AdminRowBooking
     }
 
 
-    // public function updateAmountInc()
-    // {
-    //     parent::updateAmountInc();
-    //     $this->blink(1);
-    //     $this->emit('refreshBookings');
-    // }
 
     public function refreshThis()
     {

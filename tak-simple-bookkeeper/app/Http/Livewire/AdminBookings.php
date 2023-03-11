@@ -16,6 +16,7 @@ class AdminBookings extends Component
     public $credit;
     public $include_children = true;
     public $method;
+    public $bookingAccount;
 
     protected $listeners = ['refreshBookings' => 'refreshThis'];
 
@@ -36,7 +37,7 @@ class AdminBookings extends Component
 
 
         // get the account from the BookingAccount model
-        $bookingAccount = BookingAccount::where('key', $this->viewscope)->first();
+        $bookingAccount = BookingAccount::where('named_id', $this->viewscope)->first();
 
         // ddl($this->method);
         // ddl($this->viewscope);
@@ -45,21 +46,29 @@ class AdminBookings extends Component
             // hier moeten we verschillend reageren obv account settings
             $this->include_children = $bookingAccount->include_children;
 
-            //    if ($this->viewscope == 'NL94INGB0007001049') {
-            if ($bookingAccount->include_children == true) {
+            if ($this->viewscope == 'NL94INGB0007001049') {
 
-                ddl('a');
+                // ddl('a');
                 $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
-                $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
-                $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+
+                if ($bookingAccount->intern  == 1) {
+                    $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
+                    $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+                } else {
+                    $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+                    $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
+                }
             } else {
 
+                // ddl('b');
+
                 $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
-                $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('category', '=', $this->viewscope)->sum('amount_inc');
-                $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('category', '!=', $this->viewscope)->sum('amount_inc');
+                $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('cross_account', '=', $this->viewscope)->sum('amount_inc');
+                $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('cross_account', '!=', $this->viewscope)->sum('amount_inc');
             }
         } elseif ($this->viewscope == 'debiteuren' and $this->method != 'oncategory') {
 
+            ddl('deb');
             $this->bookings     = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
             $this->debet        = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->where('account', 'Debiteuren')->sum('amount_inc');
             $this->credit       = Booking::period()->debiteuren()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->where('account', '!=', 'Debiteuren')->sum('amount_inc');
@@ -83,8 +92,19 @@ class AdminBookings extends Component
             $this->credit       = Booking::period()->bookings()->orderBy('date')->orderBy('id')->where('parent_id', NULL)->where('plus_min_int', '-1')->sum('amount_inc');
         }
 
+        if (isset($bookingAccount->start_balance)) {
+            $bookingAccount->end_balance = $bookingAccount->start_balance + $this->debet - $this->credit;
+            $bookingAccount->start_balance = number_format($bookingAccount->start_balance / 100, 2, ',', '.');
+            $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
+        } else {
+            $bookingAccount = new BookingAccount;
+            $bookingAccount->start_balance = 0;
+            $bookingAccount->end_balance = 0;
+        }
+
         $this->debet = number_format($this->debet / 100, 2, ',', '.');
         $this->credit = number_format($this->credit / 100, 2, ',', '.');
+
 
 
 
@@ -92,6 +112,8 @@ class AdminBookings extends Component
             'bookings' => $this->bookings,
             'debet' => $this->debet,
             'credit' => $this->credit,
+            'start_balance' => $bookingAccount->start_balance,
+            'end_balance' => $bookingAccount->end_balance,
             'include_children' => $this->include_children
 
         ]);

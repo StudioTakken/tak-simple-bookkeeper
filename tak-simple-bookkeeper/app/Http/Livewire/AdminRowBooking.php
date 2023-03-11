@@ -13,6 +13,9 @@ class AdminRowBooking extends Component
     public $amount_inc;
     public $description;
     public $date;
+    public $cross_account = '';
+
+
 
 
     public $splitOffAmount;
@@ -25,13 +28,12 @@ class AdminRowBooking extends Component
     public function mount()
     {
 
-
         if ($this->booking->category) {
             $this->category = $this->booking->category;
         }
-        // if ($this->booking->amount_inc) {
-        //     $this->amount_inc = $this->booking->amount_inc;
-        // }
+        if ($this->booking->cross_account) {
+            $this->cross_account = $this->booking->cross_account;
+        }
     }
 
     public function calculateChildren()
@@ -85,6 +87,8 @@ class AdminRowBooking extends Component
         $this->emit('refreshBookings');
     }
 
+
+
     public function NoBTW()
     {
         $ok = $this->booking->NoBTW();
@@ -116,15 +120,35 @@ class AdminRowBooking extends Component
 
     public function updatedCategory()
     {
+
+        if ($this->category == '' or $this->category != '[kruispost]') {
+            $this->booking->cross_account = ''; // reset cross account
+        }
+
         $this->booking->category = $this->category;
         $ok = $this->booking->save();
         $this->blink($ok);
-
         $this->emit('refreshBookings');
     }
 
+    public function updatedCrossAccount()
+    {
+
+        $this->booking->cross_account = $this->cross_account;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
+
+
+
+
+
     public function blink($saved)
     {
+
+        ddl('blink');
 
         if ($saved) {
             session()->flash('message', 'success');

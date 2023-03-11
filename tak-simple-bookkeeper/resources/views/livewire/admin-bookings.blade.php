@@ -1,6 +1,9 @@
 <div>
 
 
+    <div>
+        {{ $start_balance }} - {{ $end_balance }}
+    </div>
 
     <table class="w-2/3 ">
         <thead class="border-b ">
@@ -24,6 +27,8 @@
 
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Category</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                    Kruis</th>
 
             </tr>
         </thead>

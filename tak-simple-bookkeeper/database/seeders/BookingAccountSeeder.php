@@ -18,9 +18,11 @@ class BookingAccountSeeder extends Seeder
         DB::table('booking_accounts')->insert(
             [
                 'slug' => 'debiteuren',
-                'key' => 'debiteuren',
+                'named_id' => 'debiteuren',
                 'name' => 'Debiteuren',
                 'include_children' => 1,
+                'intern' => 0,
+                'plus_min_int' => 1,
                 'start_balance' => 0,
             ],
         );
@@ -28,9 +30,11 @@ class BookingAccountSeeder extends Seeder
         DB::table('booking_accounts')->insert(
             [
                 'slug' => 'crediteuren',
-                'key' => 'crediteuren',
+                'named_id' => 'crediteuren',
                 'name' => 'Crediteuren',
                 'include_children' => 1,
+                'intern' => 0,
+                'plus_min_int' => -1,
                 'start_balance' => 0,
             ],
         );
@@ -39,9 +43,11 @@ class BookingAccountSeeder extends Seeder
         DB::table('booking_accounts')->insert(
             [
                 'slug' => 'bank',
-                'key' => 'NL94INGB0007001049',
+                'named_id' => 'NL94INGB0007001049',
                 'name' => 'Bank',
                 'include_children' => 1,
+                'intern' => 1,
+                'plus_min_int' => 1,
                 'start_balance' => 0,
             ],
         );
@@ -49,9 +55,11 @@ class BookingAccountSeeder extends Seeder
         DB::table('booking_accounts')->insert(
             [
                 'slug' => 'spaarrekening',
-                'key' => 'spaarrekening',
+                'named_id' => 'spaarrekening',
                 'name' => 'Spaarrekening',
                 'include_children' => 1,
+                'intern' => 1, 'intern' => 1,
+                'plus_min_int' => 1,
                 'start_balance' => 0,
             ],
         );
@@ -60,9 +68,11 @@ class BookingAccountSeeder extends Seeder
         DB::table('booking_accounts')->insert(
             [
                 'slug' => 'kas',
-                'key' => 'kas',
+                'named_id' => 'kas',
                 'name' => 'Kas',
                 'include_children' => 1,
+                'intern' => 1,
+                'plus_min_int' => 1,
                 'start_balance' => 0,
             ],
         );
@@ -71,9 +81,11 @@ class BookingAccountSeeder extends Seeder
         DB::table('booking_accounts')->insert(
             [
                 'slug' => 'apparatuur',
-                'key' => 'apparatuur',
+                'named_id' => 'apparatuur',
                 'name' => 'Apparatuur',
                 'include_children' => 1,
+                'intern' => 1,
+                'plus_min_int' => 1,
                 'start_balance' => 0,
             ],
 
