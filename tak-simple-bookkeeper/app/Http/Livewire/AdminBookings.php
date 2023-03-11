@@ -48,23 +48,29 @@ class AdminBookings extends Component
 
             if ($this->viewscope == 'NL94INGB0007001049') {
 
-                // ddl('a');
                 $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
 
                 if ($bookingAccount->intern  == 1) {
+
                     $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
                     $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
                 } else {
+
                     $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
                     $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
                 }
             } else {
 
-                // ddl('b');
+                ddl('b');
 
                 $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
-                $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('cross_account', '=', $this->viewscope)->sum('amount_inc');
-                $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('cross_account', '!=', $this->viewscope)->sum('amount_inc');
+                if ($bookingAccount->intern  == 1) {
+                    $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('cross_account', '=', $this->viewscope)->sum('amount_inc');
+                    $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('cross_account', '!=', $this->viewscope)->sum('amount_inc');
+                } else {
+                    $this->debet        = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('cross_account', '!=', $this->viewscope)->sum('amount_inc');
+                    $this->credit       = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('cross_account', '=', $this->viewscope)->sum('amount_inc');
+                }
             }
         } elseif ($this->viewscope == 'debiteuren' and $this->method != 'oncategory') {
 
