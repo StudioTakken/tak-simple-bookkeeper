@@ -12,8 +12,8 @@ use Psr\Container\ContainerExceptionInterface;
 class CategoryController extends BookingController
 {
 
-    public $categoryList;
-    public $accountList;
+    public $categoryList = [];
+    public $accountList = [];
 
 
     public function oncategory($sCategory)
@@ -42,11 +42,13 @@ class CategoryController extends BookingController
     public function setCategoryList()
     {
         $this->categoryList = config('bookings.categories');
-        $this->accountList = config('bookings.accounts');
+        // $this->accountList = config('bookings.accounts');
     }
 
 
-
+    /**
+     * summary of category ins and outs
+     */
     public function summary()
     {
         $this->setCategoryList();
@@ -63,8 +65,6 @@ class CategoryController extends BookingController
             if (array_key_exists($category_key, $this->accountList)) {
                 continue;
             }
-
-
 
             $summery[$category_key]['name'] = $category_name;
 
@@ -95,8 +95,6 @@ class CategoryController extends BookingController
 
         $totals['debet'] = number_format($totals['debet'] / 100, 2, ',', '.');
         $totals['credit'] = number_format($totals['credit'] / 100, 2, ',', '.');
-
-
 
         return view('bookings.summary', ['summery' => $summery, 'totals' => $totals]);
     }

@@ -21,8 +21,9 @@ error-fader @endif
     </td>
 
 
-    <td class="px-1 py-1 text-sm font-light text-gray-900 cursor-pointer whitespace-nowrap" wire:click="openSidePanel">
-        {{ $booking->id }}</td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 cursor-pointer whitespace-nowrap">
+        {{ $booking->id }}
+    </td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->parent_id }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
         {{ $booking->date }}
@@ -63,7 +64,10 @@ error-fader @endif
 
     @endif
 
-
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
+        <button class="text-white btn bg-takgreen-500 btn-small" wire:click="openSidePanel"><i class="fa fas fa-info"
+                aria-hidden="true"></i> </button>
+    </td>
 
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
         <select @if ($booking->category == '') style="color:#ff0000 !important;" @endif wire:model="category"
@@ -80,6 +84,5 @@ error-fader @endif
     @if ($booking->category == 'kruispost')
         @livewire ('booking-account-chooser', ['booking' => $booking], key($booking->id))
     @endif
-
 
 </tr>

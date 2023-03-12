@@ -53,7 +53,7 @@ class Booking extends Model
         $booking->tag               = $insertData['tag'];
         $booking->mutation_type     = $insertData['mutation_type'];
         $booking->category          = $insertData['category'];
-        $booking->cross_account     = $insertData['cross_account'];
+        $booking->cross_account     = '';
 
         $booking->originals = $insertData['originals'];
         $booking->save();

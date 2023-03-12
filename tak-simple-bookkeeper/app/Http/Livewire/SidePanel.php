@@ -21,7 +21,13 @@ final class SidePanel extends Component
 
     public function openRightPanel(string $title, string $component, Booking $booking): void
     {
-        $this->open = true;
+
+        if ($this->open == true) {
+            $this->open = false;
+        } else {
+            $this->open = true;
+        }
+
         $this->title = $title;
         $this->component = $component;
         $this->booking = $booking;

@@ -26,6 +26,8 @@
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Credit</th>
 
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                    Info</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Category</th>
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Kruis</th>
