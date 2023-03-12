@@ -14,7 +14,7 @@ error-fader @endif
         <option value="">
             Selecteer een account</option>
 
-        @foreach ($accounts as $account)
+        @foreach ($booking_accounts as $account)
             <option class="pr-3" value='{{ $account->named_id }}'>{{ $account->name }}</option>
         @endforeach
     </select>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\BookingAccount;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class BookingAccountChooser extends AdminRowBooking
@@ -12,7 +13,7 @@ class BookingAccountChooser extends AdminRowBooking
 
     public function render()
     {
-        $accounts = BookingAccount::all()->sortBy('id');
-        return view('livewire.booking-account-chooser', compact('accounts'));
+        $booking_accounts = BookingAccount::getAll();
+        return view('livewire.booking-account-chooser', compact('booking_accounts'));
     }
 }

@@ -9,8 +9,7 @@ class BookingAccountMenu extends Component
 {
     public function render()
     {
-
-        $accounts = BookingAccount::all()->sortBy('id');
+        $accounts = BookingAccount::getAll();
         return view('livewire.booking-account-menu', compact('accounts'));
     }
 }
