@@ -30,6 +30,11 @@ class BookingAccount extends Model
     }
 
 
+
+
+
+
+
     // on every udate we need to clear the cache
     // public static function boot()
     // {
@@ -39,4 +44,18 @@ class BookingAccount extends Model
     //         Cache::forget('all_the_booking_accounts');
     //     });
     // }
+
+
+
+    public static function getBalance($named_id, $period)
+    {
+
+        $debet = Booking::getDebetOrCredit($named_id, 'debet', $period);
+        $credit = Booking::getDebetOrCredit($named_id, 'credit', $period);
+
+        $bookingAccount = self::where('named_id', $named_id)->first();
+        $bookingAccount->balance = $bookingAccount->start_balance + $debet - $credit;
+
+        return $bookingAccount->balance;
+    }
 }

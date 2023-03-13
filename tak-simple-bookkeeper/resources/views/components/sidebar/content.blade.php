@@ -7,11 +7,11 @@
     </x-sidebar.link>
 
 
-    <x-sidebar.link title="Boekingen" href="{{ route('bookings.index') }}">
+    {{-- <x-sidebar.link title="Boekingen" href="{{ route('bookings.index') }}">
         <x-slot name="icon">
             <x-icons.list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
-    </x-sidebar.link>
+    </x-sidebar.link> --}}
 
 
     @livewire('booking-account-menu')

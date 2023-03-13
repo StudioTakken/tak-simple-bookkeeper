@@ -233,6 +233,33 @@ class Booking extends Model
         return $query->where('date', '>=', session('startDate'))->where('date', '<=', session('stopDate'));
     }
 
+
+    public function scopePeriodBefore($query)
+    {
+
+        if (session('startDate') == null) {
+            session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
+        }
+
+        return $query->where('date', '<', session('startDate'));
+    }
+
+
+    public function scopePeriodEnd($query)
+    {
+
+        // if (session('startDate') == null) {
+        //     session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
+        // }
+        if (session('stopDate') == null) {
+            session(['stopDate' => date('Y-m-d')]);
+        }
+
+
+        return $query->where('date', '<=', session('stopDate'));
+    }
+
+
     public function getPlusMinIntAttribute($value)
     {
 
@@ -254,4 +281,91 @@ class Booking extends Model
         }
         return $value;
     }
+
+
+
+    public static function getDebetOrCredit($pAccount, $debetOrCredit, $period = '')
+    {
+
+        if ($debetOrCredit == 'debet') {
+            $plusMin = '1';
+        } else {
+            $plusMin = '-1';
+        }
+
+        //   $bookingAccount = BookingAccount::where('named_id', $pAccount)->first();
+
+        if ($period === 'before') {
+
+            $periodSum        = self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
+            $periodSum        += self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+        } elseif ($period === 'end') {
+
+            $periodSum        = self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
+            $periodSum        += self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+        } else {
+
+            $periodSum        = self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
+            $periodSum        += self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+        }
+
+
+        return $periodSum;
+    }
+
+
+    // public static function getCredit($pViewscope, $period = '')
+    // {
+
+    //     $credit       = self::period()->ofAccount($pViewscope)->orderBy('date')->orderBy('id')->where('account', '=', $pViewscope)->where('plus_min_int', '-1')->sum('amount_inc');
+    //     $credit       += self::period()->ofAccount($pViewscope)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pViewscope)->where('plus_min_int', '1')->sum('amount_inc');
+
+    //     return $credit;
+    // }
+
+
+
+    // public static getBalance($account, $startDate, $stopDate)
+    // {
+
+    //     $bookings = Booking::where('account', $account)
+    //         ->where('date', '>=', $startDate)
+    //         ->where('date', '<=', $stopDate)
+    //         ->get();
+
+    //     $balance = 0;
+    //     foreach ($bookings as $booking) {
+    //         if ($booking->plus_min_int == 1) {
+    //             $balance = $balance + $booking->amount_inc;
+    //         }
+    //         if ($booking->plus_min_int == -1) {
+    //             $balance = $balance - $booking->amount_inc;
+    //         }
+    //     }
+    //     return $balance;
+    // }
+
+    // public static getBalanceByDate($account, $date)
+    // {
+
+    //     $bookings = Booking::where('account', $account)
+    //         ->where('date', '<=', $date)
+    //         ->get();
+
+    //     $balance = 0;
+    //     foreach ($bookings as $booking) {
+    //         if ($booking->plus_min_int == 1) {
+    //             $balance = $balance + $booking->amount_inc;
+    //         }
+    //         if ($booking->plus_min_int == -1) {
+    //             $balance = $balance - $booking->amount_inc;
+    //         }
+    //     }
+    //     return $balance;
+    // }
+
+
+
+
+
 }
