@@ -1,11 +1,15 @@
 <div>
 
-
-    <div>
-        {{ $start_balance }} - {{ $end_balance }}
+    <div class='mb-3'>
+        <p>Balans {{ session('startDate') }}: {{ $start_balance }} </p>
+        <p>Balans {{ session('stopDate') }}: {{ $end_balance }}</p>
     </div>
 
     <table class="w-2/3 ">
+
+
+
+
         <thead class="border-b ">
             <tr>
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
