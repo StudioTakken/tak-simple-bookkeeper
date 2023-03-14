@@ -24,6 +24,8 @@ class BookingCategorySeeder extends Seeder
                     'slug' => $slug,
                     'named_id' => $slug,
                     'name' => $name,
+                    'loss_and_provit' => 1,
+                    'vat_overview' => 1,
                     'plus_min_int' => 1,
                 ],
             );

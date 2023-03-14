@@ -50,7 +50,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/accounts/{account}', [AccountsController::class, 'onaccount'])->name('account.onaccount');
 
     Route::get('/category/{category}', [CategoryController::class, 'oncategory'])->name('category.oncategory');
+
+
     Route::get('/summary', [CategoryController::class, 'summary'])->name('summary');
+    Route::get('/summary/{filter}', [CategoryController::class, 'summary'])->name('summary.filter');
 });
 
 // useless routes

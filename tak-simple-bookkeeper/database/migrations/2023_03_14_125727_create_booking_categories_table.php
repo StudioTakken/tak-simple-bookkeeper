@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('slug');
             $table->string('named_id');
             $table->string('name');
-
-            $table->integer('plus_min_int');
+            $table->smallInteger('loss_and_provit');
+            $table->smallInteger('vat_overview');
+            $table->smallInteger('plus_min_int');
             $table->text('remarks')->nullable();
             $table->timestamps();
         });

@@ -49,12 +49,19 @@ class CategoryController extends BookingController
     }
 
 
+
+
+
+
+
+
     /**
      * summary of category ins and outs
      */
-    public function summary()
+    public function summary($filter = false)
     {
         $this->setCategoryList();
+
 
 
         $summery = [];
@@ -64,8 +71,17 @@ class CategoryController extends BookingController
 
         foreach ($this->categoryList as $category) {
 
-            // if $category_key is in accountList, skip it
+            // kruispost hoeft nooit
             if ($category->named_id == 'kruispost') {
+                //    continue;
+            }
+
+            // if $category_key is in accountList, skip it
+            if ($filter == 'venw' and $category->loss_and_provit == 0) {
+                continue;
+            }
+
+            if ($filter == 'btw' and $category->vat_overview == 0) {
                 continue;
             }
 

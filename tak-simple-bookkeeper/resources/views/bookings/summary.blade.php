@@ -3,7 +3,6 @@
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <h2 class="text-xl font-semibold leading-tight">
                 Summary periode: {{ Session::get('startDate') }} - {{ Session::get('stopDate') }}
-
             </h2>
         </div>
     </x-slot>
@@ -13,6 +12,22 @@
             {{ session()->get('success') }}
         </div>
     @endif
+
+
+    <div class="py-6">
+        <button class="px-4 py-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+            <a href="{{ route('summary.filter', 'inout') }}">In en Uit</a>
+        </button>
+        <button class="px-4 py-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+            <a href="{{ route('summary.filter', 'venw') }}">Verlies en Winst</a>
+        </button>
+        <button class="px-4 py-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+            <a href="{{ route('summary.filter', 'btw') }}">BTW overzicht</a>
+        </button>
+    </div>
+
+
+
 
     <div class="py-6">
 
