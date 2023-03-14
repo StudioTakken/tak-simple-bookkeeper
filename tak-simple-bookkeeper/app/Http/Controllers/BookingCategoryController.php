@@ -109,14 +109,17 @@ class BookingCategoryController extends Controller
             }
         }
 
+        if (isset($summery['debet'])) {
+            usort($summery['debet'], function ($a, $b) {
+                return $b['debetNr'] <=> $a['debetNr'];
+            });
+        }
 
-        usort($summery['debet'], function ($a, $b) {
-            return $b['debetNr'] <=> $a['debetNr'];
-        });
-
-        usort($summery['credit'], function ($a, $b) {
-            return $b['creditNr'] <=> $a['creditNr'];
-        });
+        if (isset($summery['credit'])) {
+            usort($summery['credit'], function ($a, $b) {
+                return $b['creditNr'] <=> $a['creditNr'];
+            });
+        }
 
         $totals['debet'] = number_format($totals['debet'] / 100, 2, ',', '.');
         $totals['credit'] = number_format($totals['credit'] / 100, 2, ',', '.');

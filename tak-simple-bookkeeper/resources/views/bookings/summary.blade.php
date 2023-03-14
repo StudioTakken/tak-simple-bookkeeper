@@ -15,13 +15,13 @@
 
 
     <div class="py-6">
-        <button class="px-4 py-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+        <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
             <a href="{{ route('summary.filter', 'inout') }}">In en Uit</a>
         </button>
-        <button class="px-4 py-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+        <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
             <a href="{{ route('summary.filter', 'venw') }}">Verlies en Winst</a>
         </button>
-        <button class="px-4 py-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+        <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
             <a href="{{ route('summary.filter', 'btw') }}">BTW overzicht</a>
         </button>
     </div>
@@ -34,25 +34,29 @@
         <div class="flex items-start w-4/6 grid-cols-2 gap-8">
 
             <div class="grid w-1/2 grid-cols-2 gap-4">
-                @foreach ($summery['debet'] as $key => $item)
-                    <div>
-                        {{ $item['name'] }}
-                    </div>
-                    <div class='font-mono text-right'>
-                        {{ $item['debet'] }}
-                    </div>
-                @endforeach
+                @if (isset($summery['debet']))
+                    @foreach ($summery['debet'] as $key => $item)
+                        <div>
+                            {{ $item['name'] }}
+                        </div>
+                        <div class='font-mono text-right'>
+                            {{ $item['debet'] }}
+                        </div>
+                    @endforeach
+                @endif
             </div>
 
             <div class="grid w-1/2 grid-cols-2 gap-4">
-                @foreach ($summery['credit'] as $key => $item)
-                    <div>
-                        {{ $item['name'] }}
-                    </div>
-                    <div class='font-mono text-right'>
-                        {{ $item['credit'] }}
-                    </div>
-                @endforeach
+                @if (isset($summery['credit']))
+                    @foreach ($summery['credit'] as $key => $item)
+                        <div>
+                            {{ $item['name'] }}
+                        </div>
+                        <div class='font-mono text-right'>
+                            {{ $item['credit'] }}
+                        </div>
+                    @endforeach
+                @endif
             </div>
 
         </div>

@@ -15,21 +15,21 @@
 
 
 
-    <div class="py-6">
+    <div class="w-full py-6">
 
 
 
-        <div class="flex items-start w-4/6 grid-cols-2 gap-8 mb-4">
+        <div class="flex items-start w-full grid-cols-2 gap-8 mb-4">
 
             <div class="grid w-1/2 grid-cols-3 gap-4 font-bold">
 
-                <div>
+                <div class="">
                     Account
                 </div>
-                <div class='text-right'>
+                <div class='text-right '>
                     {{ Session::get('startDate') }}
                 </div>
-                <div class='text-right'>
+                <div class='text-right '>
                     {{ Session::get('stopDate') }}
                 </div>
 
@@ -39,7 +39,7 @@
 
 
 
-        <div class="flex items-start w-4/6 grid-cols-2 gap-8">
+        <div class="flex items-start w-full grid-cols-2 gap-8">
 
             <div class="grid w-1/2 grid-cols-3 gap-4">
                 @foreach ($balance as $key => $startStop)
@@ -58,7 +58,7 @@
         </div>
 
 
-        <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-5 font-bold">
+        <div class="flex items-start w-full grid-cols-2 gap-8 mt-5 font-bold">
 
             <div class="grid w-1/2 grid-cols-3 gap-4">
 
