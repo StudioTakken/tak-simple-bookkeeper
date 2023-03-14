@@ -75,9 +75,16 @@ class BookingCategoryController extends Controller
                 continue;
             }
 
+            // for vat overview
             if ($filter == 'btw' and $category->vat_overview == 0) {
                 continue;
             }
+
+
+            if ($category->named_id == 'unknown') {
+                $category->named_id = '';
+            }
+
 
             // get the sum of the bookings for this category where plus_min_int is 1
             $debet = Booking::period()->where('category', $category->named_id)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
