@@ -73,7 +73,7 @@ class AdminBookings extends Component
 
         if (isset($bookingAccount->start_balance)) {
 
-            $bookingAccount->start_balance =  BookingAccount::getBalance($this->viewscope, 'before');
+            $bookingAccount->start_balance =  BookingAccount::getBalance($this->viewscope, 'start');
             $bookingAccount->end_balance =  BookingAccount::getBalance($this->viewscope, 'end');
             $bookingAccount->start_balance = number_format($bookingAccount->start_balance / 100, 2, ',', '.');
             $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');

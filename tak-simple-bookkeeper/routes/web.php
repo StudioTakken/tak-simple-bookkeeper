@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DebiteurenController;
-use App\Http\Controllers\AccountsController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BookingAccountController;
+use App\Http\Controllers\BookingCategoryController;
 use App\Http\Controllers\ImportController;
 
 /*
@@ -23,10 +23,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/test', function (Request $request) {
-//     $uri = $request->fullUrl();
-//     return $uri;
-// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -47,29 +43,15 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
 
-    Route::get('/accounts/{account}', [AccountsController::class, 'onaccount'])->name('account.onaccount');
+    Route::get('/accounts/{account}', [BookingAccountController::class, 'onaccount'])->name('account.onaccount');
+    Route::get('/balance', [BookingAccountController::class, 'balance'])->name('balance');
 
-    Route::get('/category/{category}', [CategoryController::class, 'oncategory'])->name('category.oncategory');
+    Route::get('/category/{category}', [BookingCategoryController::class, 'oncategory'])->name('category.oncategory');
 
 
-    Route::get('/summary', [CategoryController::class, 'summary'])->name('summary');
-    Route::get('/summary/{filter}', [CategoryController::class, 'summary'])->name('summary.filter');
+    Route::get('/summary', [BookingCategoryController::class, 'summary'])->name('summary');
+    Route::get('/summary/{filter}', [BookingCategoryController::class, 'summary'])->name('summary.filter');
 });
-
-// useless routes
-// Just to demo sidebar dropdown links active states.
-// Route::get('/buttons/text', function () {
-//     return view('buttons-showcase.text');
-// })->middleware(['auth'])->name('buttons.text');
-
-// Route::get('/buttons/icon', function () {
-//     return view('buttons-showcase.icon');
-// })->middleware(['auth'])->name('buttons.icon');
-
-// Route::get('/buttons/text-icon', function () {
-//     return view('buttons-showcase.text-icon');
-// })->middleware(['auth'])->name('buttons.text-icon');
-
 
 
 require __DIR__ . '/auth.php';

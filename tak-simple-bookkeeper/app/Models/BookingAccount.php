@@ -22,7 +22,6 @@ class BookingAccount extends Model
     {
 
         // Cache::forget('all_the_booking_accounts');
-
         $booking_accounts = Cache::rememberForever('all_the_booking_accounts', function () {
             return self::all()->sortBy('id');
         });
@@ -30,32 +29,34 @@ class BookingAccount extends Model
     }
 
 
-
-
-
-
-
-    // on every udate we need to clear the cache
-    // public static function boot()
-    // {
-    //     parent::boot();
-
-    //     static::updated(function ($booking_account) {
-    //         Cache::forget('all_the_booking_accounts');
-    //     });
-    // }
-
-
-
-    public static function getBalance($named_id, $period)
+    /**
+     * 
+     * @param string $period    start or end
+     * @return mixed 
+     * 
+     */
+    public function balance($period)
     {
 
-        $debet = Booking::getDebetOrCredit($named_id, 'debet', $period);
-        $credit = Booking::getDebetOrCredit($named_id, 'credit', $period);
+        $debet = Booking::getDebetOrCredit($this->named_id, 'debet', $period);
+        $credit = Booking::getDebetOrCredit($this->named_id, 'credit', $period);
+        $this->balance = $this->start_balance + $debet - $credit;
 
+        return $this->balance;
+    }
+
+
+
+
+    /**
+     * 
+     * @param string $period    start or end
+     * @return mixed 
+     * 
+     */
+    public static function getBalance($named_id, $period)
+    {
         $bookingAccount = self::where('named_id', $named_id)->first();
-        $bookingAccount->balance = $bookingAccount->start_balance + $debet - $credit;
-
-        return $bookingAccount->balance;
+        return $bookingAccount->balance($period);
     }
 }
