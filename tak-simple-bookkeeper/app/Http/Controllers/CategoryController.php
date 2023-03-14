@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\BookingCategory;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Psr\Container\NotFoundExceptionInterface;
@@ -19,10 +21,12 @@ class CategoryController extends BookingController
     public function oncategory($sCategory)
     {
 
-        $existing =  $this->listCategories();
-        if (array_key_exists($sCategory, $existing)) {
 
-            session(['viewscope' => $sCategory]);
+        $oCategory = BookingCategory::where('named_id', $sCategory)->first();
+
+        if ($oCategory) {
+
+            session(['viewscope' => $oCategory->named_id]);
 
             return view('bookings.index', ['method' => 'oncategory', 'include_children' => false]);
         } else {
@@ -33,7 +37,7 @@ class CategoryController extends BookingController
     /**
      * 
      */
-    public function listCategories(): array
+    public function listCategories()
     {
         $this->setCategoryList();
         return $this->categoryList;
@@ -41,8 +45,7 @@ class CategoryController extends BookingController
 
     public function setCategoryList()
     {
-        $this->categoryList = config('bookings.categories');
-        // $this->accountList = config('bookings.accounts');
+        $this->categoryList = BookingCategory::getAll();
     }
 
 
@@ -59,39 +62,44 @@ class CategoryController extends BookingController
         $totals['debet'] = 0;
         $totals['credit'] = 0;
 
-        foreach ($this->categoryList as $category_key => $category_name) {
+        foreach ($this->categoryList as $category) {
 
             // if $category_key is in accountList, skip it
-            if (array_key_exists($category_key, $this->accountList)) {
+            if ($category->named_id == 'kruispost') {
                 continue;
             }
 
-            $summery[$category_key]['name'] = $category_name;
-
             // get the sum of the bookings for this category where plus_min_int is 1
-            $debet = Booking::period()->where('category', $category_key)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
+            $debet = Booking::period()->where('category', $category->named_id)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
 
-            $totals['debet'] += $debet;
-            if ($debet == 0) {
-                $debet = '';
-            } else {
+            if ($debet > 0) {
+                $totals['debet'] += $debet;
+                $summery['debet'][$category->named_id]['name'] = $category->name;
+                $summery['debet'][$category->named_id]['debetNr'] = $debet;
                 $debet = number_format($debet / 100, 2, ',', '.');
+                $summery['debet'][$category->named_id]['debet'] = $debet;
             }
-            $summery[$category_key]['debet'] = $debet;
 
             // get the sum of the bookings for this category where plus_min_int is -1
-            $credit = Booking::period()->where('category', $category_key)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+            $credit = Booking::period()->where('category', $category->named_id)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
 
-            $totals['credit'] += $credit;
-
-            if ($credit == 0) {
-                $credit = '';
-            } else {
+            if ($credit > 0) {
+                $totals['credit'] += $credit;
+                $summery['credit'][$category->named_id]['name'] = $category->name;
+                $summery['credit'][$category->named_id]['creditNr'] = $credit;
                 $credit = number_format($credit / 100, 2, ',', '.');
+                $summery['credit'][$category->named_id]['credit'] = $credit;
             }
-            $summery[$category_key]['credit'] = $credit;
         }
 
+
+        usort($summery['debet'], function ($a, $b) {
+            return $b['debetNr'] <=> $a['debetNr'];
+        });
+
+        usort($summery['credit'], function ($a, $b) {
+            return $b['creditNr'] <=> $a['creditNr'];
+        });
 
         $totals['debet'] = number_format($totals['debet'] / 100, 2, ',', '.');
         $totals['credit'] = number_format($totals['credit'] / 100, 2, ',', '.');

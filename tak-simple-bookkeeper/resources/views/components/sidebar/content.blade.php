@@ -36,10 +36,7 @@
         </x-slot>
 
 
-        @foreach (config('bookings.categories') as $key => $category)
-            <x-sidebar.sublink title="{{ $category }}"
-                href="{{ route('category.oncategory', ['category' => $key]) }}" :active="Str::startsWith(Request::getPathInfo(), '/category/' . $key)" />
-        @endforeach
+        @livewire('booking-category-menu')
 
     </x-sidebar.dropdown>
 

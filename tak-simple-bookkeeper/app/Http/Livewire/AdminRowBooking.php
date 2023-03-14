@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Booking;
+use App\Models\BookingCategory;
 use Livewire\Component;
 
 class AdminRowBooking extends Component
@@ -14,6 +15,7 @@ class AdminRowBooking extends Component
     public $description;
     public $date;
     public $cross_account = '';
+    public $listOfCategories = [];
 
 
 
@@ -34,6 +36,8 @@ class AdminRowBooking extends Component
         if ($this->booking->cross_account) {
             $this->cross_account = $this->booking->cross_account;
         }
+
+        $this->listOfCategories = BookingCategory::getAll();
     }
 
     public function calculateChildren()
@@ -140,15 +144,8 @@ class AdminRowBooking extends Component
         $this->emit('refreshBookings');
     }
 
-
-
-
-
-
     public function blink($saved)
     {
-
-        ddl('blink');
 
         if ($saved) {
             session()->flash('message', 'success');

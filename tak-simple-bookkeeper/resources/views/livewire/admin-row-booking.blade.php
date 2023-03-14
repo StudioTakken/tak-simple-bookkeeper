@@ -75,8 +75,8 @@ error-fader @endif
             <option value="">
                 Selecteer een categorie</option>
 
-            @foreach (config('bookings.categories') as $category => $catname)
-                <option class="pr-3" value='{{ $category }}'>{{ $catname }}</option>
+            @foreach ($listOfCategories as $category)
+                <option class="pr-3" value='{{ $category['named_id'] }}'>{{ $category['name'] }}</option>
             @endforeach
         </select>
     </td>

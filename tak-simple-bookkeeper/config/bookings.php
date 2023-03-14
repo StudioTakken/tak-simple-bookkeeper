@@ -1,8 +1,7 @@
 <?php
 
-
+// wordt alleen nog als presets voor de category seeder gebuikt
 return [
-
     'categories' => [
         'afschrijving_apparatuur' => 'Afschrijving Apparatuur',
         'bankkosten' => 'Bankkosten',
@@ -18,14 +17,5 @@ return [
         'verzekering' => 'Verzekering',
         'werk-derden' => 'Werk door Derden',
         'kruispost' => '[kruispost]',
-    ],
-    'accounts' => [
-        'debiteuren' => 'Debiteuren',
-        'crediteuren' => 'Crediteuren',
-        'spaarrekening' => 'Oranje spaarrekening',
-        'apparatuur' => 'Apparatuur',
-        'NL94INGB0007001049' => 'NL94INGB0007001049',
-
     ]
-
 ];

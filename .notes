@@ -66,3 +66,10 @@ include_children
 start_balance
 
 php artisan make:model BookingAccount -mfsc
+php artisan make:model BookingCategory -mfsc
+
+
+php artisan migrate:refresh --step=1
+php artisan db:seed --class=BookingCategorySeeder
+
+php artisan make:livewire BookingCategoryMenu

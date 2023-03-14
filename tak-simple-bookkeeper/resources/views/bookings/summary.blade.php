@@ -19,28 +19,24 @@
         <div class="flex items-start w-4/6 grid-cols-2 gap-8">
 
             <div class="grid w-1/2 grid-cols-2 gap-4">
-                @foreach ($summery as $key => $item)
-                    @if ($item['debet'] > 0)
-                        <div>
-                            {{ $item['name'] }} - {{ $key }}
-                        </div>
-                        <div class='text-right'>
-                            {{ $item['debet'] }}
-                        </div>
-                    @endif
+                @foreach ($summery['debet'] as $key => $item)
+                    <div>
+                        {{ $item['name'] }}
+                    </div>
+                    <div class='text-right'>
+                        {{ $item['debet'] }}
+                    </div>
                 @endforeach
             </div>
 
             <div class="grid w-1/2 grid-cols-2 gap-4">
-                @foreach ($summery as $key => $item)
-                    @if ($item['credit'] > 0)
-                        <div>
-                            {{ $item['name'] }} - {{ $key }}
-                        </div>
-                        <div class='text-right'>
-                            {{ $item['credit'] }}
-                        </div>
-                    @endif
+                @foreach ($summery['credit'] as $key => $item)
+                    <div>
+                        {{ $item['name'] }}
+                    </div>
+                    <div class='text-right'>
+                        {{ $item['credit'] }}
+                    </div>
                 @endforeach
             </div>
 
