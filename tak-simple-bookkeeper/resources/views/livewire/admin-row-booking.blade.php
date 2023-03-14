@@ -40,10 +40,10 @@ error-fader @endif
     </td>
 
     @if ($booking->plus_min_int < 0)
-        <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap">
+        <td class="px-1 py-1 font-mono text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
         </td>
-        <td class="text-right text-red-700">
+        <td class="font-mono text-right text-red-700">
 
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
@@ -51,7 +51,7 @@ error-fader @endif
             {{-- {{ $booking->amount_inc }} --}}
         </td>
     @else
-        <td class="text-right">
+        <td class="font-mono text-right">
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
 
@@ -59,7 +59,7 @@ error-fader @endif
 
         </td>
 
-        <td class="px-1 py-1 text-sm font-light text-right text-gray-900 whitespace-nowrap">
+        <td class="px-1 py-1 font-mono text-sm font-light text-right text-gray-900 whitespace-nowrap">
         </td>
 
     @endif

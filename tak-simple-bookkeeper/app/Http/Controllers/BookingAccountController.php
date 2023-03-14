@@ -38,7 +38,6 @@ class BookingAccountController extends Controller
         // get all the bookingaccounts
         $accounts = BookingAccount::all();
 
-
         $balancetotals['start'] = 0;
         $balancetotals['end'] = 0;
 

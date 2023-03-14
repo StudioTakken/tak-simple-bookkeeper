@@ -1,14 +1,8 @@
 <div>
 
-    <div class='mb-3'>
-        <p>Balans {{ session('startDate') }}: {{ $start_balance }} </p>
-        <p>Balans {{ session('stopDate') }}: {{ $end_balance }}</p>
-    </div>
+
 
     <table class="w-2/3 ">
-
-
-
 
         <thead class="border-b ">
             <tr>
@@ -67,10 +61,11 @@
 
             <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
             </th>
-            <th scope="col" class="px-1 text-sm font-bold text-right text-gray-900 py-7">
+            <th scope="col" class="px-1 font-mono text-sm font-bold text-right text-gray-900 py-7">
                 {{ $debet }}
             </th>
-            <th scope="col" class="px-1 text-sm font-bold text-right text-takred-900 py-7">{{ $credit }}
+            <th scope="col" class="px-1 font-mono text-sm font-bold text-right text-takred-900 py-7">
+                {{ $credit }}
             </th>
             <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
             </th>
@@ -81,4 +76,12 @@
 
 
     </table>
+
+
+
+
+    <div class='mt-5'>
+        <p>Balans {{ session('startDate') }}: {{ $start_balance }} </p>
+        <p>Balans {{ session('stopDate') }}: {{ $end_balance }}</p>
+    </div>
 </div>

@@ -38,7 +38,7 @@
                     <div>
                         {{ $item['name'] }}
                     </div>
-                    <div class='text-right'>
+                    <div class='font-mono text-right'>
                         {{ $item['debet'] }}
                     </div>
                 @endforeach
@@ -49,7 +49,7 @@
                     <div>
                         {{ $item['name'] }}
                     </div>
-                    <div class='text-right'>
+                    <div class='font-mono text-right'>
                         {{ $item['credit'] }}
                     </div>
                 @endforeach
@@ -67,7 +67,7 @@
                 <div>
                     Totaal
                 </div>
-                <div class='text-right'>
+                <div class='font-mono text-right'>
                     {{ $totals['debet'] }}
                 </div>
 
@@ -80,7 +80,7 @@
                 <div>
                     Totaal
                 </div>
-                <div class='text-right'>
+                <div class='font-mono text-right'>
                     {{ $totals['credit'] }}
                 </div>
 

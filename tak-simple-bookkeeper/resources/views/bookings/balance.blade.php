@@ -46,10 +46,10 @@
                     <div>
                         {{ $key }}
                     </div>
-                    <div class='text-right'>
+                    <div class='font-mono text-right'>
                         {{ $startStop['start'] }}
                     </div>
-                    <div class='text-right'>
+                    <div class='font-mono text-right'>
                         {{ $startStop['end'] }}
                     </div>
                 @endforeach
@@ -65,10 +65,10 @@
                 <div>
                     Totals
                 </div>
-                <div class='text-right'>
+                <div class='font-mono text-right'>
                     {{ $balancetotals['start'] }}
                 </div>
-                <div class='text-right'>
+                <div class='font-mono text-right'>
                     {{ $balancetotals['end'] }}
                 </div>
 
