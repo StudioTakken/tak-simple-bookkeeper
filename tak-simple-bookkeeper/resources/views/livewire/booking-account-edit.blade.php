@@ -6,14 +6,6 @@
 
 
 
-    <div class="flex-none">
-        @if (isset($account))
-            <a href="{{ route('account.onaccount', $account->slug) }}"
-                class="inline-flex items-center px-2 py-1 text-sm text-white transition duration-150 ease-in-out bg-gray-400 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25">
-                Terug naar {{ $account->name }}
-            </a>
-        @endif
-    </div>
 
 
 
@@ -47,9 +39,11 @@
 
 
 
-
-
                         <div class="flex justify-end mb-3">
+
+
+
+
                             @if ($account->plus_min_int === 1)
                                 <div class="text-white btn bg-takgreen-500 btn-big"><i class="fa fas fa-plus "
                                         aria-hidden="true"></i>
@@ -74,7 +68,7 @@
                                     required>
                             </div>
                             <p class="text-sm text-gray-700">
-                                De naam van het account wordt gebuikt in de weergave van alle pagina's.
+                                De naam van het account wordt gebruikt in de weergave van alle pagina's.
                             </p>
                         </div>
 
@@ -153,6 +147,20 @@
                                     {{ __('Save') }}
                                 </x-button>
                             </div>
+
+
+
+                            @if (isset($account))
+                                <div class="mt-10">
+                                    <button
+                                        class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                                        <a href="{{ route('account.onaccount', $account->slug) }}">
+                                            Terug naar {{ $account->name }}
+                                        </a>
+                                    </button>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>

@@ -39,6 +39,10 @@ class BookingAccountController extends Controller
 
         foreach ($accounts as $account) {
 
+
+
+            $balance[$account->named_id]['name'] = $account->name;
+
             $balance[$account->named_id]['start'] = $account->balance('start');
             $balancetotals['start'] += $account->balance('start');
             $balance[$account->named_id]['end'] = $account->balance('end');

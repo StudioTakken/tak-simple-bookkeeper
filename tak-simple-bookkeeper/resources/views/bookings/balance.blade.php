@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <h2 class="text-xl font-semibold leading-tight">
-                {{ ucfirst(Session::get('viewscope')) }}
+                Balans
             </h2>
         </div>
     </x-slot>
@@ -42,15 +42,15 @@
         <div class="flex items-start w-full grid-cols-2 gap-8">
 
             <div class="grid w-1/2 grid-cols-3 gap-4">
-                @foreach ($balance as $key => $startStop)
+                @foreach ($balance as $key => $details)
                     <div>
-                        {{ $key }}
+                        {{ $details['name'] }}
                     </div>
                     <div class='font-mono text-right'>
-                        {{ $startStop['start'] }}
+                        {{ $details['start'] }}
                     </div>
                     <div class='font-mono text-right'>
-                        {{ $startStop['end'] }}
+                        {{ $details['end'] }}
                     </div>
                 @endforeach
             </div>

@@ -10,10 +10,12 @@
             <div class="flex-grow"></div>
             <div class="flex-none">
                 @if (isset($account))
-                    <a href="{{ route('accounts.edit', $account->id) }}"
-                        class="inline-flex items-center px-2 py-1 text-sm text-white transition duration-150 ease-in-out bg-gray-400 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25">
-                        Edit {{ $account->name }} settings
-                    </a>
+                    <button
+                        class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                        <a href="{{ route('accounts.edit', $account->id) }}">
+                            Edit {{ $account->name }} settings
+                        </a>
+                    </button>
                 @endif
             </div>
         </div>
