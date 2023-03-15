@@ -78,6 +78,15 @@ error-fader @endif
             @foreach ($listOfCategories as $category)
                 <option class="pr-3" value='{{ $category['named_id'] }}'>{{ $category['name'] }}</option>
             @endforeach
+            @foreach ($listOfCrossCategoryAccounts as $crossCategory)
+                <option class="pr-3" value='{{ $crossCategory['category'] }}::{{ $crossCategory['named_id'] }}'>naar:
+                    {{ $crossCategory['name'] }}
+                </option>
+            @endforeach
+
+
+
+
         </select>
     </td>
 

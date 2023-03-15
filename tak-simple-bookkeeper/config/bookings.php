@@ -6,7 +6,7 @@ return [
         'afschrijving_apparatuur' => 'Afschrijving Apparatuur',
         'bankkosten' => 'Bankkosten',
         'belasting' => 'Belasting',
-        'btw' => '21% BTW',
+        'btw' => 'BTW 21%',
         'computer' => 'Computer',
         'huisvesting' => 'Huisvesting',
         'inkomsten' => 'Inkomsten',

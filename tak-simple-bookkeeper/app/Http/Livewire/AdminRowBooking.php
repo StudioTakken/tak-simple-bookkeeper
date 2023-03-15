@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Booking;
+use App\Models\BookingAccount;
 use App\Models\BookingCategory;
 use Livewire\Component;
 
@@ -16,6 +17,7 @@ class AdminRowBooking extends Component
     public $date;
     public $cross_account = '';
     public $listOfCategories = [];
+    public $listOfCrossCategoryAccounts = [];
 
 
 
@@ -38,6 +40,14 @@ class AdminRowBooking extends Component
         }
 
         $this->listOfCategories = BookingCategory::getAll();
+
+        // adding the accounts as links to accounts and category kruisposten
+        $bookingAccounts = BookingAccount::getAll();
+
+        foreach ($bookingAccounts as $bookingAccount) {
+            $bookingAccount->category = 'kruispost';
+        }
+        $this->listOfCrossCategoryAccounts = $bookingAccounts;
     }
 
     public function calculateChildren()
@@ -134,8 +144,14 @@ class AdminRowBooking extends Component
     public function updatedCategory()
     {
 
-        if ($this->category == '' or $this->category != '[kruispost]') {
+        if ($this->category == '' or $this->category != 'kruispost') {
             $this->booking->cross_account = ''; // reset cross account
+        }
+
+        // if $this->category starts with kruispost:: then we need to set the cross account
+        if (substr($this->category, 0, 11) == 'kruispost::') {
+            $this->booking->cross_account = substr($this->category, 11);
+            $this->category = 'kruispost';
         }
 
         $this->booking->category = $this->category;

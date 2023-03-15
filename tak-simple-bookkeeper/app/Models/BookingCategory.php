@@ -28,7 +28,7 @@ class BookingCategory extends Model
         Cache::forget('all_the_booking_categories');
 
         $booking_categories = Cache::rememberForever('all_the_booking_categories', function () {
-            return self::all()->sortBy('id');
+            return self::all()->sortBy('name');
         });
         return $booking_categories;
     }

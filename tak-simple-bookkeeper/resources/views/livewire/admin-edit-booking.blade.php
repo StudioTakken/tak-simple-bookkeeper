@@ -29,6 +29,15 @@ error-fader @endif
         <tbody>
 
             <tr class=''>
+                <td class="px-2 align-top border border-slate-300">Description</td>
+                <td class="px-2 align-top border border-slate-300">
+                    <textarea wire:model.debounce.4s="description" wire:change="updateDescription" class="descriptioninputfield"
+                        placeholder="type.." rows="4" required></textarea>
+                </td>
+            </tr>
+
+
+            <tr class=''>
                 <td class="px-2 align-top border border-slate-300">Bedrag</td>
                 <td class="px-2 font-bold align-top border border-slate-300">
                     {{ $amount_inc }}
@@ -43,13 +52,6 @@ error-fader @endif
                 </td>
             </tr>
 
-            <tr class=''>
-                <td class="px-2 align-top border border-slate-300">Description</td>
-                <td class="px-2 align-top border border-slate-300">
-                    <textarea wire:model.debounce.4s="description" wire:change="updateDescription" class="descriptioninputfield"
-                        placeholder="type.." rows="4" required></textarea>
-                </td>
-            </tr>
 
             @if ($booking->parent_id)
                 <tr class=''>
@@ -139,10 +141,10 @@ error-fader @endif
 
             @if ($booking->category != 'btw')
                 <tr class=''>
-                    <td class="px-2 align-top border border-slate-300">BTW </td>
+                    <td class="px-2 align-top border border-slate-300">btw </td>
                     <td class="px-2 align-top border border-slate-300">
                         <button class="btn btn-red btn-small" wire:click="splitBookingBtw"><i class="fa fa-share-alt"
-                                aria-hidden="true"></i> 21% btw
+                                aria-hidden="true"></i> btw 21%
                             uitsplitsen</button>
                     </td>
                 </tr>

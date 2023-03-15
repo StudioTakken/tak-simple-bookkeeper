@@ -23,7 +23,7 @@ class BookingAccount extends Model
 
         // Cache::forget('all_the_booking_accounts');
         $booking_accounts = Cache::rememberForever('all_the_booking_accounts', function () {
-            return self::all()->sortBy('id');
+            return self::all()->sortBy('name');
         });
         return $booking_accounts;
     }
