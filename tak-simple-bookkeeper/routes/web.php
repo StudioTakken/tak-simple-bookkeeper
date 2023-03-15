@@ -43,12 +43,12 @@ Route::middleware('auth')->group(function () {
 
     //  Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
 
-    Route::get('/accounts/{account}', [BookingAccountController::class, 'onaccount'])->name('account.onaccount');
-    Route::get('/accounts/edit/{account}', [BookingAccountController::class, 'edit'])->name('accounts.edit');
+    Route::get('/account/{account}', [BookingAccountController::class, 'onaccount'])->name('account.onaccount');
+    Route::get('/account/edit/{account}', [BookingAccountController::class, 'edit'])->name('accounts.edit');
     Route::get('/balance', [BookingAccountController::class, 'balance'])->name('balance');
 
     Route::get('/category/{category}', [BookingCategoryController::class, 'oncategory'])->name('category.oncategory');
-
+    Route::get('/category/edit/{category}', [BookingCategoryController::class, 'edit'])->name('categories.edit');
 
     Route::get('/summary', [BookingCategoryController::class, 'summary'])->name('summary');
     Route::get('/summary/{filter}', [BookingCategoryController::class, 'summary'])->name('summary.filter');

@@ -22,7 +22,7 @@ class BookingCategoryController extends Controller
 
             session(['viewscope' => $oCategory->named_id]);
 
-            return view('bookings.index', ['method' => 'oncategory', 'include_children' => false]);
+            return view('bookings.index', ['method' => 'oncategory', 'include_children' => false, 'category' => $oCategory]);
         } else {
             return view('bookings.sorry');
         }
@@ -125,5 +125,13 @@ class BookingCategoryController extends Controller
         $totals['credit'] = number_format($totals['credit'] / 100, 2, ',', '.');
 
         return view('bookings.summary', ['summery' => $summery, 'totals' => $totals]);
+    }
+
+
+    // edit 
+    public function edit($id)
+    {
+        $category = BookingCategory::find($id);
+        return view('categories.edit', ['category' => $category]);
     }
 }

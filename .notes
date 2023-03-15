@@ -75,3 +75,4 @@ php artisan db:seed --class=BookingCategorySeeder
 php artisan make:livewire BookingCategoryMenu
 
 php artisan make:livewire BookingAccountEdit
+php artisan make:livewire BookingCategoryEdit

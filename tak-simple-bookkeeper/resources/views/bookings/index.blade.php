@@ -4,7 +4,17 @@
 
             <div class="flex-none">
                 <h2 class="text-xl font-semibold leading-tight">
-                    {{ ucfirst(Session::get('viewscope')) }}
+
+
+                    @if (isset($account))
+                        {{ $account->name }}
+                    @endif
+
+                    @if (isset($category))
+                        {{ $category->name }}
+                    @endif
+
+
                 </h2>
             </div>
             <div class="flex-grow"></div>
@@ -13,10 +23,23 @@
                     <button
                         class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
                         <a href="{{ route('accounts.edit', $account->id) }}">
-                            Edit {{ $account->name }} settings
+                            Edit account: {{ $account->name }} settings
                         </a>
                     </button>
                 @endif
+
+                @if (isset($category))
+                    <button
+                        class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                        <a href="{{ route('categories.edit', $category->id) }}">
+                            Edit categorie: {{ $category->name }} settings
+                        </a>
+                    </button>
+                @endif
+
+
+
+
             </div>
         </div>
     </x-slot>

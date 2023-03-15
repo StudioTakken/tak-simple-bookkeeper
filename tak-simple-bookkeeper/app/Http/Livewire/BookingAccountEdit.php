@@ -68,7 +68,6 @@ class BookingAccountEdit extends Component
 
     public function blink($saved)
     {
-        ddl('b');
 
         if ($saved) {
             session()->flash('message', 'success');
