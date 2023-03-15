@@ -15,6 +15,7 @@ class AdminRowBooking extends Component
     public $amount_inc;
     public $description;
     public $date;
+    public $remarks;
     public $cross_account = '';
     public $listOfCategories = [];
     public $listOfCrossCategoryAccounts = [];
@@ -69,6 +70,7 @@ class AdminRowBooking extends Component
         $this->calculateChildren();
         $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
         $this->description = $this->booking->description;
+        $this->remarks = $this->booking->remarks;
         $this->date = $this->booking->date;
     }
 
@@ -144,15 +146,26 @@ class AdminRowBooking extends Component
     public function updatedCategory()
     {
 
-        if ($this->category == '' or $this->category != 'kruispost') {
-            $this->booking->cross_account = ''; // reset cross account
-        }
+        // ddl($this->category);
 
         // if $this->category starts with kruispost:: then we need to set the cross account
         if (substr($this->category, 0, 11) == 'kruispost::') {
             $this->booking->cross_account = substr($this->category, 11);
-            $this->category = 'kruispost';
+            $this->category = '14';
         }
+
+
+
+
+        // get this category
+        if ($this->category != '') {
+            $category = BookingCategory::where('id', $this->category)->first();
+        }
+
+        if (!isset($category) or $category->slug != 'kruispost') {
+            $this->booking->cross_account = ''; // reset cross account
+        }
+
 
         $this->booking->category = $this->category;
         $ok = $this->booking->save();

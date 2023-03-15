@@ -29,16 +29,16 @@ class AdminBookings extends Component
     public function render()
     {
 
-
+        // ddl(session('viewscope'));
         // get the session variable viewscope
         $this->viewscope = session('viewscope');
 
         // if viewscope starts with cat: the remove :cat and set viewscope to the rest
-        if (substr($this->viewscope, 0, 4) == 'cat:') {
-            $this->viewscope = substr($this->viewscope, 4);
-            // set teh session variable viewscope to the rest
-            session(['viewscope' => $this->viewscope]);
-        }
+        // if (substr($this->viewscope, 0, 4) == 'cat:') {
+        //     $this->viewscope = substr($this->viewscope, 4);
+        //     // set teh session variable viewscope to the rest
+        //     session(['viewscope' => $this->viewscope]);
+        // }
 
 
         // get the account from the BookingAccount model

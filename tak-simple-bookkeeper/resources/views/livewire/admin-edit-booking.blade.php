@@ -105,23 +105,19 @@ error-fader @endif
                 </tr>
             @endif
 
-            @if ($booking->category)
-                <tr class=''>
-                    <td class="px-2 align-top border border-slate-300">Categorie</td>
-                    <td class="px-2 align-top border border-slate-300">
-                        {{ $booking->category }}
-                    </td>
-                </tr>
-            @endif
+
 
             {{-- @if ($booking->remarks) --}}
+
+
             <tr class=''>
                 <td class="px-2 align-top border border-slate-300">Remarks</td>
                 <td class="px-2 align-top border border-slate-300">
-                    <textarea wire:model.debounce.4s="remarks" wire:change="updateRemarks" class="remarksinputfield" placeholder="type.."
-                        rows="4" required></textarea>
+                    <textarea wire:model.debounce.4s="remarks" wire:change="updateRemarks" class="descriptioninputfield"
+                        placeholder="type.." rows="4" required></textarea>
                 </td>
             </tr>
+
             {{-- @endif --}}
 
 

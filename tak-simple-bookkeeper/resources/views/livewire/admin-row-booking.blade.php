@@ -76,7 +76,7 @@ error-fader @endif
                 Selecteer een categorie</option>
 
             @foreach ($listOfCategories as $category)
-                <option class="pr-3" value='{{ $category['named_id'] }}'>{{ $category['name'] }}</option>
+                <option class="pr-3" value='{{ $category['id'] }}'>{{ $category['name'] }}</option>
             @endforeach
             @foreach ($listOfCrossCategoryAccounts as $crossCategory)
                 <option class="pr-3" value='{{ $crossCategory['category'] }}::{{ $crossCategory['named_id'] }}'>naar:
@@ -90,7 +90,8 @@ error-fader @endif
         </select>
     </td>
 
-    @if ($booking->category == 'kruispost')
+    {{-- TODO dit zou een fijnere naam moeten hebben oid. --}}
+    @if ($booking->category == '14')
         @livewire ('booking-account-chooser', ['booking' => $booking], key($booking->id))
     @endif
 

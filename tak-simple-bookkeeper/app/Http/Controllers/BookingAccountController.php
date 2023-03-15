@@ -23,7 +23,6 @@ class BookingAccountController extends Controller
     {
         // get the bookingaccount on the slug
         $account = BookingAccount::where('slug', $sAccount)->first();
-
         session(['viewscope' => $account->named_id]);
         return view('bookings.index', ['method' => 'account.onaccount', 'include_children' => $account->include_children, 'account' => $account]);
     }

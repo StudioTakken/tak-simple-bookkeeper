@@ -16,11 +16,11 @@ class BookingCategoryController extends Controller
     {
 
 
-        $oCategory = BookingCategory::where('named_id', $sCategory)->first();
+        $oCategory = BookingCategory::where('slug', $sCategory)->first();
 
         if ($oCategory) {
 
-            session(['viewscope' => $oCategory->named_id]);
+            session(['viewscope' => $oCategory->id]);
 
             return view('bookings.index', ['method' => 'oncategory', 'include_children' => false, 'category' => $oCategory]);
         } else {
