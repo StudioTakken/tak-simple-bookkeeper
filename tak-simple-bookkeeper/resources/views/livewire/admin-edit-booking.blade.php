@@ -28,13 +28,13 @@ error-fader @endif
 
         <tbody>
 
-            <tr class='font-bold'>
+            <tr class=''>
                 <td class="px-2 align-top border border-slate-300">Bedrag</td>
-                <td class="px-2 align-top border border-slate-300">
+                <td class="px-2 font-bold align-top border border-slate-300">
                     {{ $amount_inc }}
                 </td>
             </tr>
-            <tr class='font-bold'>
+            <tr class=''>
                 <td class="px-2 align-top border border-slate-300">Datum</td>
                 <td class="px-2 align-top border border-slate-300">
                     {{-- {{ $booking->date }} --}}
@@ -43,10 +43,11 @@ error-fader @endif
                 </td>
             </tr>
 
-            <tr class='font-bold'>
+            <tr class=''>
                 <td class="px-2 align-top border border-slate-300">Description</td>
                 <td class="px-2 align-top border border-slate-300">
-                    {{ $booking->description }}
+                    <textarea wire:model.debounce.4s="description" wire:change="updateDescription" class="descriptioninputfield"
+                        placeholder="type.." rows="4" required></textarea>
                 </td>
             </tr>
 
@@ -111,14 +112,18 @@ error-fader @endif
                 </tr>
             @endif
 
-            @if ($booking->remarks)
-                <tr class=''>
-                    <td class="px-2 align-top border border-slate-300">Remarks</td>
-                    <td class="px-2 align-top border border-slate-300">
-                        {{ $booking->remarks }}
-                    </td>
-                </tr>
-            @endif
+            {{-- @if ($booking->remarks) --}}
+            <tr class=''>
+                <td class="px-2 align-top border border-slate-300">Remarks</td>
+                <td class="px-2 align-top border border-slate-300">
+                    <textarea wire:model.debounce.4s="remarks" wire:change="updateRemarks" class="remarksinputfield" placeholder="type.."
+                        rows="4" required></textarea>
+                </td>
+            </tr>
+            {{-- @endif --}}
+
+
+
 
             @if ($booking->contra_account)
                 <tr class=''>

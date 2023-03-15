@@ -75,9 +75,18 @@ class AdminRowBooking extends Component
         $this->blink($ok);
         $this->emit('refreshBookings');
     }
+
     public function updateDescription()
     {
         $this->booking->description = $this->description;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
+    public function updateRemarks()
+    {
+        $this->booking->remarks = $this->remarks;
         $ok = $this->booking->save();
         $this->blink($ok);
         $this->emit('refreshBookings');

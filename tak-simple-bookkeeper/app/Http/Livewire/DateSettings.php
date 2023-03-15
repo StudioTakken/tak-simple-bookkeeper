@@ -153,7 +153,7 @@ class DateSettings extends Component
         session(['stopDate' => $this->stopDate]);
         $this->emit('stopDate', $this->stopDate);
 
-        //  $this->emit('refreshBookings');
+        // $this->emit('refreshBookings');
         // TODO: I dont know why this is not working so u use a refresh instead
         // redirect back to the request uri
         $this->redirect(url()->previous());

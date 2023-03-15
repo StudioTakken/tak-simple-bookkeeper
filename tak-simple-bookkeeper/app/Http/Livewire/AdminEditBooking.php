@@ -14,6 +14,7 @@ class AdminEditBooking extends AdminRowBooking
     public $amount_inc;
     public $description;
     public $date;
+    public $remarks;
 
     protected $listeners = ['refreshBookings' => 'refreshThis'];
 

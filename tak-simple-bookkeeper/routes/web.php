@@ -34,9 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // create the bookings route
-    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    // Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings-import', [BookingController::class, 'import'])->name('bookings.import');
-    Route::get('/booking/{booking}', [BookingController::class, 'edit'])->name('bookings.edit');
+    // Route::get('/booking/{booking}', [BookingController::class, 'edit'])->name('bookings.edit');
 
     Route::get('/importeren', [ImportController::class, 'index'])->name('importing');
     Route::post('dropzone/store', [ImportController::class, 'store'])->name('dropzone.store');

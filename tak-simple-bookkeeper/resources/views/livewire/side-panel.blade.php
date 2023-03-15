@@ -21,7 +21,7 @@
                         <header class="px-4 sm:px-6">
                             <div class="flex items-start justify-between">
                                 <h2 class="text-lg text-gray-900" id="slide-over-title">
-                                    {{ $title }}
+                                    {{-- {{ $title }} --}}
                                 </h2>
                                 <div class="flex items-center ml-3 h-7">
                                     <button type="button"
@@ -40,7 +40,6 @@
                         </header>
                         <article class="relative flex-1 px-4 mt-6 sm:px-6">
                             @if ($component)
-                                {{-- 'admin-edit-booking' --}}
                                 @livewire($component, ['booking' => $booking], key($booking->id . '-' . Str::random()))
                             @else
                                 <div class="absolute inset-0 px-4 sm:px-6">
