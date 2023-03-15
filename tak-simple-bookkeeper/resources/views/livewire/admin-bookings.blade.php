@@ -2,32 +2,32 @@
 
 
 
-    <table class="w-2/3 ">
+    <table class="w-9/12 ">
 
         <thead class="border-b ">
             <tr>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-4 px-1 py-1 text-sm font-medium text-left text-gray-900">
                 </th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-4 px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Id</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-4 px-1 py-1 text-sm font-medium text-left text-gray-900">
                     PId</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900 w-28">
                     Date
                 </th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-48 px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Account</th>
 
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Description</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Debet</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-900">Credit</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-9000 w-28">Debet</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-9000 w-28">Credit</th>
 
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-10 px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Info</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900 w-28">
                     Category</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900 w-28">
                     Kruis</th>
 
             </tr>
