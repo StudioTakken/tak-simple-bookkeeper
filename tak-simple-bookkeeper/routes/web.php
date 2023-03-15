@@ -41,9 +41,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/importeren', [ImportController::class, 'index'])->name('importing');
     Route::post('dropzone/store', [ImportController::class, 'store'])->name('dropzone.store');
 
-    Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
+    //  Route::get('/debiteuren', [DebiteurenController::class, 'index'])->name('debiteuren.index');
 
     Route::get('/accounts/{account}', [BookingAccountController::class, 'onaccount'])->name('account.onaccount');
+    Route::get('/accounts/edit/{account}', [BookingAccountController::class, 'edit'])->name('accounts.edit');
     Route::get('/balance', [BookingAccountController::class, 'balance'])->name('balance');
 
     Route::get('/category/{category}', [BookingCategoryController::class, 'oncategory'])->name('category.oncategory');

@@ -73,3 +73,5 @@ php artisan migrate:refresh --step=1
 php artisan db:seed --class=BookingCategorySeeder
 
 php artisan make:livewire BookingCategoryMenu
+
+php artisan make:livewire BookingAccountEdit

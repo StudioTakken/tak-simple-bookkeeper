@@ -21,16 +21,12 @@ class BookingAccountController extends Controller
 
     public function onAccount($sAccount)
     {
-
         // get the bookingaccount on the slug
         $account = BookingAccount::where('slug', $sAccount)->first();
 
         session(['viewscope' => $account->named_id]);
-        return view('bookings.index', ['method' => 'account.onaccount', 'include_children' => $account->include_children]);
+        return view('bookings.index', ['method' => 'account.onaccount', 'include_children' => $account->include_children, 'account' => $account]);
     }
-
-
-
 
     public function balance()
     {
@@ -60,5 +56,13 @@ class BookingAccountController extends Controller
 
         session(['viewscope' => 'balance']);
         return view('bookings.balance', ['balance' => $balance, 'balancetotals' => $balancetotals]);
+    }
+
+
+    // edit 
+    public function edit($id)
+    {
+        $account = BookingAccount::find($id);
+        return view('accounts.edit', ['account' => $account]);
     }
 }
