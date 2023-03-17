@@ -78,31 +78,31 @@ class BookingCategoryController extends Controller
             }
 
 
-            if ($category->named_id == 'unknown') {
-                $category->named_id = '';
+            if ($category->id == '') {
+                $category->name = 'onbekend';
             }
 
 
             // get the sum of the bookings for this category where plus_min_int is 1
-            $debet = Booking::period()->where('category', $category->named_id)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
+            $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
 
             if ($debet > 0) {
                 $totals['debet'] += $debet;
-                $summery['debet'][$category->named_id]['name'] = $category->name;
-                $summery['debet'][$category->named_id]['debetNr'] = $debet;
+                $summery['debet'][$category->id]['name'] = $category->name;
+                $summery['debet'][$category->id]['debetNr'] = $debet;
                 $debet = number_format($debet / 100, 2, ',', '.');
-                $summery['debet'][$category->named_id]['debet'] = $debet;
+                $summery['debet'][$category->id]['debet'] = $debet;
             }
 
             // get the sum of the bookings for this category where plus_min_int is -1
-            $credit = Booking::period()->where('category', $category->named_id)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+            $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
 
             if ($credit > 0) {
                 $totals['credit'] += $credit;
-                $summery['credit'][$category->named_id]['name'] = $category->name;
-                $summery['credit'][$category->named_id]['creditNr'] = $credit;
+                $summery['credit'][$category->id]['name'] = $category->name;
+                $summery['credit'][$category->id]['creditNr'] = $credit;
                 $credit = number_format($credit / 100, 2, ',', '.');
-                $summery['credit'][$category->named_id]['credit'] = $credit;
+                $summery['credit'][$category->id]['credit'] = $credit;
             }
         }
 
