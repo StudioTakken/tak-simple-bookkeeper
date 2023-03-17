@@ -37,6 +37,11 @@ php artisan make:seeder UserSeeder
 php artisan migrate:refresh
 php artisan db:seed --class=UserSeeder
 php artisan db:seed --class=BookingAccountSeeder
+php artisan db:seed --class=BookingCategorySeeder
+
+php artisan migrate:refresh --step=1
+php artisan db:seed --class=BookingCategorySeeder
+
 
 https://laravel-news.com/building-a-slide-over-panel-component-with-livewire
 
@@ -69,10 +74,8 @@ php artisan make:model BookingAccount -mfsc
 php artisan make:model BookingCategory -mfsc
 
 
-php artisan migrate:refresh --step=1
-php artisan db:seed --class=BookingCategorySeeder
+
 
 php artisan make:livewire BookingCategoryMenu
-
 php artisan make:livewire BookingAccountEdit
 php artisan make:livewire BookingCategoryEdit

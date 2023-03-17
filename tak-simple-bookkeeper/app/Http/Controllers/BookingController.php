@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Booking;
+use App\Models\BookingCategory;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
@@ -227,12 +228,15 @@ class BookingController extends Controller
                 "remarks" => $importData['remarks'],
                 "tag" => $importData['tag'],
                 "mutation_type" => $importData['mutation_type'],
-                "category" => '',
+                "category" => NULL,
             );
 
 
+
             if ($gb_rek == 'Debiteuren') {
-                $insertData['category'] = 'inkomsten';
+                // get the id of category 'inkomsten'
+                $oCategory = BookingCategory::where('slug', 'inkomsten')->first();
+                $insertData['category'] =  $oCategory->id;
             }
 
             if (Booking::checkIfAllreadyImported($insertData)) {

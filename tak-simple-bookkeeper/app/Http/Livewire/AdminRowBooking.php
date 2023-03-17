@@ -146,12 +146,16 @@ class AdminRowBooking extends Component
     public function updatedCategory()
     {
 
-        // ddl($this->category);
+
 
         // if $this->category starts with kruispost:: then we need to set the cross account
         if (substr($this->category, 0, 11) == 'kruispost::') {
             $this->booking->cross_account = substr($this->category, 11);
-            $this->category = '14';
+
+            // get the booking category kruispost
+            $bookingCategoryKruispost = BookingCategory::where('slug', 'kruispost')->first();
+
+            $this->category = $bookingCategoryKruispost->id;
         }
 
 
@@ -169,6 +173,7 @@ class AdminRowBooking extends Component
 
         $this->booking->category = $this->category;
         $ok = $this->booking->save();
+
         $this->blink($ok);
         $this->emit('refreshBookings');
     }

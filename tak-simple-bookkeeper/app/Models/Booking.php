@@ -56,7 +56,9 @@ class Booking extends Model
         $booking->cross_account     = '';
 
         $booking->originals = $insertData['originals'];
-        $booking->save();
+        $ok = $booking->save();
+
+
         return $booking->id;
     }
 
@@ -170,7 +172,11 @@ class Booking extends Model
         $this->amount_inc = $this->amount_inc - $btw;
         $this->save();
 
-        // create a new booking
+        // create a new booking 
+
+        // get the bookingCategory named btw
+        $bookingCategory = BookingCategory::where('slug', 'btw')->first();
+
         $newBooking = new Booking;
         $newBooking->parent_id = $this->id;
         $newBooking->date = $this->date;
@@ -185,7 +191,7 @@ class Booking extends Model
         $newBooking->remarks = $this->remarks;
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
-        $newBooking->category = 'btw';
+        $newBooking->category = $bookingCategory->id;
 
         return $newBooking->save();
     }

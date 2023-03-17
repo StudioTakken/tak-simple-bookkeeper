@@ -26,7 +26,7 @@
             <form wire:submit.prevent="save">
 
                 <div class="flex justify-center ">
-                    <div
+                    <div {{-- wire:loading.class.remove="success-fader" --}}
                         class="max-w-lg overflow-hidden rounded shadow-lg
             
                         @if (session()->has('message')) @if (session('message') === 'success')
