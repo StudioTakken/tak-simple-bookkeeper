@@ -30,8 +30,6 @@ class ImportController extends Controller
         $gb_rek = $request->input('gb_rek');
 
 
-
-
         if ($request->input('gb_rek') === 'ING') {
 
             $csv = $request->file('file');
@@ -55,8 +53,6 @@ class ImportController extends Controller
             // remove the file
             unlink(public_path('csv') . '/' . $csvName);
         }
-
-
 
         return response()->json(['success' => $csvName]);
     }

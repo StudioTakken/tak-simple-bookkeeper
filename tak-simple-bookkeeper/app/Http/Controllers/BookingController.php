@@ -259,9 +259,6 @@ class BookingController extends Controller
             // count the number of bookings that are imported
             $imported_counter++;
         }
-
-        return redirect()->route('bookings.index')
-            ->with('success', 'Bookings imported successfully. (geimporteerd: ' . $imported_counter . ', al geïmporteerd: ' . $imported_allready_counter . ')');
     }
 
 

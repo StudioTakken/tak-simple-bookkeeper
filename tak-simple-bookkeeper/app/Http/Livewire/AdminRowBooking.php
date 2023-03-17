@@ -39,14 +39,21 @@ class AdminRowBooking extends Component
         if ($this->booking->cross_account) {
             $this->cross_account = $this->booking->cross_account;
         }
+    }
+
+
+    public function listOfCrossCategorieForPulldown()
+    {
 
         $this->listOfCategories = BookingCategory::getAll();
 
-        // adding the accounts as links to accounts and category kruisposten
+        // adding the accounts as links to accounts and category kruispost
         $bookingAccounts = BookingAccount::getAll();
+        // get the bookingCategory kruispost
+        $crossCategory = BookingCategory::where('slug', 'kruispost')->first();
 
         foreach ($bookingAccounts as $bookingAccount) {
-            $bookingAccount->category = 'kruispost';
+            $bookingAccount->category = $crossCategory->id;
         }
         $this->listOfCrossCategoryAccounts = $bookingAccounts;
     }
@@ -72,6 +79,7 @@ class AdminRowBooking extends Component
         $this->description = $this->booking->description;
         $this->remarks = $this->booking->remarks;
         $this->date = $this->booking->date;
+        $this->listOfCrossCategorieForPulldown();
     }
 
     public function CalcAmountIncAndBtw()
@@ -146,17 +154,17 @@ class AdminRowBooking extends Component
     public function updatedCategory()
     {
 
+        // get the booking category kruispost
+        $crossCategory = BookingCategory::where('slug', 'kruispost')->first();
 
+        // divide $this->category in two parts on ::
+        $parts = explode('::', $this->category);
 
-        // if $this->category starts with kruispost:: then we need to set the cross account
-        if (substr($this->category, 0, 11) == 'kruispost::') {
-            $this->booking->cross_account = substr($this->category, 11);
-
-            // get the booking category kruispost
-            $bookingCategoryKruispost = BookingCategory::where('slug', 'kruispost')->first();
-
-            $this->category = $bookingCategoryKruispost->id;
+        if (count($parts) == 2) {
+            $this->category = $parts[0];
+            $this->booking->cross_account = $parts[1];
         }
+
 
 
 
@@ -166,12 +174,15 @@ class AdminRowBooking extends Component
             $category = BookingCategory::where('id', $this->category)->first();
         }
 
-        if (!isset($category) or $category->slug != 'kruispost') {
+        if (!isset($category) or $category->id != $crossCategory->id) {
             $this->booking->cross_account = ''; // reset cross account
         }
 
 
         $this->booking->category = $this->category;
+
+
+
         $ok = $this->booking->save();
 
         $this->blink($ok);

@@ -135,50 +135,44 @@ error-fader @endif
 
 
 
-            @if ($booking->category != 'btw')
+            {{-- @if ($booking->category != 'btw') --}}
+            <tr class=''>
+                <td class="px-2 align-top border border-slate-300">btw </td>
+                <td class="px-2 align-top border border-slate-300">
+                    <button class="btn btn-red btn-small" wire:click="splitBookingBtw"><i class="fa fa-share-alt"
+                            aria-hidden="true"></i> btw 21%
+                        uitsplitsen</button>
+                </td>
+            </tr>
+            <tr class=''>
+                <td class="px-2 align-top border border-slate-300"> <input class="text-right numberinputfield"
+                        type="text" wire:model="splitOffAmount" placeholder="00,00" /> </td>
+                <td class="px-2 align-top border border-slate-300">
+
+
+                    <button class="btn btn-red btn-small" wire:click="splitOffAction"><i class="fa fa-share-alt"
+                            aria-hidden="true"></i>
+                        uitsplitsen</button>
+                </td>
+            </tr>
+
+            {{-- @endif --}}
+            {{--  --}}
+
+
+            @if ($booking->originals)
                 <tr class=''>
-                    <td class="px-2 align-top border border-slate-300">btw </td>
+                    <td class="px-2 align-top border border-slate-300">Reset</td>
                     <td class="px-2 align-top border border-slate-300">
-                        <button class="btn btn-red btn-small" wire:click="splitBookingBtw"><i class="fa fa-share-alt"
-                                aria-hidden="true"></i> btw 21%
-                            uitsplitsen</button>
+                        <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
+                                aria-hidden="true"></i> terug naar origineel </button>
                     </td>
                 </tr>
-                <tr class=''>
-                    <td class="px-2 align-top border border-slate-300"> <input class="text-right numberinputfield"
-                            type="text" wire:model="splitOffAmount" placeholder="00,00" /> </td>
-                    <td class="px-2 align-top border border-slate-300">
+            @endif
 
-
-                        <button class="btn btn-red btn-small" wire:click="splitOffAction"><i class="fa fa-share-alt"
-                                aria-hidden="true"></i>
-                            uitsplitsen</button>
-
-
-
-</div>
-
-
-</td>
-</tr>
-
-@endif
-
-
-
-@if ($booking->originals)
-    <tr class=''>
-        <td class="px-2 align-top border border-slate-300">Reset</td>
-        <td class="px-2 align-top border border-slate-300">
-            <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
-                    aria-hidden="true"></i> terug naar origineel </button>
-        </td>
-    </tr>
-@endif
-
-</tbody>
-</table>
-{{-- 
+        </tbody>
+    </table>
+    {{-- 
     @if ($booking->originals)
         <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
                 aria-hidden="true"></i></button>
@@ -188,7 +182,7 @@ error-fader @endif
     @endif --}}
 
 
-{{-- 
+    {{-- 
     {
     "id":3,
     "parent_id":null,

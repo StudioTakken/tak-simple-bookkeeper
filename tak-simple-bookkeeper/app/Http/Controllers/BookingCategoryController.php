@@ -65,10 +65,7 @@ class BookingCategoryController extends Controller
 
         foreach ($this->categoryList as $category) {
 
-            // kruispost hoeft nooit
-            if ($category->named_id == 'kruispost') {
-                //    continue;
-            }
+
 
             // if $category_key is in accountList, skip it
             if ($filter == 'venw' and $category->loss_and_provit == 0) {
