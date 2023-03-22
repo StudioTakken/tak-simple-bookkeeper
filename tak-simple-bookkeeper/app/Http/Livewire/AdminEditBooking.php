@@ -2,8 +2,7 @@
 
 namespace App\Http\Livewire;
 
-
-
+use App\Models\BookingAccount;
 
 class AdminEditBooking extends AdminRowBooking
 {
@@ -30,5 +29,12 @@ class AdminEditBooking extends AdminRowBooking
     public function refreshThis()
     {
         $this->freshnow = now();
+    }
+
+    public function removeBooking()
+    {
+        $account = $this->booking->account;
+        $this->booking->delete();
+        return redirect()->route('account.onaccount', ['account' => $account]);
     }
 }

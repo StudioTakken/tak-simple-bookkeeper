@@ -170,6 +170,16 @@ error-fader @endif
                 </tr>
             @endif
 
+            <tr class=''>
+                <td class="px-2 align-top border border-slate-300">Delete</td>
+                <td class="px-2 align-top border border-slate-300">
+                    <button class="btn btn-red btn-small" wire:click="removeBooking"><i class="fa fas fa-ban"
+                            aria-hidden="true"></i>Verwijderen</button>
+                </td>
+            </tr>
+
+
+
         </tbody>
     </table>
     {{-- 
