@@ -1,8 +1,10 @@
 <div class="w-4/6">
 
     <div x-data="{ open: false }">
-        <button class="float-right mb-5" x-on:click="open = ! open">
-            <i class="fa fas fa-plus"></i> {{ $account->name }} item
+        <button class="mb-5 text-white btn bg-takgreen-500 btn-small" x-on:click="open = ! open">
+            {{-- <button class="float-right mb-5" x-on:click="open = ! open"> --}}
+            <i class="fa fas fa-plus"></i>
+            {{-- {{ $account->name }} item --}}
         </button>
 
         <div x-show="open">
@@ -45,6 +47,7 @@
                         <input class="py-0 text-sm border-gray-400" type="date" wire:model="date" id="date"
                             name="date">
                         @error('date')
+                            <br />
                             <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
@@ -53,6 +56,7 @@
                         {{-- description --}}
                         <input class="py-0 text-sm border-gray-400" type="text" wire:model.lazy="description">
                         @error('description')
+                            <br />
                             <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
@@ -67,6 +71,7 @@
 
 
                         @error('amount_inc')
+                            <br />
                             <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
@@ -80,6 +85,7 @@
                             <option value="-1">Min</option>
                         </select>
                         @error('plus_min_int')
+                            <br />
                             <span class="error">{{ $message }}</span>
                         @enderror
                     </div>

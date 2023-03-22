@@ -13,6 +13,7 @@ class AdminEditBooking extends AdminRowBooking
     public $amount_inc;
     public $description;
     public $date;
+    public $delete_confirm = false;
     // public $remarks;
 
     protected $listeners = ['refreshBookings' => 'refreshThis'];
@@ -31,10 +32,22 @@ class AdminEditBooking extends AdminRowBooking
         $this->freshnow = now();
     }
 
+
+    public function showDeleteConfirm()
+    {
+        $this->delete_confirm = true;
+    }
+
+
     public function removeBooking()
     {
         $account = $this->booking->account;
         $this->booking->delete();
         return redirect()->route('account.onaccount', ['account' => $account]);
+    }
+
+    public function removeBookingCancel()
+    {
+        $this->delete_confirm = false;
     }
 }
