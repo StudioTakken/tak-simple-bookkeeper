@@ -79,3 +79,5 @@ php artisan make:model BookingCategory -mfsc
 php artisan make:livewire BookingCategoryMenu
 php artisan make:livewire BookingAccountEdit
 php artisan make:livewire BookingCategoryEdit
+
+php artisan make:livewire BookingCreate

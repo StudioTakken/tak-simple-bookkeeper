@@ -52,16 +52,29 @@
 
     <div class="py-6">
 
-        @livewire(
-            'admin-bookings',
-            [
-                'method' => $method,
-                'include_children' => $include_children,
-            ],
-            key(now() . '-' . Str::random())
-        )
-        @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))
+        <div>
 
+            @if (isset($account))
+                @livewire('booking-create', ['account' => $account], key(now() . '-' . Str::random()))
+            @endif
+        </div>
+
+        <div>
+
+            @livewire(
+                'admin-bookings',
+                [
+                    'method' => $method,
+                    'include_children' => $include_children,
+                ],
+                key(now() . '-' . Str::random())
+            )
+
+        </div>
+        <div>
+            @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))
+
+        </div>
 
 
     </div>

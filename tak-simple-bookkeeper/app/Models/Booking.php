@@ -9,6 +9,7 @@ class Booking extends Model
 {
     use HasFactory;
 
+
     protected $casts = [
         'originals' => 'array'
     ];
@@ -34,6 +35,18 @@ class Booking extends Model
     ];
 
 
+    protected $attributes = array(
+        'contra_account' => '',
+        'plus_min' => '',
+        'invoice_nr' => '',
+        'bank_code' => '',
+        'amount_inc' => '',
+        'remarks' => '',
+        'tag' => '',
+        'mutation_type' => '',
+        'plus_min_int' => 1,
+        'cross_account' => ''
+    );
 
     public static function insertData($insertData)
     {
@@ -56,6 +69,8 @@ class Booking extends Model
         $booking->cross_account     = '';
 
         $booking->originals = $insertData['originals'];
+
+
         $ok = $booking->save();
 
 
