@@ -152,7 +152,7 @@ error-fader @endif
 
                     <button class="btn btn-red btn-small" wire:click="splitOffAction"><i class="fa fa-share-alt"
                             aria-hidden="true"></i>
-                        uitsplitsen</button>
+                        Uitsplitsen</button>
                 </td>
             </tr>
 
@@ -165,16 +165,16 @@ error-fader @endif
                     <td class="px-2 align-top border border-slate-300">Reset</td>
                     <td class="px-2 align-top border border-slate-300">
                         <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
-                                aria-hidden="true"></i> terug naar origineel </button>
+                                aria-hidden="true"></i> Terug naar origineel </button>
                     </td>
                 </tr>
             @endif
 
             <tr class=''>
-                <td class="px-2 align-top border border-slate-300">Delete</td>
+                <td class="px-2 align-top border border-slate-300">Verwijderen!</td>
                 <td class="px-2 align-top border border-slate-300">
                     <button class="btn btn-red btn-small" wire:click="removeBooking"><i class="fa fas fa-ban"
-                            aria-hidden="true"></i>Verwijderen</button>
+                            aria-hidden="true"></i> Verwijderen</button>
                 </td>
             </tr>
 
