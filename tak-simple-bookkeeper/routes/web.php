@@ -44,6 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/account/edit/{account}', [BookingAccountController::class, 'edit'])->name('accounts.edit');
     Route::get('/balance', [BookingAccountController::class, 'balance'])->name('balance');
 
+    // a route voor balance xlsx
+    Route::get('/balance-xlsx', [BookingAccountController::class, 'balanceXlsx'])->name('balance-xlsx');
+
     Route::get('/category/{category}', [BookingCategoryController::class, 'oncategory'])->name('category.oncategory');
     Route::get('/category/edit/{category}', [BookingCategoryController::class, 'edit'])->name('categories.edit');
 

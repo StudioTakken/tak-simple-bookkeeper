@@ -7,17 +7,9 @@
         </div>
     </x-slot>
 
-    @if (session()->has('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-
 
 
     <div class="w-full py-6">
-
-
 
         <div class="flex items-start w-full grid-cols-2 gap-8 mb-4">
 
@@ -78,6 +70,13 @@
 
 
 
+        <div class="mt-5">
+            <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                <a href="{{ route('balance-xlsx') }}">
+                    Download als xls bestand
+                </a>
+            </button>
+        </div>
 
 
 </x-app-layout>

@@ -13,12 +13,7 @@
         </div>
     @endif
 
-
     <div class="py-6">
-
-
         @livewire('admin-edit-booking', ['booking' => $booking], key(key(now()) . '-' . Str::random()))
-
-
     </div>
 </x-app-layout>
