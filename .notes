@@ -88,3 +88,4 @@ php artisan make:livewire BookingCreate
 
 
 php artisan make:export BalanceExport 
+php artisan make:export SummaryExport 

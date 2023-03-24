@@ -34,8 +34,8 @@
         <div class="flex items-start w-4/6 grid-cols-2 gap-8">
 
             <div class="grid w-1/2 grid-cols-2 gap-4">
-                @if (isset($summery['debet']))
-                    @foreach ($summery['debet'] as $key => $item)
+                @if (isset($summary['debet']))
+                    @foreach ($summary['debet'] as $key => $item)
                         <div>
                             {{ $item['name'] }}
                         </div>
@@ -47,8 +47,8 @@
             </div>
 
             <div class="grid w-1/2 grid-cols-2 gap-4">
-                @if (isset($summery['credit']))
-                    @foreach ($summery['credit'] as $key => $item)
+                @if (isset($summary['credit']))
+                    @foreach ($summary['credit'] as $key => $item)
                         <div>
                             {{ $item['name'] }}
                         </div>
@@ -72,7 +72,7 @@
                     Totaal
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $totals['debet'] }}
+                    {{ $summary['totals']['debet'] }}
                 </div>
 
 
@@ -85,7 +85,7 @@
                     Totaal
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $totals['credit'] }}
+                    {{ $summary['totals']['credit'] }}
                 </div>
 
 
@@ -97,4 +97,16 @@
 
 
     </div>
+
+    <div class="mt-5">
+        <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+            <a href="{{ route('summary-xlsx.filter', session()->get('filter')) }}">
+                Download als xls bestand
+            </a>
+        </button>
+
+    </div>
+
+
+
 </x-app-layout>

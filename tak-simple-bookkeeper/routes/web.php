@@ -52,6 +52,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/summary', [BookingCategoryController::class, 'summary'])->name('summary');
     Route::get('/summary/{filter}', [BookingCategoryController::class, 'summary'])->name('summary.filter');
+    // route for summary xlsx
+    Route::get('/summary-xlsx', [BookingCategoryController::class, 'summaryXlsx'])->name('summary-xlsx');
+    Route::get('/summary-xlsx/{filter}', [BookingCategoryController::class, 'summaryXlsx'])->name('summary-xlsx.filter');
 });
 
 
