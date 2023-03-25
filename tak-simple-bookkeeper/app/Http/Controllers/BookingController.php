@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Booking;
+use App\Models\BookingCategory;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 class BookingController extends Controller
 {
@@ -14,7 +20,9 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return view('bookings.index', ['scope' => 'bookings']);
+        // set the session variable viewscope to 'bookings'
+        session(['viewscope' => 'bookings']);
+        return view('bookings.index', ['method' => 'bookingcontroller.index', 'include_children' => true]);
     }
 
     /**
@@ -57,7 +65,9 @@ class BookingController extends Controller
      */
     public function edit($id)
     {
-        //
+        // return view('bookings.edit', ['booking' => Booking::find($id), 'scope' => 'bookings']);
+
+        return view('bookings.edit', ['booking' => Booking::find($id), 'scope' => 'Edit']);
     }
 
     /**
@@ -84,88 +94,150 @@ class BookingController extends Controller
     }
 
 
-    public function import()
+    public function import($filePath, $gb_rek)
     {
+
 
         $imported_counter = 0;
         $imported_allready_counter = 0;
 
-        // import the csv file
-        $file = fopen("/Users/martintakken/WebsitesLocalWork/takBH/tak-simple-bookkeeper/storage/app/public/csv/bookings.csv", "r");
+        $file = fopen($filePath, "r");
         $importData_arr = array();
         $row = 0;
 
         $colname = [];
-        while (($filedata = fgetcsv($file, 1000, ";")) !== FALSE) {
-            $num = count($filedata);
 
-            // Skip first row (Remove below comment if you want to skip the first row)
-            if ($row == 0) {
 
-                for ($c = 0; $c < $num; $c++) {
-                    $colname[$c] = $filedata[$c];
+        // if file is an xlsx file then read the xlsx file
+        // it is dropped into the debitueren import field
+        if ($gb_rek == 'Debiteuren') {
+            if (pathinfo($filePath, PATHINFO_EXTENSION) === 'xlsx') {
+                // read the xlsx file and put it in an array
+                $reader = new Xlsx();
+                $spreadsheet = $reader->load($filePath);
+                $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+
+                // read line by line and put it in an array
+                foreach ($sheetData as $sheetrow) {
+                    $num = count($sheetrow);
+
+                    // Skip first row (Remove below comment if you want to skip the first row)
+                    if ($row == 0) {
+                        foreach ($sheetrow as $key => $value) {
+                            $mappedKey = $this->mapImportKey($sheetrow[$key], $gb_rek);
+                            $colname[$key] = $mappedKey;
+                        }
+                        $row++;
+                        continue;
+                    } else {
+                        foreach ($sheetrow as $key => $value) {
+
+                            $importData_arr[$row][$colname[$key]] = $sheetrow[$key];
+
+                            if (
+                                $colname[$key] == 'date'
+                                and
+                                (!isset($importData_arr[$row][$colname[$key]])
+                                    or $importData_arr[$row][$colname[$key]] == '')
+                            ) {
+                                //remove the row
+                                unset($importData_arr[$row]);
+                                continue 2;
+                            }
+
+                            $importData_arr[$row]['plus_min'] = 'Bij';
+                            $importData_arr[$row]['account'] = 'Debiteuren';
+                            $importData_arr[$row]['contra_account'] = '';
+                            $importData_arr[$row]['bank_code'] = '';
+                            $importData_arr[$row]['tag'] = '';
+                            $importData_arr[$row]['remarks'] = '';
+                            $importData_arr[$row]['mutation_type'] = '';
+                        }
+                        $importData_arr[$row]['description'] = $importData_arr[$row]['klant'] . ' - ' . $importData_arr[$row]['project'];
+                        $row++;
+                    }
+                }
+            }
+        }
+
+        // it is dropped in the bank import field
+        if ($gb_rek == 'ING') {
+            // bookings from bank
+            while (($filedata = fgetcsv($file, 1000, ";")) !== FALSE) {
+                $num = count($filedata);
+
+                // Skip first row (Remove below comment if you want to skip the first row)
+                if ($row == 0) {
+
+                    for ($c = 0; $c < $num; $c++) {
+                        $mappedKey = $this->mapImportKey($filedata[$c], $gb_rek);
+                        $colname[$c] =  $mappedKey;
+                    }
+
+                    $row++;
+                    continue;
                 }
 
+                for ($c = 0; $c < $num; $c++) {
+                    $importData_arr[$row][$colname[$c]] = $filedata[$c];
+                }
 
+                // todo: categorien toewijzin obv omschrijving
+
+                $importData_arr[$row]['invoice_nr'] = '';
                 $row++;
-                continue;
             }
-
-
-            for ($c = 0; $c < $num; $c++) {
-                $importData_arr[$row][$colname[$c]] = $filedata[$c];
-            }
-
-
-            $row++;
         }
+
+
         fclose($file);
 
         // bookings from my bank come in reverse order so I need to inverse the array
-        $importData_arr = array_reverse($importData_arr);
+        if ($gb_rek == 'ING') {
+            $importData_arr = array_reverse($importData_arr);
+        }
 
         // Insert to MySQL database
         foreach ($importData_arr as $importData) {
 
             $importData['btw'] = 0;
-            $importData['amount_inc'] = 0;
             $importData['plus_min_int'] = 1;
 
-            if ($importData['Af Bij'] === 'Bij') {
+            if ($importData['plus_min'] === 'Bij') {
                 $importData['plus_min'] = 'plus';
                 $importData['plus_min_int'] = 1;
-            } elseif ($importData['Af Bij'] === 'Af') {
+            } elseif ($importData['plus_min'] === 'Af') {
                 $importData['plus_min'] = 'min';
                 $importData['plus_min_int'] = -1;
             }
 
             // make the value form comma to dot
-            $importData['Bedrag (EUR)'] = str_replace(',', '.', $importData['Bedrag (EUR)']);
-            //  $importData['btw'] = str_replace(',', '.', $importData['btw']);
-            //  $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
-
-            $importData['Bedrag (EUR)']           = Centify($importData['Bedrag (EUR)']);
-            //   $importData['btw']              = Centify($importData['btw']);
-            //  $importData['amount_inc']       = Centify($importData['amount_inc']);
+            $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
+            $importData['amount_inc'] = Centify($importData['amount_inc']);
 
             $insertData = array(
-
-                "date" => $importData['Datum'],
-                "account" => $importData['Rekening'],
-                "contra_account" => $importData['Tegenrekening'],
-                "description" => $importData['Naam / Omschrijving'],
+                "date" => date('Y-m-d', strtotime($importData['date'])),
+                "account" => $importData['account'],
+                "contra_account" => $importData['contra_account'],
+                "description" => $importData['description'],
                 "plus_min" => $importData['plus_min'],
                 "plus_min_int" => $importData['plus_min_int'],
-                "invoice_nr" => '0',
-                "bank_code" => $importData['Code'],
-                "amount_inc" => (float)$importData['Bedrag (EUR)'],
-                // "btw" => $importData['btw'],
-                // "amount" => 0,
-                "remarks" => $importData['Mededelingen'],
-                "tag" => $importData['Tag'],
-                "mutation_type" => $importData['Mutatiesoort'],
-                "category" => '',
+                "invoice_nr" => $importData['invoice_nr'],
+                "bank_code" => $importData['bank_code'],
+                "amount_inc" => (float)$importData['amount_inc'],
+                "remarks" => $importData['remarks'],
+                "tag" => $importData['tag'],
+                "mutation_type" => $importData['mutation_type'],
+                "category" => NULL,
             );
+
+
+
+            if ($gb_rek == 'Debiteuren') {
+                // get the id of category 'inkomsten'
+                $oCategory = BookingCategory::where('slug', 'inkomsten')->first();
+                $insertData['category'] =  $oCategory->id;
+            }
 
             if (Booking::checkIfAllreadyImported($insertData)) {
                 // count the number of bookings that are allready imported
@@ -178,13 +250,47 @@ class BookingController extends Controller
             // append $aOriginals with the original values
             $insertData['originals'] = $aOriginals;
 
+            $id = Booking::insertData($insertData);
 
-            Booking::insertData($insertData);
+            // if it is a debiteuren booking then split the booking in 2 bookings
+            if ($gb_rek == 'Debiteuren') {
+                Booking::find($id)->splitBookingBtw();
+            }
             // count the number of bookings that are imported
             $imported_counter++;
         }
+    }
 
-        return redirect()->route('bookings.index')
-            ->with('success', 'Bookings imported successfully. (geimporteerd: ' . $imported_counter . ', al geïmporteerd: ' . $imported_allready_counter . ')');
+
+
+    protected function mapImportKey($key, $gb_rek)
+    {
+
+        $map = [
+            'Datum' => 'date',
+            'Rekening' => 'account',
+            'Tegenrekening' => 'contra_account',
+            'klant' => 'klant',
+            'Af Bij' => 'plus_min',
+            'incl' => 'amount_inc',
+            'Mededelingen' => 'remarks',
+            'Tag' => 'tag',
+            'Mutatiesoort' => 'mutation_type',
+            'Code' => 'bank_code',
+            'Bedrag (EUR)' => 'amount_inc',
+            'Naam / Omschrijving' => 'description',
+        ];
+
+
+        if ($gb_rek == 'Debiteuren') {
+
+            $map['Rekening'] = 'invoice_nr';
+            $map['incl'] = 'amount_inc';
+        }
+        if (isset($map[$key])) {
+            return $map[$key];
+        } else {
+            return $key;
+        }
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Booking;
+use App\Models\BookingAccount;
+use App\Models\BookingCategory;
 use Livewire\Component;
 
 class AdminRowBooking extends Component
@@ -11,70 +13,74 @@ class AdminRowBooking extends Component
     public $category = '';
     public $hasChildren = false;
     public $amount_inc;
+    public $description;
+    public $date;
+    public $remarks;
+    public $cross_account = '';
+    public $listOfCategories = [];
+    public $listOfCrossCategoryAccounts = [];
+
+
+
+
+    public $splitOffAmount;
+
+    protected $listeners = [
+        'openSidePanel'
+    ];
 
 
     public function mount()
     {
 
-
-
-
         if ($this->booking->category) {
             $this->category = $this->booking->category;
         }
-        if ($this->booking->amount_inc) {
-            $this->amount_inc = $this->booking->amount_inc;
+        if ($this->booking->cross_account) {
+            $this->cross_account = $this->booking->cross_account;
         }
-
-        // // if there is a booking with this id as parent_id, then there are children
-        // $this->hasChildren = Booking::where('parent_id', $this->booking->id)->exists();
-
-        // if ($this->hasChildren) {
-        //     $this->booking->children = Booking::period()->orderBy('date')->orderBy('id')->where('parent_id', $this->booking->id)->get();
-
-
-        //     // $this->calculateChildren();
-        // }
     }
 
 
+    public function listOfCrossCategorieForPulldown()
+    {
+
+        $this->listOfCategories = BookingCategory::getAll();
+
+        // adding the accounts as links to accounts and category kruispost
+        $bookingAccounts = BookingAccount::getAll();
+        // get the bookingCategory kruispost
+        $crossCategory = BookingCategory::where('slug', 'kruispost')->first();
+
+        foreach ($bookingAccounts as $bookingAccount) {
+            $bookingAccount->category = $crossCategory->id;
+        }
+        $this->listOfCrossCategoryAccounts = $bookingAccounts;
+    }
 
     public function calculateChildren()
     {
         $this->hasChildren = Booking::where('parent_id', $this->booking->id)->exists();
-
         if ($this->hasChildren) {
             $this->booking->children = Booking::period()->orderBy('date')->orderBy('id')->where('parent_id', $this->booking->id)->get();
-
-            foreach ($this->booking->children as $child) {
-
-                //  $this->booking->amount = $this->booking->amount - $child->amount;
-                //   $this->booking->btw = $this->booking->btw - $child->btw;
-                $this->booking->amount_inc = $this->booking->amount_inc - $child->amount_inc;
-            }
         }
     }
 
-
-
-
     public function render()
     {
-        $this->calculateChildren();
-        $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
+        $this->beforeRender();
         return view('livewire.admin-row-booking');
     }
 
-    /**
-     * Split the amount_inc into amount and btw
-     * @return void 
-     */
-    public function splitAmountBtw()
+    public function beforeRender()
     {
-        $ok = $this->booking->splitAmountBtw();
-        $this->blink($ok);
+        $this->calculateChildren();
+        $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
+        $this->description = $this->booking->description;
+        $this->remarks = $this->booking->remarks;
+        $this->date = $this->booking->date;
+        $this->listOfCrossCategorieForPulldown();
     }
-
 
     public function CalcAmountIncAndBtw()
     {
@@ -82,14 +88,39 @@ class AdminRowBooking extends Component
         $this->blink($ok);
     }
 
-
-
     public function updateAmountInc()
     {
-        $this->booking->amount_inc       = Centify($this->amount_inc);
+        $this->booking->amount_inc = Centify($this->amount_inc);
         $ok = $this->booking->save();
         $this->blink($ok);
+        $this->emit('refreshBookings');
     }
+
+    public function updateDescription()
+    {
+        $this->booking->description = $this->description;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
+    public function updateRemarks()
+    {
+        $this->booking->remarks = $this->remarks;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
+    public function updateDate()
+    {
+        $this->booking->date = $this->date;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
+
 
     public function NoBTW()
     {
@@ -102,7 +133,6 @@ class AdminRowBooking extends Component
         $ok = $this->booking->resetBooking();
         $this->blink($ok);
         $this->emit('refreshBookings');
-        //$this->redirect(url()->previous());
     }
 
 
@@ -111,7 +141,6 @@ class AdminRowBooking extends Component
         $ok = $this->booking->splitBooking();
         $this->blink($ok);
         $this->emit('refreshBookings');
-        // $this->redirect(url()->previous());
     }
 
     public function splitBookingBtw()
@@ -119,18 +148,55 @@ class AdminRowBooking extends Component
         $ok = $this->booking->splitBookingBtw();
         $this->blink($ok);
         $this->emit('refreshBookings');
-        // $this->redirect(url()->previous());
     }
 
 
     public function updatedCategory()
     {
+
+        // get the booking category kruispost
+        $crossCategory = BookingCategory::where('slug', 'kruispost')->first();
+
+        // divide $this->category in two parts on ::
+        $parts = explode('::', $this->category);
+
+        if (count($parts) == 2) {
+            $this->category = $parts[0];
+            $this->booking->cross_account = $parts[1];
+        }
+
+
+
+
+
+        // get this category
+        if ($this->category != '') {
+            $category = BookingCategory::where('id', $this->category)->first();
+        }
+
+        if (!isset($category) or $category->id != $crossCategory->id) {
+            $this->booking->cross_account = ''; // reset cross account
+        }
+
+
         $this->booking->category = $this->category;
+
+
+
         $ok = $this->booking->save();
+
         $this->blink($ok);
+        $this->emit('refreshBookings');
     }
 
+    public function updatedCrossAccount()
+    {
 
+        $this->booking->cross_account = $this->cross_account;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
 
     public function blink($saved)
     {
@@ -140,5 +206,20 @@ class AdminRowBooking extends Component
         } else {
             session()->flash('message', 'error');
         }
+    }
+
+    public function openSidePanel()
+    {
+        $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()));
+    }
+
+    public function splitOffAction()
+    {
+
+        $splitOffCents = Centify($this->splitOffAmount);
+        $ok = $this->booking->splitBooking($splitOffCents);
+        $this->blink($ok);
+        $this->splitOffAmount = '';
+        $this->emit('refreshBookings');
     }
 }

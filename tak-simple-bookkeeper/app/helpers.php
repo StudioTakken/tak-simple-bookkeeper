@@ -31,31 +31,20 @@ if (!function_exists('ddl')) {
 function Centify($value)
 {
 
-    // strip the currency symbol
-    $value = str_replace('€', '', $value);
-    // $value = str_replace('.', '', $value);
+    if (is_null($value)) {
+        return null;
+    }
 
     // strip the spaces
     $value = str_replace(' ', '', $value);
 
-    // check if the value is a valid dutch format
-
-    if (
-        preg_match('/^\d{1,3}(\.\d{3})*,\d{1,2}$/', $value)
-        or
-        preg_match('/^(\d{1,12})*,\d{1,2}$/', $value)
-    ) {
-        // make it a european format, with a dot as decimal separator and no thousands separator
-        $value = str_replace('.', '', $value); // remove the thousands separators
-        $value = str_replace(',', '.', $value); // replace the decimal separator comma with a dot
+    // if there is no comma or dot in the value, add a dot and two zeros
+    if (strpos($value, ',') === false and strpos($value, '.') === false) {
+        $value .= ',00';
     }
-    // remove the thousands separators if they are there
-    $value = str_replace(',', '', $value); // replace the decimal separator comma with a dot
 
-
-    // change in cents
-    $value = (int)round($value * 100);
-
+    // now remove all non numeric characters
+    $value = preg_replace('/[^0-9]/', '', $value);
 
     return $value;
 }

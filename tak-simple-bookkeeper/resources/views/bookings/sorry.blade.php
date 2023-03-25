@@ -7,8 +7,6 @@
         </div>
     </x-slot>
 
-    @livewire('date-settings')
-
 
     @if (session()->has('success'))
         <div class="alert alert-success">

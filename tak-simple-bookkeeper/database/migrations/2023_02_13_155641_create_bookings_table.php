@@ -24,13 +24,12 @@ return new class extends Migration
             $table->integer('plus_min_int');
             $table->string('invoice_nr');
             $table->string('bank_code');
-            // $table->integer('amount');
-            // $table->integer('btw');
             $table->integer('amount_inc');
-            $table->text('remarks');
             $table->string('tag');
             $table->string('mutation_type');
-            $table->text('category')->nullable();
+            $table->integer('category')->nullable();
+            $table->string('cross_account')->nullable();
+            $table->text('remarks');
             $table->json('originals')->nullable();
 
             $table->timestamps();

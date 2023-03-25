@@ -22,11 +22,11 @@
             <x-icons.empty-circle class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         @endif
 
-        <span class="text-base font-medium whitespace-nowrap" x-show="isSidebarOpen || isSidebarHovered">
+        <span class="text-sm font-medium whitespace-nowrap" x-show="isSidebarOpen || isSidebarHovered">
             {{ $title }}
         </span>
 
-        <span x-show="isSidebarOpen || isSidebarHovered" aria-hidden="true" class="relative block ml-auto w-6 h-6">
+        <span x-show="isSidebarOpen || isSidebarHovered" aria-hidden="true" class="relative block w-6 h-6 ml-auto">
             <span :class="open ? '-rotate-45' : 'rotate-45'"
                 class="absolute right-[9px] bg-gray-400 mt-[-5px] h-2 w-[2px] top-1/2 transition-all duration-200"></span>
 
@@ -42,7 +42,7 @@
             <x-icons.empty-circle class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         @endif
 
-        <span class="text-base font-medium" x-show="isSidebarOpen || isSidebarHovered">
+        <span class="text-sm font-medium" x-show="isSidebarOpen || isSidebarHovered">
             {{ $title }}
         </span>
     </a>

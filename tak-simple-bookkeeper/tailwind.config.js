@@ -13,7 +13,8 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                'sans': ['Inter', ...defaultTheme.fontFamily.sans],
+                'mono': ['Courier', 'ui-monospace', 'SFMono-Regular', ...defaultTheme.fontFamily.mono],
             },
 
             colors: {
@@ -33,6 +34,17 @@ module.exports = {
                     700: '#C91919',
                     800: '#C91919',
                     900: '#C91919',
+                },
+                'takgreen': {
+                    100: '#00A258',
+                    200: '#00A258',
+                    300: '#00A258',
+                    400: '#00A258',
+                    500: '#00A258',
+                    600: '#00A258',
+                    700: '#00A258',
+                    800: '#00A258',
+                    900: '#00A258',
                 },
             },
         },

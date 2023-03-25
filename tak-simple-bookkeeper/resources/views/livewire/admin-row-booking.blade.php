@@ -1,4 +1,5 @@
-<tr class="   
+<tr {{-- wire:click="openSidePanel" --}}
+    class="   
 
 border-t-2 border-gray-200
 @if (session()->has('message')) @if (session('message') === 'success') 
@@ -10,122 +11,88 @@ error-fader @endif
 "
     wire:loading.class.remove="success-fader" wire:loading.class.remove="error-fader">
 
-
-    <td id="{{ $booking->id }}" class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap ">
+    <td id="{{ $booking->id }}" class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap ">
 
         @if (session()->has('message'))
             @if (session('message') === 'error')
                 X - please reload! @endif
         @endif
 
-
-    </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->id }}</td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->parent_id }}</td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->date }}</td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->description }}
     </td>
 
 
+    <td class="px-1 py-1 text-sm font-light text-gray-900 cursor-pointer whitespace-nowrap">
+        {{ $booking->id }}
+    </td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->parent_id }}</td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
+        {{ $booking->date }}
+        {{-- <input class="py-0 border-gray-400" type="date" wire:model.debounce.4s="date" wire:change="updateDate"> --}}
+    </td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->account }}</td>
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
+
+        {{-- <input type="text" wire:model.debounce.4s="description" wire:change="updateDescription"
+            class="descriptioninputfield" /> --}}
+
+        {{ $booking->description }}
+
+    </td>
 
     @if ($booking->plus_min_int < 0)
-        <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right">
+        <td class="px-1 py-1 font-mono text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
         </td>
-        <td class=" text-red-700">
+        <td class="font-mono text-right text-red-700">
 
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
 
+            {{-- {{ $booking->amount_inc }} --}}
         </td>
     @else
-        {{-- <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right"> --}}
-        {{--  --}}
-        {{-- {{ number_format($booking->amount_inc / 100, 2, ',', '.') }} --}}
-        {{-- </td> --}}
-
-        <td class="">
+        <td class="font-mono text-right">
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
 
+            {{-- {{ $booking->amount_inc }} --}}
+
         </td>
 
-
-        <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right">
-
+        <td class="px-1 py-1 font-mono text-sm font-light text-right text-gray-900 whitespace-nowrap">
         </td>
 
     @endif
 
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap text-right">
-
-
-        {{-- @if ($booking->amount == 0 and $booking->btw == 0)
-            <button class="btn btn-blue btn-small" wire:click="splitAmountBtw">-> btw</button>
-        @endif
-        @if ($booking->amount_inc == 0 and $booking->btw == 0)
-            <button class="btn btn-blue btn-small" wire:click="CalcAmountIncAndBtw">btw <- </button>
-        @endif --}}
-
-
-        {{-- @if ($booking->amount_inc == 0 or $booking->amount == 0)
-            <button class="btn btn-red btn-small" wire:click="NoBTW">geen btw</button>
-        @endif --}}
-
-        @if ($booking->originals)
-
-            <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
-                    aria-hidden="true"></i></button>
-        @endif
-
-
-        {{-- <button class="btn btn-red btn-small" wire:click="splitBooking">50%</button> --}}
-
-        @if ($booking->category != 'btw')
-            <button class="btn btn-red btn-small" wire:click="splitBookingBtw">21%</button>
-        @endif
-        {{-- <button class="btn btn-red btn-small" wire:click="splitBookingBtw">21%</button> --}}
-
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
+        <button class="text-white btn bg-takgreen-500 btn-small" wire:click="openSidePanel"><i class="fa fas fa-info"
+                aria-hidden="true"></i> </button>
     </td>
 
-
-
-    {{-- <td
-        class="text-sm @if ($booking->plus_min_int < 0) text-red-600 @else text-gray-900 @endif font-light px-1 py-1 whitespace-nowrap text-right">
-        {{ number_format($booking->amount / 100, 2, ',', '.') }}
-    </td> --}}
-
-    {{-- 
-    <td
-        class="text-sm @if ($booking->plus_min_int < 0) text-red-600 @else text-gray-900 @endif font-light px-1 py-1 whitespace-nowrap text-right">
-        {{ number_format($booking->btw / 100, 2, ',', '.') }}
-    </td> --}}
-
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
-
+    <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
         <select @if ($booking->category == '') style="color:#ff0000 !important;" @endif wire:model="category"
-            class="px-2 py-1 pr-8 bg-white rounded text-sm border-0 shadow outline-none text-right" name="category">
+            class="px-2 py-1 pr-8 text-sm text-left bg-white border-0 rounded shadow outline-none" name="category">
             <option value="">
                 Selecteer een categorie</option>
 
-            @foreach (config('bookings.categories') as $category => $catname)
-                <option class="pr-3" value='{{ $category }}'>{{ $catname }}</option>
+            @foreach ($listOfCategories as $category)
+                <option class="pr-3" value='{{ $category['id'] }}'>{{ $category['name'] }}</option>
             @endforeach
+            @foreach ($listOfCrossCategoryAccounts as $crossCategory)
+                <option class="pr-3" value='{{ $crossCategory['category'] }}::{{ $crossCategory['named_id'] }}'>naar:
+                    {{ $crossCategory['name'] }}
+                </option>
+            @endforeach
+
+
+
+
         </select>
     </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 w-60">
-        <div class="w-full h-6 overflow-auto  hover:h-full">
-            <p class="overflow-auto">
-                {{ $booking->remarks }}</p>
-        </div>
-    </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
-        {{ $booking->account }}
-    </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">
-        {{ $booking->contra_account }}</td>
 
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->bank_code }}
-    </td>
-    <td class="text-sm text-gray-900 font-light px-1 py-1 whitespace-nowrap">{{ $booking->tags }}</td>
+    {{-- TODO dit zou een fijnere naam moeten hebben oid. --}}
+    @if ($booking->category == '14')
+        @livewire ('booking-account-chooser', ['booking' => $booking], key($booking->id))
+    @endif
+
 </tr>

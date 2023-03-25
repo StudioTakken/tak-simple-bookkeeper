@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'K UI') }}</title>
+    <title>{{ config('app.name', 'TSB') }}</title>
 
     <!-- Fonts -->
     <link
@@ -54,7 +54,7 @@
                 </header>
 
                 <!-- Page Content -->
-                <main class="px-4 sm:px-6 flex-1">
+                <main class="flex-1 px-4 sm:px-6">
                     {{ $slot }}
                 </main>
 

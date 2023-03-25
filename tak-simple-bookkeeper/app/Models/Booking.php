@@ -9,6 +9,7 @@ class Booking extends Model
 {
     use HasFactory;
 
+
     protected $casts = [
         'originals' => 'array'
     ];
@@ -24,68 +25,33 @@ class Booking extends Model
         'plus_min_int',
         'invoice_nr',
         'bank_code',
-        // 'amount',
-        // 'btw',
         'amount_inc',
         'remarks',
         'tag',
         'mutation_type',
         'category',
-        'originals',
+        'cross_account',
+        'originals'
     ];
 
 
-
-    public function getAmountIncAttribute($value)
-    {
-        return $value;
-    }
-
-
-    public function getAmountAttribute($value)
-    {
-        //   $value = (float)$this->amount_inc - $this->btw;
-        return $value;
-    }
-
-
-
-    public function splitAmountBtw()
-    {
-        // $this->btw = ($this->amount_inc / 121) * 0.21;
-        //  $this->amount = (int)$this->amount_inc - (int)$this->btw;
-        return $this->save();
-    }
-
-
-    // CalcAmountIncAndBtw
-    // public function CalcAmountIncAndBtw()
-    // {
-    //     $this->btw = $this->amount * 0.21;
-    //     $this->amount_inc = $this->amount + $this->btw;
-    //     return $this->save();
-    // }
-
-    // public function NoBTW()
-    // {
-    //     $this->btw = 0;
-    //     if ($this->amount_inc == 0) {
-    //         $this->amount_inc = $this->amount;
-    //     } else {
-    //         $this->amount = $this->amount_inc;
-    //     }
-    //     return $this->save();
-    // }
-
+    protected $attributes = array(
+        'contra_account' => '',
+        'plus_min' => '',
+        'invoice_nr' => '',
+        'bank_code' => '',
+        'amount_inc' => '',
+        'remarks' => '',
+        'tag' => '',
+        'mutation_type' => '',
+        'plus_min_int' => 1,
+        'cross_account' => ''
+    );
 
     public static function insertData($insertData)
     {
 
-
-
         $booking = new Booking;
-
-        // $booking->parent_id         = $booking->id;
 
         $booking->date              = $insertData['date'];
         $booking->account           = $insertData['account'];
@@ -95,35 +61,46 @@ class Booking extends Model
         $booking->plus_min_int      = $insertData['plus_min_int'];
         $booking->invoice_nr        = $insertData['invoice_nr'];
         $booking->bank_code         = $insertData['bank_code'];
-        //  $booking->amount            = $insertData['amount'];
-        //  $booking->btw               = $insertData['btw'];
         $booking->amount_inc        = $insertData['amount_inc'];
         $booking->remarks           = $insertData['remarks'];
         $booking->tag               = $insertData['tag'];
         $booking->mutation_type     = $insertData['mutation_type'];
         $booking->category          = $insertData['category'];
+        $booking->cross_account     = '';
 
         $booking->originals = $insertData['originals'];
 
-        $booking->save();
+
+        $ok = $booking->save();
+
+
+        return $booking->id;
     }
+
+
 
     public static function checkIfAllreadyImported($insertData)
     {
         $booking = Booking::where('date', $insertData['date'])
+
+            // not changing fields
             ->where('account', $insertData['account'])
-            ->where('contra_account', $insertData['contra_account'])
             ->where('description', $insertData['description'])
             ->where('plus_min',    $insertData['plus_min'])
             ->where('plus_min_int', $insertData['plus_min_int'])
+            ->where('mutation_type', $insertData['mutation_type'])
+
+            // changing fields
+            ->whereJsonContains('originals->contra_account', $insertData['contra_account'])
+            ->whereJsonContains('originals->amount_inc', $insertData['amount_inc'])
+
             //  ->where('invoice_nr', $invoice_nr)
             // ->where('category', $category)
             //  ->where('amount', $insertData['amount'])
             //  ->where('btw', $btw)
-            ->where('amount_inc', $insertData['amount_inc'])
+            //   ->where('amount_inc', $insertData['amount_inc'])
             //  ->where('remarks', $remarks)
             //  ->where('tag', $tag)
-            //  ->where('mutation_type', $mutation_type)
             ->first();
         if ($booking) {
             return true;
@@ -136,7 +113,6 @@ class Booking extends Model
 
     public function resetBooking()
     {
-
 
         $insertData = $this->originals;
 
@@ -152,13 +128,12 @@ class Booking extends Model
         $this->plus_min_int      = $insertData['plus_min_int'];
         $this->invoice_nr        = $insertData['invoice_nr'];
         $this->bank_code         = $insertData['bank_code'];
-        //  $this->amount            = $insertData['amount'];
-        //  $this->btw               = $insertData['btw'];
         $this->amount_inc        = $insertData['amount_inc'];
         $this->remarks           = $insertData['remarks'];
         $this->tag               = $insertData['tag'];
         $this->mutation_type     = $insertData['mutation_type'];
         $this->category          = $insertData['category'];
+        $this->cross_account     = '';
 
 
         // delete children
@@ -172,8 +147,13 @@ class Booking extends Model
 
 
 
-    public function splitBooking()
+    public function splitBooking($splitOffCents)
     {
+
+        if ($splitOffCents == 0) {
+            return false;
+        }
+
 
         // create a new booking
         $newBooking = new Booking;
@@ -181,18 +161,22 @@ class Booking extends Model
         $newBooking->date = $this->date;
         $newBooking->account = $this->account;
         $newBooking->contra_account = $this->contra_account;
-        $newBooking->description = $this->description;
+        $newBooking->description = $this->description . ' (split off)';
         $newBooking->plus_min = $this->plus_min;
         $newBooking->plus_min_int = $this->plus_min_int;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        // $newBooking->amount = $this->amount / 2;
-        //  $newBooking->btw = $this->btw / 2;
-        $newBooking->amount_inc = $this->amount_inc / 2;
-        $newBooking->remarks = $this->remarks;
+        $newBooking->amount_inc = $splitOffCents;
+        $newBooking->remarks = $this->remarks . ' (split off)';
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
         $newBooking->category = $this->category;
+        $newBooking->cross_account = $this->cross_account;
+
+
+        $this->amount_inc = $this->amount_inc - $splitOffCents;
+        $this->save();
+
         return $newBooking->save();
     }
 
@@ -203,7 +187,11 @@ class Booking extends Model
         $this->amount_inc = $this->amount_inc - $btw;
         $this->save();
 
-        // create a new booking
+        // create a new booking 
+
+        // get the bookingCategory named btw
+        $bookingCategory = BookingCategory::where('slug', 'btw')->first();
+
         $newBooking = new Booking;
         $newBooking->parent_id = $this->id;
         $newBooking->date = $this->date;
@@ -214,25 +202,143 @@ class Booking extends Model
         $newBooking->plus_min_int = $this->plus_min_int;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        // $newBooking->amount = $this->amount / 2;
-        //  $newBooking->btw = $this->btw / 2;
         $newBooking->amount_inc = $btw;
         $newBooking->remarks = $this->remarks;
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
-        $newBooking->category = 'btw';
+        $newBooking->category = $bookingCategory->id;
+
         return $newBooking->save();
+    }
+
+
+
+    public function scopeBookings($query)
+    {
+        return $query
+            ->where('account', 'NL94INGB0007001049');
+    }
+
+
+    // https://laravel.com/docs/9.x/eloquent#dynamic-scopes
+    public function scopeOfAccount($query, $type)
+    {
+
+
+        return $query
+            ->where('account', $type)
+            ->orWhere('cross_account', $type);
     }
 
 
 
     public function scopeDebiteuren($query)
     {
-        return $query->where('category', 'debiteuren');
+
+        return $query
+            ->where('category', 'debiteuren')
+            ->orWhere('account', 'debiteuren');
     }
 
     public function scopePeriod($query)
     {
+
+        if (session('startDate') == null) {
+            session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
+        }
+        if (session('stopDate') == null) {
+            session(['stopDate' => date('Y-m-d')]);
+        }
+
+
         return $query->where('date', '>=', session('startDate'))->where('date', '<=', session('stopDate'));
+    }
+
+
+    public function scopePeriodBefore($query)
+    {
+
+        if (session('startDate') == null) {
+            session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
+        }
+
+        return $query->where('date', '<', session('startDate'));
+    }
+
+
+    public function scopePeriodEnd($query)
+    {
+
+        // if (session('startDate') == null) {
+        //     session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
+        // }
+        if (session('stopDate') == null) {
+            session(['stopDate' => date('Y-m-d')]);
+        }
+
+
+        return $query->where('date', '<=', session('stopDate'));
+    }
+
+
+    public function getPlusMinIntAttribute($value)
+    {
+
+        $viewscope = session('viewscope');
+
+        if ($this->cross_account) {
+            $bookingCrossAccount = BookingAccount::where('named_id', $this->cross_account)->first();
+        }
+
+        if (
+            isset($bookingCrossAccount)
+            // and $bookingCrossAccount->intern  == 1
+            and
+            $viewscope == $bookingCrossAccount->named_id
+        ) {
+            return -$value;
+        } else {
+            return $value;
+        }
+        return $value;
+    }
+
+
+
+    /**
+     * 
+     * @param string $pAccount 
+     * @param string $debetOrCredit 
+     * @param string $period    start or end
+     * @return mixed 
+     * 
+     */
+    public static function getDebetOrCredit($pAccount, $debetOrCredit, $period = '')
+    {
+
+        if ($debetOrCredit == 'debet') {
+            $plusMin = '1';
+        } else {
+            $plusMin = '-1';
+        }
+
+        //   $bookingAccount = BookingAccount::where('named_id', $pAccount)->first();
+
+        if ($period === 'start') {
+
+            $periodSum        = self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
+            $periodSum        += self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+        } elseif ($period === 'end') {
+
+            $periodSum        = self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
+            $periodSum        += self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+        } else {
+
+            $periodSum        = self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
+            $periodSum        += self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+        }
+
+
+        return $periodSum;
     }
 }
