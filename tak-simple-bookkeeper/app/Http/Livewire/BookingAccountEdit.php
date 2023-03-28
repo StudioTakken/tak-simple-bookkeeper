@@ -20,13 +20,6 @@ class BookingAccountEdit extends Component
     ];
 
 
-    //      'slug' => 'debiteuren',
-    //     'named_id' => 'debiteuren',
-    //     'name' => 'Debiteuren',
-    //     'include_children' => 1,
-    //     'intern' => 0,
-    //     'plus_min_int' => 1,
-    //     'start_balance' => 0,
 
     // mount
     public function mount()

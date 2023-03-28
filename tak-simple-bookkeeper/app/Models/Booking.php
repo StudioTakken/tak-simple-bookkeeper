@@ -292,7 +292,6 @@ class Booking extends Model
 
         if (
             isset($bookingCrossAccount)
-            // and $bookingCrossAccount->intern  == 1
             and
             $viewscope == $bookingCrossAccount->named_id
         ) {

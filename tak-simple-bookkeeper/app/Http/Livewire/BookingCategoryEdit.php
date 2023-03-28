@@ -41,7 +41,6 @@ class BookingCategoryEdit extends Component
 
     public function blink($saved)
     {
-        ddl('b');
 
         if ($saved) {
             session()->flash('message', 'success');

@@ -119,6 +119,10 @@ class BookingAccountController extends Controller
     }
 
 
+    public function create()
+    {
+        return view('accounts.create');
+    }
 
 
     // This function edits a record based on the id passed in.

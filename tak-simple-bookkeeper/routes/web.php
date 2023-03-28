@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\DebiteurenController;
 use App\Http\Controllers\BookingAccountController;
 use App\Http\Controllers\BookingCategoryController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +20,23 @@ use App\Http\Controllers\ImportController;
 */
 
 // skip the welcome page
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -41,8 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/importeren', [ImportController::class, 'index'])->name('importing');
     Route::post('dropzone/store', [ImportController::class, 'store'])->name('dropzone.store');
 
+    Route::get('/account/create', [BookingAccountController::class, 'create'])->name('account.create');
+    // Route::post('/account/new', [BookingAccountController::class, 'create'])->name('account.create');
+
     Route::get('/account/{account}', [BookingAccountController::class, 'onaccount'])->name('account.onaccount');
     Route::get('/account/edit/{account}', [BookingAccountController::class, 'edit'])->name('accounts.edit');
+
+
     Route::get('/balance', [BookingAccountController::class, 'balance'])->name('balance');
 
     // a route voor balance xlsx

@@ -89,3 +89,8 @@ php artisan make:livewire BookingCreate
 
 php artisan make:export BalanceExport 
 php artisan make:export SummaryExport 
+
+
+
+php artisan make:controller DashboardController
+php artisan make:livewire BookingAccountNew
