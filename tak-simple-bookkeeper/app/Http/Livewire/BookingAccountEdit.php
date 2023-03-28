@@ -24,11 +24,16 @@ class BookingAccountEdit extends Component
     {
         return [
 
-            'account.name' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->account->name,
-            'account.slug' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->account->slug,
-            'account.named_id' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->account->named_id,
+            'account.name' => 'required|string|min:3|max:255',
+            'account.slug' => 'required|string|min:3|max:255',
+            'account.named_id' => 'required|string|min:3|max:255',
             'account.start_balance' => 'required|string',
             'account.plus_min_int' => 'required|int',
+            // 'account.name' => 'required|string|min:3|max:255|unique:booking_accounts,name,' . $this->account->name,
+            // 'account.slug' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->account->slug,
+            // 'account.named_id' => 'required|string|min:3|max:255|unique:booking_accounts,named_id,' . $this->account->named_id,
+            // 'account.start_balance' => 'required|string',
+            // 'account.plus_min_int' => 'required|int',
 
         ];
     }

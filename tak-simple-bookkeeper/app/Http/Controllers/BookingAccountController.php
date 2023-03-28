@@ -51,6 +51,7 @@ class BookingAccountController extends Controller
         return view('bookings.index', [
             'method' => 'account.onaccount',
             'include_children' => $account->include_children,
+            'plus_min_int' => $account->plus_min_int,
             'account' => $account
         ]);
     }
