@@ -15,6 +15,7 @@ class BookingCategoryCreate extends Component
     public $named_id;
     public $remarks;
     public $plus_min_int = 1;
+    public $loss_and_provit = 1;
 
 
     protected $messages = [

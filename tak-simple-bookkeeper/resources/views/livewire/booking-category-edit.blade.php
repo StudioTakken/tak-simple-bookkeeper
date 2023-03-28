@@ -36,6 +36,10 @@
                                     <label class="text-sm" for="category_name">Categorie naam</label><br />
                                     <input type="text" wire:model.debounce.4s="category.name" placeholder="type.."
                                         required>
+                                    @error('category.name')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <p class="text-sm text-gray-700">
                                     De naam van de categorie wordt gebruikt in de weergave van alle pagina's.
@@ -49,6 +53,10 @@
                                     <label class="text-sm" for="category_named_id">Categorie keyname</label><br />
                                     <input type="text" wire:model.debounce.4s="category.named_id"
                                         placeholder="type.." required>
+                                    @error('category.named_id')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <p class="text-sm text-gray-700">
                                     Deze naam wordt intern gebruikt als categorie naam. Deze moet uniek zijn.
@@ -72,6 +80,10 @@
                                     <label class="text-sm" for="category_slug">Categorie slug</label><br />
                                     <input type="text" wire:model.debounce.4s="category.slug" placeholder="type.."
                                         required>
+                                    @error('category.slug')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <p class="text-sm text-gray-700">
                                     De slug wordt gebruikt bij het aanroepen van de pagina, zie de adres balk in je
@@ -96,7 +108,7 @@
                         </div>
 
 
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-3 gap-4">
 
 
 
@@ -115,6 +127,10 @@
                                         <label for="plus_min_int">{{ __('credit categorie') }}</label>
                                     </div>
 
+                                    @error('category.plus_min_int')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
                                     <p class="mt-2 text-sm text-gray-700">
                                         Debet categorieën zijn categorieën waarop je geld binnen krijgt. <br />
                                         Credit categorieën zijn categorieën waarop je geld uitgeeft.
@@ -124,21 +140,57 @@
                             </div>
 
 
+                            <div class="px-6 py-4 my-5">
 
+                                <label class="text-sm" for="opmerkingen">Weergeven in Winst en Verlies</label><br />
+                                <div class="form-row">
+                                    <div class="pl-4 form-group col-md-1">
+                                        <input type="radio" checked wire:model="category.loss_and_provit"
+                                            value="1">
+                                        <label for="loss_and_provit">{{ __('Ja') }}</label>
+                                    </div>
+                                    <div class="pl-4 form-group col-md-1">
 
-                            <div class="">
-                                <div class="flex justify-end px-6 py-4 mb-3">
-                                    @if ($category->plus_min_int == 1)
-                                        <div class="text-white btn bg-takgreen-500 btn-big"><i class="fa fas fa-plus "
-                                                aria-hidden="true"></i>
-                                        </div>
-                                    @else
-                                        <div class="text-white btn bg-takred-500 btn-big"><i class="fa fas fa-minus "
-                                                aria-hidden="true"></i>
-                                        </div>
-                                    @endif
+                                        <input type="radio" wire:model="category.loss_and_provit" value="0">
+                                        <label for="loss_and_provit">{{ __('Nee') }}</label>
+                                    </div>
+                                    @error('category.loss_and_provit')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                    <p class="mt-2 text-sm text-gray-700">
+                                        Is dit een categorie die invloed heeft op de winst en verlies?
+                                    </p>
                                 </div>
+
                             </div>
+
+
+
+                            <div class="px-6 py-4 my-5">
+
+                                <label class="text-sm" for="opmerkingen">Weergeven in BTW overzicht</label><br />
+                                <div class="form-row">
+                                    <div class="pl-4 form-group col-md-1">
+                                        <input type="radio" checked wire:model="category.vat_overview" value="1">
+                                        <label for="vat_overview">{{ __('Ja') }}</label>
+                                    </div>
+                                    <div class="pl-4 form-group col-md-1">
+
+                                        <input type="radio" wire:model="category.vat_overview" value="0">
+                                        <label for="vat_overview">{{ __('Nee') }}</label>
+                                    </div>
+                                    @error('category.vat_overview')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                    <p class="mt-2 text-sm text-gray-700">
+                                        Is dit een categorie die invloed heeft op de btw?
+                                    </p>
+                                </div>
+
+                            </div>
+
 
 
 
