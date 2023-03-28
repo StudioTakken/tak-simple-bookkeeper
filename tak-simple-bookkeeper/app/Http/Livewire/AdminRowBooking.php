@@ -15,6 +15,7 @@ class AdminRowBooking extends Component
     public $amount_inc;
     public $description;
     public $date;
+    public $plus_min_int;
     public $remarks;
     public $cross_account = '';
     public $listOfCategories = [];
@@ -79,6 +80,7 @@ class AdminRowBooking extends Component
         $this->description = $this->booking->description;
         $this->remarks = $this->booking->remarks;
         $this->date = $this->booking->date;
+        $this->plus_min_int = $this->booking->plus_min_int;
         $this->listOfCrossCategorieForPulldown();
     }
 
@@ -95,6 +97,16 @@ class AdminRowBooking extends Component
         $this->blink($ok);
         $this->emit('refreshBookings');
     }
+
+    public function updatePlusMinInt()
+    {
+
+        $this->booking->plus_min_int = $this->plus_min_int;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
 
     public function updateDescription()
     {

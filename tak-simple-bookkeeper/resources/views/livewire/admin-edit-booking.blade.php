@@ -10,17 +10,6 @@ error-fader @endif
 
     {{--  a div the aligns on the right side --}}
 
-    <div class="flex justify-end mb-3">
-        @if ($booking->plus_min_int === 1)
-            <div class="text-white btn bg-takgreen-500 btn-big"><i class="fa fas fa-plus " aria-hidden="true"></i>
-            </div>
-        @else
-            <div class="text-white btn bg-takred-500 btn-big"><i class="fa fas fa-minus " aria-hidden="true"></i></div>
-        @endif
-
-    </div>
-
-
 
 
 
@@ -43,6 +32,41 @@ error-fader @endif
                     {{ $amount_inc }}
                 </td>
             </tr>
+            <tr class=''>
+                <td class="px-2 text-sm align-top border border-slate-300">Polarity</td>
+                <td class="px-2 font-bold align-top border border-slate-300">
+
+
+
+
+                    <div class="pl-4 form-group col-md-1">
+                        <input type="radio" wire:model="plus_min_int" wire:change="updatePlusMinInt" value="1">
+                        <label for="plus_min_int">{{ __('plus +') }}</label>
+                    </div>
+                    <div class="pl-4 form-group col-md-1">
+
+                        <input type="radio" wire:model="plus_min_int" wire:change="updatePlusMinInt" value="-1">
+                        <label for="plus_min_int">{{ __('min -') }}</label>
+                    </div>
+
+
+
+                    {{-- <div class="">
+                        @if ($booking->plus_min_int === 1)
+                            <div class="text-white btn bg-takgreen-500 btn-big"><i class="fa fas fa-plus "
+                                    aria-hidden="true"></i>
+                            </div>
+                        @else
+                            <div class="text-white btn bg-takred-500 btn-big"><i class="fa fas fa-minus "
+                                    aria-hidden="true"></i></div>
+                        @endif
+                    </div> --}}
+
+
+
+                </td>
+            </tr>
+
             <tr class=''>
                 <td class="px-2 text-sm align-top border border-slate-300">Datum</td>
                 <td class="px-2 align-top border border-slate-300">
