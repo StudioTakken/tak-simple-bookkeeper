@@ -11,14 +11,27 @@ class BookingAccountEdit extends Component
 
     public BookingAccount $account;
 
-    protected $rules = [
-        'account.name' => 'required|string|min:3',
-        'account.slug' => 'required|string|min:3',
-        'account.named_id' => 'required|string|min:3',
-        'account.start_balance' => 'required|string',
-        'account.plus_min_int' => 'required|int',
+    protected $messages = [
+        'account.name' => 'Een naam is verplicht, en moet uniek en minimaal 3 karakters lang zijn',
+        'account.slug' => 'Een slug is verplicht, en moet uniek zijn',
+        'account.named_id' => 'Een keyname is verplicht, en moet uniek zijn',
+        'account.start_balance' => 'Start balance is verplicht',
+        'account.plus_min_int' => 'Een plus_min_int is verplicht',
     ];
 
+
+    protected function rules()
+    {
+        return [
+
+            'account.name' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->account->name,
+            'account.slug' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->account->slug,
+            'account.named_id' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->account->named_id,
+            'account.start_balance' => 'required|string',
+            'account.plus_min_int' => 'required|int',
+
+        ];
+    }
 
 
     // mount
@@ -56,6 +69,8 @@ class BookingAccountEdit extends Component
 
         $this->blink($ok);
         Cache::forget('all_the_booking_accounts');
+
+        return redirect()->route('accounts.edit', ['account' => $this->account->slug]);
     }
 
 

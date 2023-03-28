@@ -37,6 +37,10 @@
                                     <label class="text-sm" for="account_name">Account naam</label><br />
                                     <input type="text" wire:model.debounce.4s="account.name" placeholder="type.."
                                         required>
+                                    @error('account.name')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <p class="text-sm text-gray-700">
                                     De naam van het account wordt gebruikt in de weergave van alle pagina's.
@@ -50,6 +54,10 @@
                                     <label class="text-sm" for="account_named_id">Account keyname</label><br />
                                     <input type="text" wire:model.debounce.4s="account.named_id" placeholder="type.."
                                         required>
+                                    @error('account.named_id')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <p class="text-sm text-gray-700">
                                     Deze naam wordt intern gebruikt als account naam. Als je bank account bijvoorbeeld
@@ -70,6 +78,10 @@
                                     <label class="text-sm" for="account_slug">Account slug</label><br />
                                     <input type="text" wire:model.debounce.4s="account.slug" placeholder="type.."
                                         required>
+                                    @error('account.slug')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <p class="text-sm text-gray-700">
                                     De slug wordt gebruikt bij het aanroepen van de pagina, zie de adres balk in je
@@ -84,6 +96,10 @@
                                     <label class="text-sm" for="account_slug">Start saldo</label><br />
                                     <input type="text" wire:model.debounce.4s="account.start_balance" class="w-100"
                                         class="numberinputfield" />
+                                    @error('account.start_balance')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
 
 
                                     <p class="mt-2 text-sm text-gray-700">
