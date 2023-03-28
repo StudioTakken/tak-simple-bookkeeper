@@ -59,7 +59,8 @@
 
                 <div class="mt-5">
                     <button class="text-white btn bg-takgreen-500 btn-small">
-                        Add a category</button>
+                        <a href="{{ route('category.create') }}">Add an category</a>
+                    </button>
                     </button>
                 </div>
             </div>

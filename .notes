@@ -94,3 +94,4 @@ php artisan make:export SummaryExport
 
 php artisan make:controller DashboardController
 php artisan make:livewire BookingAccountNew
+php artisan make:livewire BookingCategoryNew

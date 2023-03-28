@@ -138,6 +138,15 @@ class BookingCategoryController extends Controller
     }
 
 
+
+    public function create()
+    {
+        return view('categories.create');
+    }
+
+
+
+
     // edit 
     public function edit($id)
     {
