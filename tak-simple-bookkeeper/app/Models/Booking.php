@@ -9,6 +9,16 @@ class Booking extends Model
 {
     use HasFactory;
 
+    // belongs to account
+    public function account()
+    {
+        return $this->belongsTo(BookingAccount::class, 'named_id', 'account');
+    }
+
+    public function cross_account()
+    {
+        return $this->belongsTo(BookingAccount::class, 'named_id', 'cross_account');
+    }
 
     protected $casts = [
         'originals' => 'array'

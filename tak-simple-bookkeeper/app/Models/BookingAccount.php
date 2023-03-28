@@ -10,19 +10,17 @@ class BookingAccount extends Model
 {
     use HasFactory;
 
+    // has many bookings
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'account', 'named_id');
+    }
 
-    // protected static function boot()
-    // {
-    //     parent::boot();
-    //     static::saving(function ($bookingAccount) {
-    //         // centify the start_balance if it is not an integer
-    //         ddl($bookingAccount->start_balance);
-    //         if (!is_int((int)$bookingAccount->start_balance)) {
-    //             $bookingAccount->start_balance = Centify($bookingAccount->start_balance);
-    //             ddl($bookingAccount->start_balance);
-    //         }
-    //     });
-    // }
+    // has many cross bookings
+    public function crossBookings()
+    {
+        return $this->hasMany(Booking::class, 'cross_account', 'named_id');
+    }
 
 
 

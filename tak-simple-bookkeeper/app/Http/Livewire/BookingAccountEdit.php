@@ -11,6 +11,9 @@ class BookingAccountEdit extends Component
 
     public BookingAccount $account;
     public $delete_confirm = false;
+    public $nr_of_bookings_in_account = 0;
+    public $nr_of_cross_bookings_in_account = 0;
+
 
     protected $messages = [
         'account.name' => 'Een naam is verplicht, en moet uniek en minimaal 3 karakters lang zijn',
@@ -47,9 +50,24 @@ class BookingAccountEdit extends Component
     }
 
 
+    public function getNrOfBookingsInAccount()
+    {
+        $this->nr_of_bookings_in_account = $this->account->bookings->count();
+    }
+
+    // function to get the count of all bookings that have this account named_id as cross_account
+    public function getNrOfCrossBookingsInAccount()
+    {
+        $this->nr_of_cross_bookings_in_account = $this->account->cross_bookings->count();
+    }
+
+
 
     public function render()
     {
+
+
+        $this->getNrOfBookingsInAccount();
 
         if (is_numeric($this->account->start_balance)) {
             // $this->account->start_balance = Centify($this->account->start_balance);
