@@ -17,8 +17,10 @@
 
         <div class="text-sm">
             We houden het zo eenvoudig mogelijk.<br />
-            Begin met het importeren van je bank csv bestand.<br />
-            Daarna in het handig een debiteuren excel bestand te importeren.<br />
+            Begin met het <a class="text-takred-500" href="{{ route('importing') }}">importeren van je bank csv
+                bestand</a>.<br />
+            Daarna in het handig een <a class="text-takred-500" href="{{ route('importing') }}">debiteuren excel bestand
+                te importeren</a>.<br />
         </div>
 
         <div class="grid grid-cols-2 mt-5 text-sm">
@@ -31,7 +33,10 @@
 
                 <ul>
                     @foreach ($accounts as $account)
-                        <li>{{ $account->name }}</li>
+                        <li><a class="py-2 text-takred-500"
+                                href="{{ route('account.onaccount', ['account' => $account->slug]) }}">{{ $account->name }}
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
 
@@ -50,7 +55,9 @@
 
                 <ul>
                     @foreach ($categories as $category)
-                        <li>{{ $category->name }}</li>
+                        <li><a class="py-2 text-takred-500"
+                                href="{{ route('category.oncategory', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                        </li>
                     @endforeach
                 </ul>
 

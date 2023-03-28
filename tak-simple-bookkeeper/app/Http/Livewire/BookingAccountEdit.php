@@ -10,6 +10,7 @@ class BookingAccountEdit extends Component
 {
 
     public BookingAccount $account;
+    public $delete_confirm = false;
 
     protected $messages = [
         'account.name' => 'Een naam is verplicht, en moet uniek en minimaal 3 karakters lang zijn',
@@ -42,6 +43,7 @@ class BookingAccountEdit extends Component
     // mount
     public function mount()
     {
+        $this->delete_confirm = false;
     }
 
 
@@ -87,5 +89,33 @@ class BookingAccountEdit extends Component
         } else {
             session()->flash('message', 'error');
         }
+    }
+
+    public function showDeleteConfirm()
+    {
+        $this->delete_confirm  = true;
+    }
+
+    public function removeAccountCancel()
+    {
+        $this->delete_confirm = false;
+    }
+
+
+    public function removeAccount()
+    {
+
+        // eerst alle bookings op dit account verhuizen naar de default account
+        //    $default_account = BookingAccount::where('named_id', 'default')->first();
+
+
+        // $this->account->bookings->each(function ($booking) use ($default_account) {
+        //     $booking->account_id = $default_account->id;
+        //     $booking->save();
+        // });
+
+        $this->account->delete();
+        Cache::forget('all_the_booking_accounts');
+        return redirect()->route('dashboard');
     }
 }
