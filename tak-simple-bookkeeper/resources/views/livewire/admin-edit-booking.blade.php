@@ -255,49 +255,37 @@ error-fader @endif
 
         </tbody>
     </table>
-    {{-- 
-    @if ($booking->originals)
-        <button class="btn btn-red btn-small" wire:click="resetBooking"><i class="fa fa-reply"
-                aria-hidden="true"></i></button>
-    @endif
-    @if ($booking->category != 'btw')
-        <button class="btn btn-red btn-small" wire:click="splitBookingBtw">21%</button>
-    @endif --}}
+
+    <br />
 
 
-    {{-- 
-    {
-    "id":3,
-    "parent_id":null,
-    "date":"2023-01-09",
-    "account":"NL94INGB0007001049",
-    "contra_account":"",
-    "description":"Hr M W J Takken",
-    "plus_min":"plus",
-    "plus_min_int":1,
-    "invoice_nr":"0",
-    "bank_code":"GT",
-    "amount_inc":100000,
-    "remarks":"Van Oranje spaarrekening T85720046 Valutadatum: 09-01-2023",
-    "tag":"",
-    "mutation_type":"Online bankieren",
-    "category":"",
-    "originals":{"tag":"",
-    "date":"20230109",
-    "account":"NL94INGB0007001049",
-    "remarks":"Van Oranje spaarrekening T85720046 Valutadatum: 09-01-2023",
-    "category":"",
-    "plus_min":"plus",
-    "bank_code":"GT",
-    "amount_inc":100000,
-    "invoice_nr":"0",
-    "description":"Hr M W J Takken",
-    "plus_min_int":1,
-    "mutation_type":"Online bankieren",
-    "contra_account":""},
-    "created_at":"2023-02-24T21:30:30.000000Z",
-    "updated_at":"2023-02-26T10:38:31.000000Z"
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{{ route('dropzone.store') }}" method="post" enctype="multipart/form-data"
+                    id="prove-upload" class="dropzone">
+                    @csrf
+                    <div class="dz-message" data-dz-message><span>Drop your prove</span>
 
-} --}}
+                    </div>
+                    <input type="hidden" name="prove" value="booking">
+                    <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        Dropzone.autoDiscover = false;
+
+        var dropzone = new Dropzone('#prove-upload', {
+            thumbnailWidth: 200,
+            maxFilesize: 5,
+            acceptedFiles: ".csv, .pdf, .jpg",
+        });
+    </script>
+
+    <div id="display_images"></div>
 
 </div>
