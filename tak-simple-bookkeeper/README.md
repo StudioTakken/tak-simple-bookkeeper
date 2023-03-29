@@ -17,8 +17,9 @@ Free and open-source, for freelancers and small businesses.
 I will work on this...
 
  - clone
- - .env file
+ - copy .env.example to .env and edit. Set your database etc.
  - composer
+ - php artisan migrate:fresh --seed
  - npm run dev of npm run build
 
 ## Using Tak Simple Bookkeeper

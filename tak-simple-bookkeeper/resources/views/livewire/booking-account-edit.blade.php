@@ -115,15 +115,15 @@
                         <div class="grid grid-cols-2 gap-4">
 
                             <div class="px-6 py-4 form-row">
-                                <label class="text-sm" for="account_plus_min_int">Debet of Credit</label><br />
+                                <label class="text-sm" for="account_polarity">Debet of Credit</label><br />
                                 <div class="pl-4 form-group col-md-1">
-                                    <input type="radio" checked wire:model="account.plus_min_int" value="1">
-                                    <label for="plus_min_int">{{ __('debet account') }}</label>
+                                    <input type="radio" checked wire:model="account.polarity" value="1">
+                                    <label for="polarity">{{ __('debet account') }}</label>
                                 </div>
                                 <div class="pl-4 form-group col-md-1">
 
-                                    <input type="radio" wire:model="account.plus_min_int" value="-1">
-                                    <label for="plus_min_int">{{ __('credit account') }}</label>
+                                    <input type="radio" wire:model="account.polarity" value="-1">
+                                    <label for="polarity">{{ __('credit account') }}</label>
                                 </div>
 
                                 <p class="mt-2 text-sm text-gray-700">

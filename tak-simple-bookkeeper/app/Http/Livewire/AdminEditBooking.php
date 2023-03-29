@@ -14,7 +14,7 @@ class AdminEditBooking extends AdminRowBooking
     public $amount_inc;
     public $description;
     public $date;
-    public $plus_min_int;
+    public $polarity;
     public $delete_confirm = false;
     // public $remarks;
 

@@ -37,19 +37,19 @@ error-fader @endif
 
 
                     <div class="pl-4 form-group col-md-1">
-                        <input type="radio" wire:model="plus_min_int" wire:change="updatePlusMinInt" value="1">
-                        <label for="plus_min_int">{{ __('plus +') }}</label>
+                        <input type="radio" wire:model="polarity" wire:change="updatePolarity" value="1">
+                        <label for="polarity">{{ __('plus +') }}</label>
                     </div>
                     <div class="pl-4 form-group col-md-1">
 
-                        <input type="radio" wire:model="plus_min_int" wire:change="updatePlusMinInt" value="-1">
-                        <label for="plus_min_int">{{ __('min -') }}</label>
+                        <input type="radio" wire:model="polarity" wire:change="updatePolarity" value="-1">
+                        <label for="polarity">{{ __('min -') }}</label>
                     </div>
 
 
 
                     {{-- <div class="">
-                        @if ($booking->plus_min_int === 1)
+                        @if ($booking->polarity === 1)
                             <div class="text-white btn bg-takgreen-500 btn-big"><i class="fa fas fa-plus "
                                     aria-hidden="true"></i>
                             </div>

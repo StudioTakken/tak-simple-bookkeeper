@@ -78,8 +78,8 @@ class BookingCategoryController extends Controller
                 $category->name = 'onbekend';
             }
 
-            // get the sum of the bookings for this category where plus_min_int is 1
-            $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
+            // get the sum of the bookings for this category where polarity is 1
+            $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
 
             if ($debet > 0) {
                 $totals['debet'] += $debet;
@@ -89,8 +89,8 @@ class BookingCategoryController extends Controller
                 $summary['debet'][$category->id]['debet'] = $debet;
             }
 
-            // get the sum of the bookings for this category where plus_min_int is -1
-            $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+            // get the sum of the bookings for this category where polarity is -1
+            $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
 
             if ($credit > 0) {
                 $totals['credit'] += $credit;

@@ -66,8 +66,8 @@ class AdminBookings extends Component
 
 
             $this->bookings     = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->get();
-            $this->debet        = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('plus_min_int', '1')->sum('amount_inc');
-            $this->credit       = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('plus_min_int', '-1')->sum('amount_inc');
+            $this->debet        = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
+            $this->credit       = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
         }
 
 

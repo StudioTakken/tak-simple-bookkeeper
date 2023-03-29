@@ -22,7 +22,7 @@ class BookingAccountSeeder extends Seeder
                 'name' => 'Debiteuren',
                 'include_children' => 1,
                 'intern' => 0,
-                'plus_min_int' => 1,
+                'polarity' => 1,
                 'start_balance' => 0,
             ],
         );
@@ -34,7 +34,7 @@ class BookingAccountSeeder extends Seeder
                 'name' => 'Crediteuren',
                 'include_children' => 1,
                 'intern' => 0,
-                'plus_min_int' => -1,
+                'polarity' => -1,
                 'start_balance' => 0,
             ],
         );
@@ -47,7 +47,7 @@ class BookingAccountSeeder extends Seeder
                 'name' => 'Bank',
                 'include_children' => 1,
                 'intern' => 1,
-                'plus_min_int' => 1,
+                'polarity' => 1,
                 'start_balance' => 0,
             ],
         );
@@ -59,7 +59,7 @@ class BookingAccountSeeder extends Seeder
                 'name' => 'Spaarrekening',
                 'include_children' => 1,
                 'intern' => 1, 'intern' => 1,
-                'plus_min_int' => 1,
+                'polarity' => 1,
                 'start_balance' => 0,
             ],
         );
@@ -72,7 +72,7 @@ class BookingAccountSeeder extends Seeder
                 'name' => 'Kas',
                 'include_children' => 1,
                 'intern' => 1,
-                'plus_min_int' => 1,
+                'polarity' => 1,
                 'start_balance' => 0,
             ],
         );
@@ -85,7 +85,7 @@ class BookingAccountSeeder extends Seeder
                 'name' => 'Apparatuur',
                 'include_children' => 1,
                 'intern' => 1,
-                'plus_min_int' => 1,
+                'polarity' => 1,
                 'start_balance' => 0,
             ],
 

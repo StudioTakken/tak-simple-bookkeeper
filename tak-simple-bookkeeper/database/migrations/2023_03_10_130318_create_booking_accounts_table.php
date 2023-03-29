@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('named_id');
             $table->string('name');
             $table->integer('intern');
-            $table->integer('plus_min_int');
+            $table->integer('polarity');
             $table->string('include_children')->nullable();
             $table->integer('start_balance')->nullable();
             $table->text('remarks')->nullable();

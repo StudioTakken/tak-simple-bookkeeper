@@ -14,7 +14,7 @@ class BookingCategoryCreate extends Component
     public $slug;
     public $named_id;
     public $remarks;
-    public $plus_min_int = 1;
+    public $polarity = 1;
     public $loss_and_provit = 1;
 
 
@@ -22,7 +22,7 @@ class BookingCategoryCreate extends Component
         'name' => 'Een naam is verplicht, en moet minimaal 3 karakters lang zijn',
         'slug' => 'Een slug is verplicht, en moet uniek zijn',
         'named_id' => 'Een keyname is verplicht, moet uniek zijn',
-        'plus_min_int' => 'Een plus_min_int is verplicht',
+        'polarity' => 'Een polarity is verplicht',
         'remarks' => 'moet een string zijn',
     ];
 
@@ -34,7 +34,7 @@ class BookingCategoryCreate extends Component
             'name' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->name,
             'slug' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->slug,
             'named_id' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->named_id,
-            'plus_min_int' => 'required|int',
+            'polarity' => 'required|int',
 
         ];
     }
@@ -78,7 +78,7 @@ class BookingCategoryCreate extends Component
         $category->name = $this->name;
         $category->slug = $this->slug;
         $category->named_id = $this->named_id;
-        $category->plus_min_int = $this->plus_min_int;
+        $category->polarity = $this->polarity;
         $category->remarks = $this->remarks;
         $category->loss_and_provit = 1;
         $category->vat_overview = 1;

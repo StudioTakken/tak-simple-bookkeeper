@@ -202,14 +202,14 @@ class BookingController extends Controller
         foreach ($importData_arr as $importData) {
 
             $importData['btw'] = 0;
-            $importData['plus_min_int'] = 1;
+            $importData['polarity'] = 1;
 
             if ($importData['plus_min'] === 'Bij') {
                 $importData['plus_min'] = 'plus';
-                $importData['plus_min_int'] = 1;
+                $importData['polarity'] = 1;
             } elseif ($importData['plus_min'] === 'Af') {
                 $importData['plus_min'] = 'min';
-                $importData['plus_min_int'] = -1;
+                $importData['polarity'] = -1;
             }
 
             // make the value form comma to dot
@@ -222,7 +222,7 @@ class BookingController extends Controller
                 "contra_account" => $importData['contra_account'],
                 "description" => $importData['description'],
                 "plus_min" => $importData['plus_min'],
-                "plus_min_int" => $importData['plus_min_int'],
+                "polarity" => $importData['polarity'],
                 "invoice_nr" => $importData['invoice_nr'],
                 "bank_code" => $importData['bank_code'],
                 "amount_inc" => (float)$importData['amount_inc'],

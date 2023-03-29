@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->smallInteger('loss_and_provit');
             $table->smallInteger('vat_overview');
-            $table->smallInteger('plus_min_int');
+            $table->smallInteger('polarity');
             $table->text('remarks')->nullable();
             $table->timestamps();
         });
