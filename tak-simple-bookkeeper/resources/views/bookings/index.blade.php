@@ -69,7 +69,6 @@
                 [
                     'method' => $method,
                     'include_children' => $include_children,
-                    'account' => $account,
                 ],
                 key(now() . '-' . Str::random())
             )

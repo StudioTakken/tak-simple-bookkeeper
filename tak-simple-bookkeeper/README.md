@@ -31,7 +31,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## TODO
 
-Store prove documents
 A name
 Installation guide
 

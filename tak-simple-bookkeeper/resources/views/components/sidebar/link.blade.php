@@ -23,7 +23,7 @@
         @endif
 
         <span class="text-sm font-medium whitespace-nowrap" x-show="isSidebarOpen || isSidebarHovered">
-            {{ $title }} {{ $isActive }}
+            {{ $title }}
         </span>
 
         <span x-show="isSidebarOpen || isSidebarHovered" aria-hidden="true" class="relative block w-6 h-6 ml-auto">
