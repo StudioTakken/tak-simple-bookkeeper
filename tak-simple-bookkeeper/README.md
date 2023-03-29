@@ -2,8 +2,11 @@
 
 ## About Tak Simple Bookkeeper
 
-A simple bookkeeping system for my son who started his very own small business.
-It needed to be simple and straitforward.
+A simple bookkeeping system for my son who started his very own small business.  
+It needed to be simple and straitforward.  
+Free and open-source, for freelancers and small businesses. 
+
+## Build with
 
 - PHP 8.0.2 & Mysql (I'm using [MAMP](https://www.mamp.info) locally)
 - [Tailwind](https://tailwindcss.com), [Alpine.js](https://alpinejs.dev/), [Laravel](https://laravel.com), and [Livewire](https://laravel-livewire.com).
@@ -16,6 +19,7 @@ I will work on this...
  - clone
  - .env file
  - composer
+ - npm run dev of npm run build
 
 ## Using Tak Simple Bookkeeper
 

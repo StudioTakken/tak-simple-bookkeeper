@@ -30,7 +30,7 @@ use App\Http\Controllers\DashboardController;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashhome');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
