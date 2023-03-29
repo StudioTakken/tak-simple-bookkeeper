@@ -9,6 +9,8 @@ use Livewire\Component;
 class BookingCategoryEdit extends Component
 {
     public BookingCategory $category;
+    public $delete_confirm = false;
+    public $nr_of_bookings_in_category;
 
     protected $rules = [
         'category.name' => 'required|string|min:3',
@@ -22,6 +24,7 @@ class BookingCategoryEdit extends Component
 
     public function render()
     {
+        $this->getNrOfBookingsInCategory();
         return view('livewire.booking-category-edit');
     }
 
@@ -50,5 +53,28 @@ class BookingCategoryEdit extends Component
             ddl('some wrong');
             session()->flash('message', 'error');
         }
+    }
+
+    public function getNrOfBookingsInCategory()
+    {
+        $this->nr_of_bookings_in_category = $this->category->bookings->count();
+    }
+
+    public function showDeleteConfirm()
+    {
+        $this->delete_confirm  = true;
+    }
+
+    public function removeCategoryCancel()
+    {
+        $this->delete_confirm = false;
+    }
+
+
+    public function removeCategory()
+    {
+        $this->category->delete();
+        Cache::forget('all_the_booking_categories');
+        return redirect()->route('dashboard');
     }
 }

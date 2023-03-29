@@ -136,39 +136,6 @@
                         </div>
 
 
-
-
-
-
-
-                        {{-- <div class="grid grid-cols-2 gap-4">
-
-                            <div class="px-6 py-4 form-row">
-                                <label class="text-sm" for="account_intern">Intern of extern</label><br />
-                                <div class="pl-4 form-group col-md-1">
-                                    <input type="radio" checked wire:model="intern" value="1">
-                                    <label for="intern">{{ __('intern') }}</label>
-                                </div>
-                                <div class="pl-4 form-group col-md-1">
-
-                                    <input type="radio" wire:model="intern" value="0">
-                                    <label for="extern">{{ __('extern') }}</label>
-                                </div>
-
-                                <p class="mt-2 text-sm text-gray-700">
-                                    Interne accounts zijn accounts die je gebruikt voor je eigen administratie. <br />
-                                    Externe accounts zijn accounts die je gebruikt voor bijvoorbeeld je debiteuren of
-                                    crediteuren.
-                                </p>
-                            </div>
-
-                        </div>
-
-
- --}}
-
-
-
                         <div class="grid grid-cols-2 gap-4 px-6 py-4">
 
                             <div>

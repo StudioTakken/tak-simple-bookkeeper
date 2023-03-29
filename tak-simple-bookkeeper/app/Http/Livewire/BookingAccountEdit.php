@@ -122,16 +122,6 @@ class BookingAccountEdit extends Component
 
     public function removeAccount()
     {
-
-        // eerst alle bookings op dit account verhuizen naar de default account
-        //    $default_account = BookingAccount::where('named_id', 'default')->first();
-
-
-        // $this->account->bookings->each(function ($booking) use ($default_account) {
-        //     $booking->account_id = $default_account->id;
-        //     $booking->save();
-        // });
-
         $this->account->delete();
         Cache::forget('all_the_booking_accounts');
         return redirect()->route('dashboard');

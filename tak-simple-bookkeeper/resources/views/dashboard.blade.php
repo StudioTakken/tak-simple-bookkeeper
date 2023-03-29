@@ -41,7 +41,7 @@
                 </ul>
 
                 <div class="mt-5">
-                    <button class="text-white btn bg-takgreen-500 btn-small">
+                    <button class="settingsbutton soft">
                         <a href="{{ route('account.create') }}">Add an account</a>
                     </button>
                 </div>
@@ -65,8 +65,8 @@
 
 
                 <div class="mt-5">
-                    <button class="text-white btn bg-takgreen-500 btn-small">
-                        <a href="{{ route('category.create') }}">Add an category</a>
+                    <button class="settingsbutton soft">
+                        <a href="{{ route('category.create') }}">Add a category</a>
                     </button>
                     </button>
                 </div>

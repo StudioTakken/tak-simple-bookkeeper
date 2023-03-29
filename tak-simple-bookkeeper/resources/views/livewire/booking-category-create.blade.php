@@ -155,8 +155,7 @@
 
                             @if (isset($category))
                                 <div class="mt-5">
-                                    <button
-                                        class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                                    <button class="settingsbutton soft">
                                         <a href="{{ route('category.oncategory', $category->slug) }}">
                                             Terug naar {{ $category->name }}
                                         </a>

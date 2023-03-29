@@ -155,8 +155,7 @@
 
                             @if (isset($account))
                                 <div class="mt-5">
-                                    <button
-                                        class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                                    <button class="settingsbutton soft">
                                         <a href="{{ route('account.onaccount', $account->slug) }}">
                                             Terug naar {{ $account->name }}
                                         </a>
@@ -242,7 +241,7 @@
                     <tr class=''>
 
 
-                        <button class="btn btn-red btn-small" wire:click="showDeleteConfirm"><i class="fa fas fa-ban"
+                        <button class="settingsbutton" wire:click="showDeleteConfirm"><i class="fa fas fa-ban"
                                 aria-hidden="true"></i> Verwijderen</button>
 
                 @endif

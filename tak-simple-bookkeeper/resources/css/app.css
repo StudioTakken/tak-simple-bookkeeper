@@ -115,5 +115,13 @@
 }
 
 .error {
-    @apply text-red-500;
+    @apply text-takred-500;
+}
+
+.settingsbutton {
+    @apply btn btn-red btn-small;
+}
+
+.soft {
+    @apply text-gray-600 bg-white border border-red-600;
 }

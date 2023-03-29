@@ -11,7 +11,11 @@ class BookingCategory extends Model
     use HasFactory;
 
 
-
+    // has many bookings
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'category', 'id');
+    }
 
 
 

@@ -20,8 +20,7 @@
             <div class="flex-grow"></div>
             <div class="flex-none">
                 @if (isset($account))
-                    <button
-                        class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                    <button class="settingsbutton soft">
                         <a href="{{ route('accounts.edit', $account->id) }}">
                             Edit account: {{ $account->name }} settings
                         </a>
@@ -29,8 +28,7 @@
                 @endif
 
                 @if (isset($category))
-                    <button
-                        class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                    <button class="settingsbutton soft">
                         <a href="{{ route('categories.edit', $category->id) }}">
                             Edit categorie: {{ $category->name }} settings
                         </a>

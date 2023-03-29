@@ -1,4 +1,4 @@
-## Lets call it Tak Simple Bookkeeper for now
+# Lets call it Tak Simple Bookkeeper for now
 
 ## About Tak Simple Bookkeeper
 
@@ -6,7 +6,7 @@ A simple bookkeeping system for my son who started his very own small business.
 It needed to be simple and straitforward.
 
 - PHP 8.0.2 & Mysql (I'm using [MAMP](https://www.mamp.info) locally)
-- [Tailwind](https://tailwindcss.com), Alpine.js, [Laravel](https://laravel.com), and [Livewire](https://laravel-livewire.com).
+- [Tailwind](https://tailwindcss.com), [Alpine.js](https://alpinejs.dev/), [Laravel](https://laravel.com), and [Livewire](https://laravel-livewire.com).
 
 
 ## Installing Tak Simple Bookkeeper
@@ -32,3 +32,9 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## TODO
 
 Store prove documents
+A name
+Installation guide
+
+## Contact
+
+martin@studiotakken.nl
