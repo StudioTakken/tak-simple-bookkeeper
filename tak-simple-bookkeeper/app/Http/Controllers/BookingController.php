@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\BookingCategory;
+use App\Models\BookingProve;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -290,5 +293,14 @@ class BookingController extends Controller
         } else {
             return $key;
         }
+    }
+
+
+    /// download the file
+    public function prove_download($fileId)
+    {
+        // get the booking_prove on id
+        $oBookingProve = BookingProve::find($fileId);
+        return  Storage::Download($oBookingProve->path, $oBookingProve->name);
     }
 }

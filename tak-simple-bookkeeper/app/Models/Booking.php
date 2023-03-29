@@ -20,6 +20,15 @@ class Booking extends Model
         return $this->belongsTo(BookingAccount::class, 'named_id', 'cross_account');
     }
 
+
+    // has many booking_proves
+    public function booking_proves()
+    {
+        return $this->hasMany(BookingProve::class);
+    }
+
+
+
     protected $casts = [
         'originals' => 'array'
     ];

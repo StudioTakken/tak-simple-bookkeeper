@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookingProve;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
@@ -74,7 +75,16 @@ class ImportController extends Controller
 
             // store
             Storage::put('prove/' . $booking_id . '/' . $fileCalled, $upload->getContent());
+
+            // store it in the database as well
+            $bookingProve = new BookingProve();
+            $bookingProve->booking_id = $booking_id;
+            $bookingProve->path = 'prove/' . $booking_id . '/' . $fileCalled;
+            $bookingProve->name = $fileCalled;
+            $bookingProve->save();
         }
+
+
         return response()->json(['success' => $fileName]);
     }
 }

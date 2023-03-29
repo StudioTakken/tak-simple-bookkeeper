@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/{id}', [BookingController::class, 'edit'])->name('booking.edit');
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings-import', [BookingController::class, 'import'])->name('bookings.import');
+    Route::get('/bookings-prove-download/{id}', [BookingController::class, 'prove_download'])->name('bookings.prove-download');
 
     Route::get('/importeren', [ImportController::class, 'index'])->name('importing');
     Route::post('dropzone/store', [ImportController::class, 'store'])->name('dropzone.store');

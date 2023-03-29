@@ -10,9 +10,6 @@ error-fader @endif
 
     {{--  a div the aligns on the right side --}}
 
-
-
-
     <table class="w-full align-top border border-collapse border-slate-400">
 
         <tbody>
@@ -259,6 +256,26 @@ error-fader @endif
     <br />
 
 
+    @if ($booking->booking_proves)
+        <div class="my-5">
+
+            <h3>Bestanden</h3>
+            @foreach ($booking->booking_proves as $prove)
+                <button type="button" wire:click="removeProve({{ $prove->id }})">[x]</button>
+
+
+
+                <a class="text-takred-500" href="{{ route('bookings.prove-download', $prove->id) }}"
+                    class="btn btn-primary">
+                    {{ $prove->name }}</a><br />
+            @endforeach
+
+        </div>
+
+    @endif
+
+
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -282,10 +299,13 @@ error-fader @endif
         var dropzone = new Dropzone('#prove-upload', {
             thumbnailWidth: 200,
             maxFilesize: 5,
-            acceptedFiles: ".csv, .pdf, .jpg",
+            //   acceptedFiles: ".csv, .pdf, .jpg, .xls, .xlsx, .doc",
+            success: function(file, response) {
+                @this.emit('refreshBookings')
+            }
         });
     </script>
 
-    <div id="display_images"></div>
+
 
 </div>

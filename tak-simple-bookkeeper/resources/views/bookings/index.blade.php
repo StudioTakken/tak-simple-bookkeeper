@@ -50,12 +50,17 @@
 
     <div class="py-6">
 
-        <div>
 
-            @if (isset($account))
-                @livewire('booking-create', ['account' => $account], key(now() . '-' . Str::random()))
-            @endif
-        </div>
+
+
+        @if (isset($account))
+            <div>
+                @livewire('booking-create', ['account' => $account], key(now() . '-|-' . Str::random()))
+            </div>
+        @endif
+
+
+
 
         <div>
 
@@ -64,12 +69,15 @@
                 [
                     'method' => $method,
                     'include_children' => $include_children,
+                    'account' => $account,
                 ],
                 key(now() . '-' . Str::random())
             )
 
         </div>
+
         <div>
+
             @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))
 
         </div>

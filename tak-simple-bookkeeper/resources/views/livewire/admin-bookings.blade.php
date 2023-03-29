@@ -2,7 +2,6 @@
 
 
 
-
     <table class="w-9/12 ">
 
         <thead class="border-b ">

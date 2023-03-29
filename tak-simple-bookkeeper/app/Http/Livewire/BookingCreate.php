@@ -81,9 +81,6 @@ class BookingCreate extends Component
         if (is_numeric($this->amount_inc)) {
             $this->amount_inc = number_format($this->amount_inc / 100, 2, ',', '.');
         }
-        // else {
-        //     $this->amount_inc = $this->amount_inc;
-        // }
 
         return view('livewire.booking-create');
     }

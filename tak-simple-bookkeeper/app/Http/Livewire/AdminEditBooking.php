@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\BookingAccount;
+use App\Models\BookingProve;
 
 class AdminEditBooking extends AdminRowBooking
 {
@@ -50,5 +51,14 @@ class AdminEditBooking extends AdminRowBooking
     public function removeBookingCancel()
     {
         $this->delete_confirm = false;
+    }
+
+
+
+    function removeProve($proveId)
+    {
+        $prove = BookingProve::find($proveId);
+        $prove->delete();
+        $this->emit('refreshBookings');
     }
 }

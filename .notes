@@ -97,3 +97,4 @@ php artisan make:livewire BookingAccountNew
 php artisan make:livewire BookingCategoryNew
 
 php artisan make:model BookingProve  -mfsc
+php artisan migrate
