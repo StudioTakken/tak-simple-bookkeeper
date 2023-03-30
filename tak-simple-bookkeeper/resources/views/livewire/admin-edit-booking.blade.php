@@ -67,14 +67,14 @@ error-fader @endif
                 </tr>
             @endif
 
-            @if ($booking->invoice_nr)
-                <tr class=''>
-                    <td class="px-2 text-sm align-top border border-slate-300">Invoice Nr</td>
-                    <td class="px-2 align-top border border-slate-300">
-                        {{ $booking->invoice_nr }}
-                    </td>
-                </tr>
-            @endif
+            <tr class=''>
+                <td class="px-2 text-sm align-top border border-slate-300">Invoice Nr</td>
+                <td class="px-2 align-top border border-slate-300">
+
+                    <input type="text" wire:model.debounce.4s="invoice_nr" wire:change="updateInvoiceNr"
+                        class="descriptioninputfield" placeholder="type.."></textarea>
+                </td>
+            </tr>
 
             @if ($booking->bank_code)
                 <tr class=''>

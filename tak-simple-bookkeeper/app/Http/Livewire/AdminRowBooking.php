@@ -19,6 +19,7 @@ class AdminRowBooking extends Component
     public $polarity;
     public $remarks;
     public $cross_account = '';
+    public $invoice_nr;
     public $listOfCategories = [];
     public $listOfCrossCategoryAccounts = [];
 
@@ -82,6 +83,7 @@ class AdminRowBooking extends Component
         $this->remarks = $this->booking->remarks;
         $this->date = $this->booking->date;
         $this->polarity = $this->booking->polarity;
+        $this->invoice_nr = $this->booking->invoice_nr;
         $this->listOfCrossCategorieForPulldown();
     }
 
@@ -112,6 +114,14 @@ class AdminRowBooking extends Component
     public function updateDescription()
     {
         $this->booking->description = $this->description;
+        $ok = $this->booking->save();
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
+    public function updateInvoiceNr()
+    {
+        $this->booking->invoice_nr = $this->invoice_nr;
         $ok = $this->booking->save();
         $this->blink($ok);
         $this->emit('refreshBookings');

@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // create the bookings route
-    Route::get('/booking/{id}', [BookingController::class, 'edit'])->name('booking.edit');
+    // Route::get('/booking/{id}', [BookingController::class, 'edit'])->name('booking.edit');
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings-import', [BookingController::class, 'import'])->name('bookings.import');
     Route::get('/bookings-prove-download/{id}', [BookingController::class, 'prove_download'])->name('bookings.prove-download');

@@ -20,6 +20,8 @@
 
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
                     Description</th>
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                    Invoice</th>
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-9000 w-28">Debet</th>
                 <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-9000 w-28">Credit</th>
 
@@ -63,6 +65,8 @@
             <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
             </th>
 
+            <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
+            </th>
             <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
             </th>
             <th scope="col" class="px-1 font-mono text-sm font-bold text-right text-gray-900 py-7">

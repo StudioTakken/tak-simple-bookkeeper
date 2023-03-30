@@ -1,4 +1,4 @@
-<tr {{-- wire:click="openSidePanel" --}}
+<tr wire:click="openSidePanel"
     class="   
 
 border-t-2 border-gray-200
@@ -27,7 +27,6 @@ error-fader @endif
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->parent_id }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
         {{ $booking->date }}
-        {{-- <input class="py-0 border-gray-400" type="date" wire:model.debounce.4s="date" wire:change="updateDate"> --}}
     </td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">{{ $booking->account }}</td>
     <td class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap">
@@ -39,6 +38,13 @@ error-fader @endif
 
     </td>
 
+
+
+    <td class="px-1 py-1 font-mono text-sm font-light text-left text-gray-900 whitespace-nowrap">
+        {{ $booking->invoice_nr }}
+    </td>
+
+
     @if ($booking->polarity < 0)
         <td class="px-1 py-1 font-mono text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
@@ -47,16 +53,11 @@ error-fader @endif
 
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
-
-            {{-- {{ $booking->amount_inc }} --}}
         </td>
     @else
         <td class="font-mono text-right">
             <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                 class="numberinputfield" />
-
-            {{-- {{ $booking->amount_inc }} --}}
-
         </td>
 
         <td class="px-1 py-1 font-mono text-sm font-light text-right text-gray-900 whitespace-nowrap">

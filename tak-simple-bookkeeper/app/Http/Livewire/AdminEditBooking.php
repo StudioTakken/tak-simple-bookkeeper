@@ -15,6 +15,7 @@ class AdminEditBooking extends AdminRowBooking
     public $description;
     public $date;
     public $polarity;
+    public $invoice_nr;
     public $delete_confirm = false;
     public $open_dropzone = false;
     // public $remarks;
