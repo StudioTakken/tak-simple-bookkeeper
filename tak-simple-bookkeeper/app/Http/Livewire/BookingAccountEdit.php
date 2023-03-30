@@ -68,6 +68,7 @@ class BookingAccountEdit extends Component
 
 
         $this->getNrOfBookingsInAccount();
+        $this->getNrOfCrossBookingsInAccount();
 
         if (is_numeric($this->account->start_balance)) {
             // $this->account->start_balance = Centify($this->account->start_balance);

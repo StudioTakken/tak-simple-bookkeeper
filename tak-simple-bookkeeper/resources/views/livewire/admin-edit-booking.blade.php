@@ -46,30 +46,14 @@ error-fader @endif
                         <label for="polarity">{{ __('min -') }}</label>
                     </div>
 
-
-
-                    {{-- <div class="">
-                        @if ($booking->polarity === 1)
-                            <div class="text-white btn bg-takgreen-500 btn-big"><i class="fa fas fa-plus "
-                                    aria-hidden="true"></i>
-                            </div>
-                        @else
-                            <div class="text-white btn bg-takred-500 btn-big"><i class="fa fas fa-minus "
-                                    aria-hidden="true"></i></div>
-                        @endif
-                    </div> --}}
-
-
-
                 </td>
             </tr>
 
             <tr class=''>
                 <td class="px-2 text-sm align-top border border-slate-300">Datum</td>
                 <td class="px-2 align-top border border-slate-300">
-                    {{-- {{ $booking->date }} --}}
-                    <input class="py-0 border-gray-400" type="date" wire:model.debounce.4s="date"
-                        wire:change="updateDate">
+                    <input class="py-0 text-sm border-gray-400" type="date" wire:model.debounce.2s="date"
+                        id="date" name="date" wire:change.debounce.2s="updateDate">
                 </td>
             </tr>
 
@@ -256,10 +240,10 @@ error-fader @endif
     <br />
 
 
-    @if ($booking->booking_proves)
+    @if (count($booking->booking_proves) > 0)
         <div class="my-5">
 
-            <h3>Bestanden</h3>
+            <h3 class="font-bold">Bestanden</h3>
             @foreach ($booking->booking_proves as $prove)
                 <button type="button" wire:click="removeProve({{ $prove->id }})">[x]</button>
                 <a class="text-takred-500" href="{{ route('bookings.prove-download', $prove->id) }}"

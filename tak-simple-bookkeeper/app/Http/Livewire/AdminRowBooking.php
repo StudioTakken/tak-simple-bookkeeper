@@ -127,10 +127,12 @@ class AdminRowBooking extends Component
 
     public function updateDate()
     {
-        $this->booking->date = $this->date;
-        $ok = $this->booking->save();
-        $this->blink($ok);
-        $this->emit('refreshBookings');
+        if ($this->date != '') {
+            $this->booking->date = $this->date;
+            $ok = $this->booking->save();
+            $this->blink($ok);
+            $this->emit('refreshBookings');
+        }
     }
 
 
@@ -223,9 +225,7 @@ class AdminRowBooking extends Component
 
     public function openSidePanel()
     {
-        ddl('opensidepanel');
         $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()) . '-' . Str::random());
-        ddl('openklaar');
     }
 
     public function splitOffAction()
