@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Booking;
 use App\Models\BookingAccount;
 use App\Models\BookingCategory;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class AdminRowBooking extends Component
@@ -222,7 +223,9 @@ class AdminRowBooking extends Component
 
     public function openSidePanel()
     {
-        $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()));
+        ddl('opensidepanel');
+        $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()) . '-' . Str::random());
+        ddl('openklaar');
     }
 
     public function splitOffAction()
