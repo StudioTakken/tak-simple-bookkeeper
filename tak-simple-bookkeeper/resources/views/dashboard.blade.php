@@ -76,4 +76,9 @@
 
 
     </div>
+
+
+    <div class="text-xs sticky top-[100vh]">
+        {{ config('app.name') }} Version: {{ config('app.version') }}
+    </div>
 </x-app-layout>
