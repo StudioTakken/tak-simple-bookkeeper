@@ -42,11 +42,16 @@ Generate appication key
 `php artisan key:generate`
 
 You'll need npm: https://docs.npmjs.com/  
-Then
+Then  
 `npm install`  
-`npm run dev or npm run build`  
+`npm run dev`   
+or  
+`npm run build`  
+
+Now we are ready to serve:  
 `php artisan serve`  
- or point your server to the public folder
+or  
+point your server to the public folder.
 
 ## Using Tak Simple Bookkeeper
 
