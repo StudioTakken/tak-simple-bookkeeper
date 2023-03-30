@@ -17,6 +17,7 @@ Free and open-source, for freelancers and small businesses.
 I will work on this...
 
  - clone
+ - cd to tak-simple-bookkeeper
  - copy .env.example to .env and edit. Set your database etc.
  - composer
  - php artisan migrate:fresh --seed
