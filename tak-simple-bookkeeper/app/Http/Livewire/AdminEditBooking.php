@@ -14,8 +14,9 @@ class AdminEditBooking extends AdminRowBooking
     public $amount_inc;
     public $description;
     public $date;
-    public $plus_min_int;
+    public $polarity;
     public $delete_confirm = false;
+    public $open_dropzone = false;
     // public $remarks;
 
     protected $listeners = ['refreshBookings' => 'refreshThis'];
@@ -60,5 +61,11 @@ class AdminEditBooking extends AdminRowBooking
         $prove = BookingProve::find($proveId);
         $prove->delete();
         $this->emit('refreshBookings');
+    }
+
+
+    public function openDropzone()
+    {
+        $this->open_dropzone = true;
     }
 }

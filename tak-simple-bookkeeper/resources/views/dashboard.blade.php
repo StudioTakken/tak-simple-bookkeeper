@@ -33,7 +33,7 @@
 
                 <ul>
                     @foreach ($accounts as $account)
-                        <li><a class="py-2 text-takred-500"
+                        <li class="py-1"><a class="py-2 text-takred-500"
                                 href="{{ route('account.onaccount', ['account' => $account->slug]) }}">{{ $account->name }}
                             </a>
                         </li>
@@ -55,7 +55,7 @@
 
                 <ul>
                     @foreach ($categories as $category)
-                        <li><a class="py-2 text-takred-500"
+                        <li class="py-1"><a class=" text-takred-500"
                                 href="{{ route('category.oncategory', ['category' => $category->slug]) }}">{{ $category->name }}</a>
                         </li>
                     @endforeach

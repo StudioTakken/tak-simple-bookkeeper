@@ -14,23 +14,19 @@ final class SidePanel extends Component
     public string $title = 'Default Panel';
     public string $component = '';
     public $booking;
+    public $key;
 
     protected $listeners = [
         'openRightPanel'
     ];
 
-    public function openRightPanel(string $title, string $component, Booking $booking): void
+    public function openRightPanel(string $title, string $component, Booking $booking, $key): void
     {
-
-        // if ($this->open == true) {
-        //     $this->open = false;
-        // } else {
         $this->open = true;
-        // }
-
         $this->title = $title;
         $this->component = $component;
         $this->booking = $booking;
+        $this->key = $key;
     }
 
     public function render()

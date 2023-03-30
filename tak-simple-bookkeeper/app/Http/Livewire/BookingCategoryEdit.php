@@ -16,7 +16,7 @@ class BookingCategoryEdit extends Component
         'category.name' => 'required|string|min:3',
         'category.slug' => 'required|string|min:3',
         'category.named_id' => 'required|string|min:3',
-        'category.plus_min_int' => 'required|int',
+        'category.polarity' => 'required|int',
         'category.loss_and_provit' => 'required|int',
         'category.vat_overview' => 'required|int',
 
@@ -33,8 +33,8 @@ class BookingCategoryEdit extends Component
     {
         $this->validate();
 
-        if ($this->category->plus_min_int != 1) {
-            $this->category->plus_min_int = -1;
+        if ($this->category->polarity != 1) {
+            $this->category->polarity = -1;
         }
 
         $ok = $this->category->save();

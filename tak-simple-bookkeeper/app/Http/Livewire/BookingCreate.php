@@ -12,21 +12,21 @@ class BookingCreate extends Component
     public $description;
     public $amount_inc;
     public $account;
-    public $plus_min_int = 1;
+    public $polarity = 1;
 
     protected $rules = [
         'date' => 'required|date',
         'description' => 'required|min:3',
         'account' => 'required|min:3',
         'amount_inc' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
-        'plus_min_int' => 'required|int',
+        'polarity' => 'required|int',
     ];
     protected $messages = [
         'date' => 'Een datum is verplicht',
         'description' => 'Een omschrijving is verplicht',
         'account' => 'required|min:3',
         'amount_inc' => 'Een bedrag is verplicht, en moet een nummer zijn, met maximaal 2 decimalen',
-        'plus_min_int' => 'Standaard is plus',
+        'polarity' => 'Standaard is plus',
     ];
 
     public function submit()
@@ -35,7 +35,7 @@ class BookingCreate extends Component
         // ddl($this->date);
         // ddl($this->description);
         // ddl($this->amount_inc);
-        // ddl($this->plus_min_int);
+        // ddl($this->polarity);
         // ddl($this->account);
 
         // centify the amount_inc
@@ -52,7 +52,7 @@ class BookingCreate extends Component
             'description' => $this->description,
             'amount_inc' => $this->amount_inc,
             'account' => $this->account->named_id,
-            'plus_min_int' => $this->plus_min_int,
+            'polarity' => $this->polarity,
         ]);
 
         // after submit, clear the form

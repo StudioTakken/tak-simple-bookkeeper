@@ -118,16 +118,16 @@
                                 <label class="text-sm" for="opmerkingen">Debet of Credit</label><br />
                                 <div class="form-row">
                                     <div class="pl-4 form-group col-md-1">
-                                        <input type="radio" checked wire:model="category.plus_min_int" value="1">
-                                        <label for="plus_min_int">{{ __('debet categorie') }}</label>
+                                        <input type="radio" checked wire:model="category.polarity" value="1">
+                                        <label for="polarity">{{ __('debet categorie') }}</label>
                                     </div>
                                     <div class="pl-4 form-group col-md-1">
 
-                                        <input type="radio" wire:model="category.plus_min_int" value="-1">
-                                        <label for="plus_min_int">{{ __('credit categorie') }}</label>
+                                        <input type="radio" wire:model="category.polarity" value="-1">
+                                        <label for="polarity">{{ __('credit categorie') }}</label>
                                     </div>
 
-                                    @error('category.plus_min_int')
+                                    @error('category.polarity')
                                         <br />
                                         <span class="error">{{ $message }}</span>
                                     @enderror

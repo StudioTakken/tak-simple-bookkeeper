@@ -20,6 +20,11 @@ class Booking extends Model
         return $this->belongsTo(BookingAccount::class, 'named_id', 'cross_account');
     }
 
+    public function booking_category()
+    {
+        return $this->belongsTo(BookingCategory::class, 'category', 'id');
+    }
+
 
     // has many booking_proves
     public function booking_proves()
@@ -41,7 +46,7 @@ class Booking extends Model
         'contra_account',
         'description',
         'plus_min',
-        'plus_min_int',
+        'polarity',
         'invoice_nr',
         'bank_code',
         'amount_inc',
@@ -63,7 +68,7 @@ class Booking extends Model
         'remarks' => '',
         'tag' => '',
         'mutation_type' => '',
-        'plus_min_int' => 1,
+        'polarity' => 1,
         'cross_account' => ''
     );
 
@@ -77,7 +82,7 @@ class Booking extends Model
         $booking->contra_account    = $insertData['contra_account'];
         $booking->description       = $insertData['description'];
         $booking->plus_min          = $insertData['plus_min'];
-        $booking->plus_min_int      = $insertData['plus_min_int'];
+        $booking->polarity      = $insertData['polarity'];
         $booking->invoice_nr        = $insertData['invoice_nr'];
         $booking->bank_code         = $insertData['bank_code'];
         $booking->amount_inc        = $insertData['amount_inc'];
@@ -106,7 +111,7 @@ class Booking extends Model
             ->where('account', $insertData['account'])
             ->where('description', $insertData['description'])
             ->where('plus_min',    $insertData['plus_min'])
-            ->where('plus_min_int', $insertData['plus_min_int'])
+            ->where('polarity', $insertData['polarity'])
             ->where('mutation_type', $insertData['mutation_type'])
 
             // changing fields
@@ -144,7 +149,7 @@ class Booking extends Model
         $this->contra_account    = $insertData['contra_account'];
         $this->description       = $insertData['description'];
         $this->plus_min          = $insertData['plus_min'];
-        $this->plus_min_int      = $insertData['plus_min_int'];
+        $this->polarity      = $insertData['polarity'];
         $this->invoice_nr        = $insertData['invoice_nr'];
         $this->bank_code         = $insertData['bank_code'];
         $this->amount_inc        = $insertData['amount_inc'];
@@ -182,7 +187,7 @@ class Booking extends Model
         $newBooking->contra_account = $this->contra_account;
         $newBooking->description = $this->description . ' (split off)';
         $newBooking->plus_min = $this->plus_min;
-        $newBooking->plus_min_int = $this->plus_min_int;
+        $newBooking->polarity = $this->polarity;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
         $newBooking->amount_inc = $splitOffCents;
@@ -218,7 +223,7 @@ class Booking extends Model
         $newBooking->contra_account = $this->contra_account;
         $newBooking->description = $this->description . ' 21% btw';
         $newBooking->plus_min = $this->plus_min;
-        $newBooking->plus_min_int = $this->plus_min_int;
+        $newBooking->polarity = $this->polarity;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
         $newBooking->amount_inc = $btw;
@@ -300,7 +305,7 @@ class Booking extends Model
     }
 
 
-    public function getPlusMinIntAttribute($value)
+    public function getPolarityAttribute($value)
     {
 
         $viewscope = session('viewscope');
@@ -344,16 +349,16 @@ class Booking extends Model
 
         if ($period === 'start') {
 
-            $periodSum        = self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
-            $periodSum        += self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+            $periodSum        = self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount_inc');
+            $periodSum        += self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount_inc');
         } elseif ($period === 'end') {
 
-            $periodSum        = self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
-            $periodSum        += self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+            $periodSum        = self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount_inc');
+            $periodSum        += self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount_inc');
         } else {
 
-            $periodSum        = self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('plus_min_int', $plusMin)->sum('amount_inc');
-            $periodSum        += self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('plus_min_int', -$plusMin)->sum('amount_inc');
+            $periodSum        = self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount_inc');
+            $periodSum        += self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount_inc');
         }
 
 

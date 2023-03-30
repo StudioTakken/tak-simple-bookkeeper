@@ -39,7 +39,7 @@ error-fader @endif
 
     </td>
 
-    @if ($booking->plus_min_int < 0)
+    @if ($booking->polarity < 0)
         <td class="px-1 py-1 font-mono text-sm font-light text-right text-gray-900 whitespace-nowrap">
 
         </td>
@@ -90,8 +90,7 @@ error-fader @endif
         </select>
     </td>
 
-    {{-- TODO dit zou een fijnere naam moeten hebben oid. --}}
-    @if ($booking->category == '14')
+    @if ($booking->booking_category and $booking->booking_category->named_id == 'cross-posting')
         @livewire ('booking-account-chooser', ['booking' => $booking], key($booking->id))
     @endif
 

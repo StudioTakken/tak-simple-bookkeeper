@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('contra_account');
             $table->string('description');
             $table->string('plus_min');
-            $table->integer('plus_min_int');
+            $table->integer('polarity');
             $table->string('invoice_nr');
             $table->string('bank_code');
             $table->integer('amount_inc');

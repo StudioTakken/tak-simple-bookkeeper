@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Booking;
 use App\Models\BookingAccount;
 use App\Models\BookingCategory;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class AdminRowBooking extends Component
@@ -15,7 +16,7 @@ class AdminRowBooking extends Component
     public $amount_inc;
     public $description;
     public $date;
-    public $plus_min_int;
+    public $polarity;
     public $remarks;
     public $cross_account = '';
     public $listOfCategories = [];
@@ -48,10 +49,10 @@ class AdminRowBooking extends Component
 
         $this->listOfCategories = BookingCategory::getAll();
 
-        // adding the accounts as links to accounts and category kruispost
+        // adding the accounts as links to accounts and category cross-posting
         $bookingAccounts = BookingAccount::getAll();
-        // get the bookingCategory kruispost
-        $crossCategory = BookingCategory::where('slug', 'kruispost')->first();
+        // get the bookingCategory cross-posting
+        $crossCategory = BookingCategory::where('slug', 'cross-posting')->first();
 
         foreach ($bookingAccounts as $bookingAccount) {
             $bookingAccount->category = $crossCategory->id;
@@ -80,7 +81,7 @@ class AdminRowBooking extends Component
         $this->description = $this->booking->description;
         $this->remarks = $this->booking->remarks;
         $this->date = $this->booking->date;
-        $this->plus_min_int = $this->booking->plus_min_int;
+        $this->polarity = $this->booking->polarity;
         $this->listOfCrossCategorieForPulldown();
     }
 
@@ -98,10 +99,10 @@ class AdminRowBooking extends Component
         $this->emit('refreshBookings');
     }
 
-    public function updatePlusMinInt()
+    public function updatePolarity()
     {
 
-        $this->booking->plus_min_int = $this->plus_min_int;
+        $this->booking->polarity = $this->polarity;
         $ok = $this->booking->save();
         $this->blink($ok);
         $this->emit('refreshBookings');
@@ -126,10 +127,12 @@ class AdminRowBooking extends Component
 
     public function updateDate()
     {
-        $this->booking->date = $this->date;
-        $ok = $this->booking->save();
-        $this->blink($ok);
-        $this->emit('refreshBookings');
+        if ($this->date != '') {
+            $this->booking->date = $this->date;
+            $ok = $this->booking->save();
+            $this->blink($ok);
+            $this->emit('refreshBookings');
+        }
     }
 
 
@@ -166,8 +169,8 @@ class AdminRowBooking extends Component
     public function updatedCategory()
     {
 
-        // get the booking category kruispost
-        $crossCategory = BookingCategory::where('slug', 'kruispost')->first();
+        // get the booking category cross-posting
+        $crossCategory = BookingCategory::where('slug', 'cross-posting')->first();
 
         // divide $this->category in two parts on ::
         $parts = explode('::', $this->category);
@@ -222,7 +225,7 @@ class AdminRowBooking extends Component
 
     public function openSidePanel()
     {
-        $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()));
+        $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()) . '-' . Str::random());
     }
 
     public function splitOffAction()

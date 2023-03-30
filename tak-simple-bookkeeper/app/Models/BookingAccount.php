@@ -17,7 +17,7 @@ class BookingAccount extends Model
     }
 
     // has many cross bookings
-    public function crossBookings()
+    public function cross_bookings()
     {
         return $this->hasMany(Booking::class, 'cross_account', 'named_id');
     }

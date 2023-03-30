@@ -16,7 +16,7 @@ class BookingAccountCreate extends Component
     public $slug;
     public $named_id;
     public $start_balance;
-    public $plus_min_int = 1;
+    public $polarity = 1;
 
 
 
@@ -25,7 +25,7 @@ class BookingAccountCreate extends Component
         'slug' => 'Een slug is verplicht, en moet uniek zijn',
         'named_id' => 'Een keyname is verplicht, moet uniek zijn',
         'start_balance' => 'Start balance is verplicht',
-        'plus_min_int' => 'Een plus_min_int is verplicht',
+        'polarity' => 'Een polarity is verplicht',
     ];
 
 
@@ -37,7 +37,7 @@ class BookingAccountCreate extends Component
             'slug' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->slug,
             'named_id' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->named_id,
             'start_balance' => 'required|string',
-            'plus_min_int' => 'required|int',
+            'polarity' => 'required|int',
 
         ];
     }
@@ -89,8 +89,8 @@ class BookingAccountCreate extends Component
             $this->start_balance = Centify($this->start_balance);
         }
 
-        if ($this->plus_min_int != 1) {
-            $this->plus_min_int = -1;
+        if ($this->polarity != 1) {
+            $this->polarity = -1;
         }
 
         $account = new BookingAccount();
@@ -98,7 +98,7 @@ class BookingAccountCreate extends Component
         $account->slug = $this->slug;
         $account->named_id = $this->named_id;
         $account->start_balance = $this->start_balance;
-        $account->plus_min_int = $this->plus_min_int;
+        $account->polarity = $this->polarity;
         $account->intern = 1;
         $account->include_children = 1;
         $account->intern = 1;

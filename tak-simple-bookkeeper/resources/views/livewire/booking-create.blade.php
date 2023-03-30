@@ -76,15 +76,15 @@
                         @enderror
                     </div>
 
-                    {{-- plus_min_int --}}
+                    {{-- polarity --}}
 
                     <div class="py-1 text-sm font-light text-gray-900 whitespace-nowrap">
-                        <label for="plus_min_int">Plus of Min</label><br />
-                        <select class="py-0 text-sm border-gray-400" wire:model="plus_min_int">
+                        <label for="polarity">Plus of Min</label><br />
+                        <select class="py-0 text-sm border-gray-400" wire:model="polarity">
                             <option value="1">Plus</option>
                             <option value="-1">Min</option>
                         </select>
-                        @error('plus_min_int')
+                        @error('polarity')
                             <br />
                             <span class="error">{{ $message }}</span>
                         @enderror

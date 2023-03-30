@@ -26,7 +26,7 @@ class BookingCategorySeeder extends Seeder
                     'name' => $name,
                     'loss_and_provit' => 1,
                     'vat_overview' => 1,
-                    'plus_min_int' => 1,
+                    'polarity' => 1,
                 ],
             );
         }

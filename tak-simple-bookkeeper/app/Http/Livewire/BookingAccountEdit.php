@@ -20,7 +20,7 @@ class BookingAccountEdit extends Component
         'account.slug' => 'Een slug is verplicht, en moet uniek zijn',
         'account.named_id' => 'Een keyname is verplicht, en moet uniek zijn',
         'account.start_balance' => 'Start balance is verplicht',
-        'account.plus_min_int' => 'Een plus_min_int is verplicht',
+        'account.polarity' => 'Een polarity is verplicht',
     ];
 
 
@@ -32,12 +32,12 @@ class BookingAccountEdit extends Component
             'account.slug' => 'required|string|min:3|max:255',
             'account.named_id' => 'required|string|min:3|max:255',
             'account.start_balance' => 'required|string',
-            'account.plus_min_int' => 'required|int',
+            'account.polarity' => 'required|int',
             // 'account.name' => 'required|string|min:3|max:255|unique:booking_accounts,name,' . $this->account->name,
             // 'account.slug' => 'required|string|min:3|max:255|unique:booking_accounts,slug,' . $this->account->slug,
             // 'account.named_id' => 'required|string|min:3|max:255|unique:booking_accounts,named_id,' . $this->account->named_id,
             // 'account.start_balance' => 'required|string',
-            // 'account.plus_min_int' => 'required|int',
+            // 'account.polarity' => 'required|int',
 
         ];
     }
@@ -68,6 +68,7 @@ class BookingAccountEdit extends Component
 
 
         $this->getNrOfBookingsInAccount();
+        $this->getNrOfCrossBookingsInAccount();
 
         if (is_numeric($this->account->start_balance)) {
             // $this->account->start_balance = Centify($this->account->start_balance);
@@ -86,8 +87,8 @@ class BookingAccountEdit extends Component
             $this->account->start_balance = Centify($this->account->start_balance);
         }
 
-        if ($this->account->plus_min_int != 1) {
-            $this->account->plus_min_int = -1;
+        if ($this->account->polarity != 1) {
+            $this->account->polarity = -1;
         }
 
         $ok = $this->account->save();

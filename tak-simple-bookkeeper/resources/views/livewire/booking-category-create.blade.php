@@ -113,16 +113,16 @@
 
                             <div class="px-6 py-4 my-5">
 
-                                <label class="text-sm" for="plus_min_int">Debet of Credit</label><br />
+                                <label class="text-sm" for="polarity">Debet of Credit</label><br />
                                 <div class="form-row">
                                     <div class="pl-4 form-group col-md-1">
-                                        <input type="radio" checked wire:model="plus_min_int" value="1">
-                                        <label for="plus_min_int">{{ __('debet categorie') }}</label>
+                                        <input type="radio" checked wire:model="polarity" value="1">
+                                        <label for="polarity">{{ __('debet categorie') }}</label>
                                     </div>
                                     <div class="pl-4 form-group col-md-1">
 
-                                        <input type="radio" wire:model="plus_min_int" value="-1">
-                                        <label for="plus_min_int">{{ __('credit categorie') }}</label>
+                                        <input type="radio" wire:model="polarity" value="-1">
+                                        <label for="polarity">{{ __('credit categorie') }}</label>
                                     </div>
 
                                     <p class="mt-2 text-sm text-gray-700">
