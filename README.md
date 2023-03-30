@@ -6,6 +6,9 @@ A simple bookkeeping system for my son who started his very own small business.
 It needed to be simple and straitforward.  
 Free and open-source, for freelancers and small businesses. 
 
+Oh, en ja, teksten zijn vooral in het nederlands, voorlopig.  
+Oh, and yes, texts are meanly in dutch, or in bad english.  
+
 ## Build with
 
 - PHP 8.0.2 & Mysql (I'm using [MAMP](https://www.mamp.info) locally)
@@ -14,14 +17,36 @@ Free and open-source, for freelancers and small businesses.
 
 ## Installing Tak Simple Bookkeeper
 
-I will work on this...
 
- - clone
- - cd to tak-simple-bookkeeper
- - copy .env.example to .env and edit. Set your database etc.
- - composer
- - php artisan migrate:fresh --seed
- - npm run dev of npm run build
+clone the repository  
+`git clone https://github.com/StudioTakken/tak-simple-bookkeeper.git`
+
+cd to tak-simple-bookkeeper. Yeah it's in a subfolder...  
+`cd tak-simple-bookkeeper/tak-simple-bookkeeper`
+
+copy .env.example to .env  
+`cp .env.example .env`
+
+edit .env  
+Set database and the test admin password at the end of the file.  
+provide the mail settings. I use mailhug in dev.
+
+
+composer https://getcomposer.org/ should be installed first to be able to install all dependencies  
+`composer install`
+
+setup the database with some presets  
+`php artisan migrate:fresh --seed`  
+
+Generate appication key  
+`php artisan key:generate`
+
+You'll need npm: https://docs.npmjs.com/  
+Then
+`npm install`  
+`npm run dev or npm run build`  
+`php artisan serve`  
+ or point your server to the public folder
 
 ## Using Tak Simple Bookkeeper
 
@@ -33,12 +58,7 @@ That would be great. Fork, develop and send a pull request!
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-## TODO
-
-A name
-Installation guide
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Contact
 
