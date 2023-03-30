@@ -1,7 +1,8 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "tak-simple-bookkeeper",
+    "version": "1.0.0",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
