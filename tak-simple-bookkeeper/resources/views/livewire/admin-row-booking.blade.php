@@ -40,7 +40,14 @@ error-fader @endif
 
 
 
-    <td class="px-1 py-1 font-mono text-sm font-light text-left text-gray-900 whitespace-nowrap">
+    <td
+        class="px-1 py-1 font-mono text-sm font-light text-left whitespace-nowrap
+    
+    @if ($balance) text-green-700 
+   @else
+    text-red-700 @endif
+    
+    ">
         {{ $booking->invoice_nr }}
     </td>
 

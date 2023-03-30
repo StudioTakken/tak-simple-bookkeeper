@@ -22,7 +22,7 @@ class BookingAccountSeeder extends Seeder
                 'name' => 'Debiteuren',
                 'include_children' => 1,
                 'intern' => 0,
-                'polarity' => 1,
+                'polarity' => -1,
                 'start_balance' => 0,
             ],
         );
@@ -58,7 +58,7 @@ class BookingAccountSeeder extends Seeder
                 'named_id' => 'spaarrekening',
                 'name' => 'Spaarrekening',
                 'include_children' => 1,
-                'intern' => 1, 'intern' => 1,
+                'intern' => 1,
                 'polarity' => 1,
                 'start_balance' => 0,
             ],

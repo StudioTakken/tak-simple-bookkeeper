@@ -20,6 +20,7 @@ class AdminRowBooking extends Component
     public $remarks;
     public $cross_account = '';
     public $invoice_nr;
+    public $balance;
     public $listOfCategories = [];
     public $listOfCrossCategoryAccounts = [];
 
@@ -77,6 +78,8 @@ class AdminRowBooking extends Component
 
     public function beforeRender()
     {
+
+        $this->checkBalance();
         $this->calculateChildren();
         $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
         $this->description = $this->booking->description;
@@ -85,6 +88,50 @@ class AdminRowBooking extends Component
         $this->polarity = $this->booking->polarity;
         $this->invoice_nr = $this->booking->invoice_nr;
         $this->listOfCrossCategorieForPulldown();
+    }
+
+    /**
+     * 
+     * check the balance of the bookings with the same invoice_nr
+     * 
+     * @return void 
+     */
+    public function checkBalance()
+    {
+
+        $this->balance = false;
+        // is there an invoice_nr?
+        if ($this->booking->invoice_nr != '') {
+
+
+
+
+            // get all bookings with this invoice_nr
+            $bookings = Booking::where('invoice_nr', $this->booking->invoice_nr)->get();
+            $balance = 0;
+
+
+            foreach ($bookings as $booking) {
+
+                $cross_account_polarity = 1;
+
+                if ($booking->booking_cross_account) {
+                    $cross_account_polarity = $booking->booking_cross_account->polarity;
+                }
+
+                if ($cross_account_polarity == '-1') {
+                    $booking->amount_inc = $booking->amount_inc * $cross_account_polarity;
+                }
+
+                $balance += $booking->amount_inc;
+            }
+
+
+
+            if ($balance == 0) {
+                $this->balance = true;
+            }
+        }
     }
 
     public function CalcAmountIncAndBtw()
@@ -109,7 +156,6 @@ class AdminRowBooking extends Component
         $this->blink($ok);
         $this->emit('refreshBookings');
     }
-
 
     public function updateDescription()
     {
@@ -144,8 +190,6 @@ class AdminRowBooking extends Component
             $this->emit('refreshBookings');
         }
     }
-
-
 
     public function NoBTW()
     {

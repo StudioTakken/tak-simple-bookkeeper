@@ -10,14 +10,14 @@ class Booking extends Model
     use HasFactory;
 
     // belongs to account
-    public function account()
+    public function booking_account()
     {
         return $this->belongsTo(BookingAccount::class, 'named_id', 'account');
     }
 
-    public function cross_account()
+    public function booking_cross_account()
     {
-        return $this->belongsTo(BookingAccount::class, 'named_id', 'cross_account');
+        return $this->belongsTo(BookingAccount::class, 'cross_account', 'named_id');
     }
 
     public function booking_category()
