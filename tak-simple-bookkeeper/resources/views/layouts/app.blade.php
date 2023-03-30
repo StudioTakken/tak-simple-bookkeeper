@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'K UI') }}</title>
+    <title>{{ config('app.name', 'TSB') }}</title>
 
     <!-- Fonts -->
     <link
@@ -20,16 +20,21 @@
         }
     </style>
 
+    <script src="https://use.fontawesome.com/14d6312af9.js"></script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @livewireStyles
 
+
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 </head>
 
 <body class="font-sans antialiased">
     <div x-data="mainState" :class="{ dark: isDarkMode }" x-on:resize.window="handleWindowResize" x-cloak>
-        <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
+        <div class="min-h-screen text-gray-900 dark:bg-dark-eval-0 dark:text-gray-200">
             <!-- Sidebar -->
             <x-sidebar.sidebar />
 
@@ -52,7 +57,7 @@
                 </header>
 
                 <!-- Page Content -->
-                <main class="px-4 sm:px-6 flex-1">
+                <main class="flex-1 px-4 sm:px-6">
                     {{ $slot }}
                 </main>
 

@@ -78,6 +78,12 @@ class DateSettings extends Component
         $this->stopDate = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
         $this->refreshView();
     }
+    public function lastlastMonth()
+    {
+        $this->startDate = Carbon::now()->subMonths(2)->startOfMonth()->format('Y-m-d');
+        $this->stopDate = Carbon::now()->subMonths(2)->endOfMonth()->format('Y-m-d');
+        $this->refreshView();
+    }
 
     public function thisWeek()
     {
@@ -107,6 +113,36 @@ class DateSettings extends Component
         $this->refreshView();
     }
 
+    public function month($Ym)
+    {
+
+        $month = Carbon::parse($Ym . '-01');
+        $this->startDate = $month->day(1)->format('Y-m-d');
+        $this->stopDate = $month->endOfMonth()->format('Y-m-d');
+        $this->refreshView();
+    }
+
+
+    public function listOfMonths()
+    {
+
+        // get the number of the current month
+        $nr = Carbon::now()->month;
+
+        // if we are in the first or second quarter of the year we need to add all the months from the previous year
+
+        if (Carbon::now()->quarter == 1 or Carbon::now()->quarter == 2) {
+            $nr = $nr + 12;
+        }
+
+        // get a list of months from the current month back to the number of months
+        $months = collect();
+        for ($i = 0; $i < $nr; $i++) {
+            $months->push(Carbon::now()->subMonths($i)->format('Y-m'));
+        }
+        return $months;
+    }
+
 
 
     public function refreshView()
@@ -117,7 +153,7 @@ class DateSettings extends Component
         session(['stopDate' => $this->stopDate]);
         $this->emit('stopDate', $this->stopDate);
 
-        //  $this->emit('refreshBookings');
+        // $this->emit('refreshBookings');
         // TODO: I dont know why this is not working so u use a refresh instead
         // redirect back to the request uri
         $this->redirect(url()->previous());
