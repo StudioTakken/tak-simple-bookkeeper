@@ -280,7 +280,7 @@ error-fader @endif
         <div class="row">
             <div class="col-md-12">
                 <form action="{{ route('dropzone.store') }}" method="post" enctype="multipart/form-data"
-                    id="prove-upload-{{ $booking->id }}" class="dropzone">
+                    id="prove-upload" class="dropzone">
                     @csrf
                     <div class="dz-message" data-dz-message><span>Drop your prove</span>
 
@@ -296,7 +296,7 @@ error-fader @endif
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
 
-        var dropzone = new Dropzone('#prove-upload-{{ $booking->id }}-{{ $key }}', {
+        var dropzone = new Dropzone('#prove-upload', {
             thumbnailWidth: 200,
             maxFilesize: 5,
             //   acceptedFiles: ".csv, .pdf, .jpg, .xls, .xlsx, .doc",
