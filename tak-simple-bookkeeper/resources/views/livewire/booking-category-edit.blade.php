@@ -145,16 +145,16 @@
                                 <label class="text-sm" for="opmerkingen">Weergeven in Winst en Verlies</label><br />
                                 <div class="form-row">
                                     <div class="pl-4 form-group col-md-1">
-                                        <input type="radio" checked wire:model="category.loss_and_provit"
+                                        <input type="radio" checked wire:model="category.loss_profit_overview"
                                             value="1">
-                                        <label for="loss_and_provit">{{ __('Ja') }}</label>
+                                        <label for="loss_profit_overview">{{ __('Ja') }}</label>
                                     </div>
                                     <div class="pl-4 form-group col-md-1">
 
-                                        <input type="radio" wire:model="category.loss_and_provit" value="0">
-                                        <label for="loss_and_provit">{{ __('Nee') }}</label>
+                                        <input type="radio" wire:model="category.loss_profit_overview" value="0">
+                                        <label for="loss_profit_overview">{{ __('Nee') }}</label>
                                     </div>
-                                    @error('category.loss_and_provit')
+                                    @error('category.loss_profit_overview')
                                         <br />
                                         <span class="error">{{ $message }}</span>
                                     @enderror

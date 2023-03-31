@@ -92,12 +92,6 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
     }
 
 
-
-
-
-
-
-
     public function columnFormats(): array
     {
         return [

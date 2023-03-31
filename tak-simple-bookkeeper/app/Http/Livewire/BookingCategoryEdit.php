@@ -17,7 +17,7 @@ class BookingCategoryEdit extends Component
         'category.slug' => 'required|string|min:3',
         'category.named_id' => 'required|string|min:3',
         'category.polarity' => 'required|int',
-        'category.loss_and_provit' => 'required|int',
+        'category.loss_profit_overview' => 'required|int',
         'category.vat_overview' => 'required|int',
 
     ];

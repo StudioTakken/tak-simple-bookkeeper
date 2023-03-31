@@ -40,20 +40,10 @@ class AdminBookings extends Component
         // ddl($this->viewscope);
         if ($this->method == 'account.onaccount') {
 
-            // hier moeten we verschillend reageren obv account settings
-            // $this->include_children = $bookingAccount->include_children;
-
-
-
-            // switch on egative accounts?
-
-
-
             $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
 
             $this->debetStart      = Booking::getDebetOrCredit($this->viewscope, 'debet', 'start');
             $this->creditStart     = Booking::getDebetOrCredit($this->viewscope, 'credit', 'start');
-
 
             $this->debet      = Booking::getDebetOrCredit($this->viewscope, 'debet');
             $this->credit     = Booking::getDebetOrCredit($this->viewscope, 'credit');
@@ -62,8 +52,6 @@ class AdminBookings extends Component
 
             // no children in category!
             $category = $this->viewscope;
-
-
 
             $this->bookings     = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->get();
             $this->debet        = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');

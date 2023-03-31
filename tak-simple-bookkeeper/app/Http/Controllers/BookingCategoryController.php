@@ -65,7 +65,7 @@ class BookingCategoryController extends Controller
         foreach ($this->categoryList as $category) {
 
             // if $category_key is in accountList, skip it
-            if ($filter == 'venw' and $category->loss_and_provit == 0) {
+            if ($filter == 'venw' and $category->loss_profit_overview == 0) {
                 continue;
             }
 
@@ -115,8 +115,13 @@ class BookingCategoryController extends Controller
 
         $totals['debetNr'] = $totals['debet'];
         $totals['creditNr'] = $totals['credit'];
+
+        $totals['result'] = $totals['debet'] - $totals['credit'];
+
+
         $totals['debet'] = number_format($totals['debet'] / 100, 2, ',', '.');
         $totals['credit'] = number_format($totals['credit'] / 100, 2, ',', '.');
+        $totals['result'] = number_format($totals['result'] / 100, 2, ',', '.');
 
 
         // add the totals to the summary array

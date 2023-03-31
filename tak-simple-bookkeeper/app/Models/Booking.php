@@ -204,7 +204,7 @@ class Booking extends Model
         return $newBooking->save();
     }
 
-    public function splitBookingBtw()
+    public function splitBookingBtw($inorout = 'in')
     {
 
         $btw = $this->amount_inc / 121 * 21;
@@ -214,7 +214,14 @@ class Booking extends Model
         // create a new booking 
 
         // get the bookingCategory named btw
-        $bookingCategory = BookingCategory::where('slug', 'btw')->first();
+        if ($inorout == 'in') {
+
+            $bookingCategory = BookingCategory::where('slug', 'btw')->first();
+        } else {
+            $bookingCategory = BookingCategory::where('slug', 'btw-uit')->first();
+        }
+
+
 
         $newBooking = new Booking;
         $newBooking->parent_id = $this->id;

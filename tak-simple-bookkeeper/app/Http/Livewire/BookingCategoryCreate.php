@@ -15,7 +15,7 @@ class BookingCategoryCreate extends Component
     public $named_id;
     public $remarks;
     public $polarity = 1;
-    public $loss_and_provit = 1;
+    public $loss_profit_overview = 1;
 
 
     protected $messages = [
@@ -80,7 +80,7 @@ class BookingCategoryCreate extends Component
         $category->named_id = $this->named_id;
         $category->polarity = $this->polarity;
         $category->remarks = $this->remarks;
-        $category->loss_and_provit = 1;
+        $category->loss_profit_overview = 1;
         $category->vat_overview = 1;
         $ok = $category->save();
 

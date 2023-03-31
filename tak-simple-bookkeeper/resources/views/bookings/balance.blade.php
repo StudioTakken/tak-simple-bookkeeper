@@ -68,6 +68,79 @@
 
         </div>
 
+        <div class="flex items-start w-full grid-cols-2 gap-8 mt-20 font-bold">
+
+            <div class="grid w-1/2 grid-cols-3 gap-4">
+
+                <div>
+                    Resultaat
+                </div>
+                <div class='font-mono text-right'>
+
+                </div>
+                <div class='font-mono text-right'>
+                    {{ $balancetotals['result'] }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="flex items-start w-full grid-cols-2 gap-8 mt-2 font-bold">
+
+            <div class="grid w-1/2 grid-cols-3 gap-4">
+
+                <div>
+                    - Nog af te dragen BTW
+                </div>
+                <div class='font-mono text-right'>
+
+                </div>
+                <div class='font-mono text-right'>
+                    {{ $balancetotals['btw_afdracht'] }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="flex items-start w-full grid-cols-2 gap-8 mt-2 font-bold">
+
+            <div class="grid w-1/2 grid-cols-3 gap-4">
+
+                <div>
+                    + Prive opname en belasting
+                </div>
+                <div class='font-mono text-right'>
+
+                </div>
+                <div class='font-mono text-right'>
+                    {{ $balancetotals['prive'] }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="flex items-start w-full grid-cols-2 gap-8 mt-2 font-bold">
+
+            <div class="grid w-1/2 grid-cols-3 gap-4">
+
+                <div>
+                    Winst
+                </div>
+                <div class='font-mono text-right'>
+
+                </div>
+                <div class='font-mono text-right'>
+                    {{ $balancetotals['winst'] }}
+                </div>
+
+            </div>
+
+        </div>
+
 
 
         <div class="mt-5">

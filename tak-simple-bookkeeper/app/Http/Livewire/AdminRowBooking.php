@@ -113,14 +113,18 @@ class AdminRowBooking extends Component
 
             foreach ($bookings as $booking) {
 
-                $cross_account_polarity = 1;
+                // $cross_account_polarity = 1;
 
-                if ($booking->booking_cross_account) {
-                    $cross_account_polarity = $booking->booking_cross_account->polarity;
-                }
+                // if ($booking->booking_cross_account) {
+                //     $cross_account_polarity = $booking->booking_cross_account->polarity;
+                // }
 
-                if ($cross_account_polarity == '-1') {
-                    $booking->amount_inc = $booking->amount_inc * $cross_account_polarity;
+                // if ($cross_account_polarity == '-1') {
+                //     $booking->amount_inc = $booking->amount_inc * $cross_account_polarity;
+                // }
+
+                if ($booking->cross_account != '' and $booking->account != $booking->cross_account) {
+                    $booking->amount_inc = $booking->amount_inc * -1;
                 }
 
                 $balance += $booking->amount_inc;
@@ -214,7 +218,7 @@ class AdminRowBooking extends Component
 
     public function splitBookingBtw()
     {
-        $ok = $this->booking->splitBookingBtw();
+        $ok = $this->booking->splitBookingBtw('out');
         $this->blink($ok);
         $this->emit('refreshBookings');
     }

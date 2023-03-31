@@ -64,34 +64,56 @@
 
         {{-- here the divs for the totals --}}
         <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-8 font-bold">
-
             <div class="grid w-1/2 grid-cols-2 gap-4">
-
-
                 <div>
-                    Totaal
+                    Totaal In
                 </div>
                 <div class='font-mono text-right'>
                     {{ $summary['totals']['debet'] }}
                 </div>
-
-
             </div>
 
             <div class="grid w-1/2 grid-cols-2 gap-4">
-
-
                 <div>
-                    Totaal
+                    Totaal Uit
                 </div>
                 <div class='font-mono text-right'>
                     {{ $summary['totals']['credit'] }}
                 </div>
-
-
             </div>
 
         </div>
+
+
+        {{-- // if the route is venw then show the result --}}
+        {{-- @if (session()->get('filter') == 'venw') --}}
+        <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
+            <div class="grid w-1/2 grid-cols-2 gap-4">
+                <div>
+
+                </div>
+                <div class='font-mono text-right'>
+
+                </div>
+            </div>
+
+            <div class="grid w-1/2 grid-cols-2 gap-4">
+                <div>
+                    Winst
+                </div>
+                <div class='font-mono text-right'>
+                    {{ $summary['totals']['result'] }}
+                </div>
+            </div>
+
+        </div>
+        {{-- @endif --}}
+
+
+
+
+
+
 
 
 
