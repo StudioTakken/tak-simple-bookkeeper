@@ -149,7 +149,7 @@ class Booking extends Model
         $this->contra_account    = $insertData['contra_account'];
         $this->description       = $insertData['description'];
         $this->plus_min          = $insertData['plus_min'];
-        $this->polarity      = $insertData['polarity'];
+        $this->polarity          = $insertData['polarity'];
         $this->invoice_nr        = $insertData['invoice_nr'];
         $this->bank_code         = $insertData['bank_code'];
         $this->amount_inc        = $insertData['amount_inc'];
@@ -207,13 +207,14 @@ class Booking extends Model
     public function splitBookingBtw($inorout = 'in')
     {
 
-        $btw = $this->amount_inc / 121 * 21;
-        $this->amount_inc = $this->amount_inc - $btw;
+        $this->amount_inc = $this->amount_inc / 121 * 100;
+        $btw = (int)$this->amount_inc * 0.21;
+
         $this->save();
 
-        // create a new booking 
+        // create a new booking for the btw
 
-        // get the bookingCategory named btw
+        // get the bookingCategory named btw or btw-uit
         if ($inorout == 'in') {
 
             $bookingCategory = BookingCategory::where('slug', 'btw')->first();
@@ -221,7 +222,40 @@ class Booking extends Model
             $bookingCategory = BookingCategory::where('slug', 'btw-uit')->first();
         }
 
+        $newBooking = new Booking;
+        $newBooking->parent_id = $this->id;
+        $newBooking->date = $this->date;
+        $newBooking->account = $this->account;
+        $newBooking->contra_account = $this->contra_account;
+        $newBooking->description = $this->description . ' 21% btw';
+        $newBooking->plus_min = $this->plus_min;
+        $newBooking->polarity = $this->polarity;
+        $newBooking->invoice_nr = $this->invoice_nr;
+        $newBooking->bank_code = $this->bank_code;
+        $newBooking->amount_inc = $btw;
+        $newBooking->remarks = $this->remarks;
+        $newBooking->tag = $this->tag;
+        $newBooking->mutation_type = $this->mutation_type;
+        $newBooking->category = $bookingCategory->id;
 
+        return $newBooking->save();
+    }
+
+
+    public function addBookingBtw($inorout = 'in')
+    {
+
+        $this->save();
+
+        // create a new booking 
+        $btw = $this->amount_inc * 0.21;
+
+        // get the bookingCategory named btw or btw-uit
+        if ($inorout == 'in') {
+            $bookingCategory = BookingCategory::where('slug', 'btw')->first();
+        } else {
+            $bookingCategory = BookingCategory::where('slug', 'btw-uit')->first();
+        }
 
         $newBooking = new Booking;
         $newBooking->parent_id = $this->id;
@@ -293,20 +327,16 @@ class Booking extends Model
             session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
         }
 
-        return $query->where('date', '<', session('startDate'));
+        return $query->where('date', '<=', session('startDate'));
     }
 
 
     public function scopePeriodEnd($query)
     {
 
-        // if (session('startDate') == null) {
-        //     session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
-        // }
         if (session('stopDate') == null) {
             session(['stopDate' => date('Y-m-d')]);
         }
-
 
         return $query->where('date', '<=', session('stopDate'));
     }

@@ -255,7 +255,8 @@ class BookingController extends Controller
 
             // if it is a debiteuren booking then split the booking in 2 bookings
             if ($gb_rek == 'Debiteuren') {
-                Booking::find($id)->splitBookingBtw('in');
+                // Booking::find($id)->splitBookingBtw('in');
+                Booking::find($id)->addBookingBtw('in');
             }
             // count the number of bookings that are imported
             $imported_counter++;
@@ -285,9 +286,12 @@ class BookingController extends Controller
 
         if ($gb_rek == 'Debiteuren') {
 
-            $map['Rekening'] = 'invoice_nr';
-            $map['incl'] = 'amount_inc';
+            // remove the key incl
+            unset($map['incl']);
+            $map['excl']        = 'amount_inc';  // we add the btw later
+            $map['Rekening']    = 'invoice_nr';
         }
+
         if (isset($map[$key])) {
             return $map[$key];
         } else {
