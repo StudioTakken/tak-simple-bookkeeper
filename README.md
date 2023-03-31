@@ -30,10 +30,10 @@ copy .env.example to .env
 edit .env  
 Set `database` 
 and the `test admin mail and password` at the end of the file.  
-Provide the mail settings. I use mailhug in dev.
+Provide the mail settings. I use mailhug in dev.  
 Set the `main booking account`, this is the account for importing your bank cvs file.  
 
-composer https://getcomposer.org/ should be installed first to be able to install all dependencies  
+Composer should be installed first to be able to install all dependencies https://getcomposer.org/  
 `composer install`
 
 setup the database with some presets  
@@ -46,7 +46,7 @@ You'll need npm: https://docs.npmjs.com/
 Then  
 `npm install`  
 
-and go:  
+and start for developing:  
 `npm run dev`   
 or  
 `npm run build`  
