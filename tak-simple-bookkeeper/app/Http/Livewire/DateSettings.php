@@ -138,7 +138,9 @@ class DateSettings extends Component
         // get a list of months from the current month back to the number of months
         $months = collect();
         for ($i = 0; $i < $nr; $i++) {
-            $months->push(Carbon::now()->subMonths($i)->format('Y-m'));
+
+            // get the first day of this month, not the present day
+            $months->push(Carbon::now()->startOfMonth()->subMonths($i)->format('Y-m'));
         }
         return $months;
     }

@@ -85,7 +85,7 @@
         </div>
 
 
-        {{-- // if the route is venw then show the result --}}
+
         @if (session()->get('filter') == 'venw')
             <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
                 <div class="grid w-1/2 grid-cols-2 gap-4">
@@ -108,6 +108,80 @@
 
             </div>
         @endif
+
+
+
+
+
+        @if (session()->get('filter') == 'btw')
+            <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
+                <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
+
+                    </div>
+                    <div class='font-mono text-right'>
+
+                    </div>
+                </div>
+
+                <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
+                        BTW op inkomsten
+                    </div>
+                    <div class='font-mono text-right'>
+                        {{ $summary['totals']['btw_debet'] }}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="flex items-start w-4/6 grid-cols-2 gap-8 font-bold">
+                <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
+
+                    </div>
+                    <div class='font-mono text-right'>
+
+                    </div>
+                </div>
+
+                <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
+                        Voorbelasting
+                    </div>
+                    <div class='font-mono text-right'>
+                        {{ $summary['totals']['btw_credit'] }}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex items-start w-4/6 grid-cols-2 gap-8 font-bold">
+                <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
+
+                    </div>
+                    <div class='font-mono text-right'>
+
+                    </div>
+                </div>
+
+                <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
+                        Af te dragen
+                    </div>
+                    <div class='font-mono text-right'>
+                        {{ $summary['totals']['btw_verschil'] }}
+                    </div>
+                </div>
+
+            </div>
+        @endif
+
+
+
+
 
 
 

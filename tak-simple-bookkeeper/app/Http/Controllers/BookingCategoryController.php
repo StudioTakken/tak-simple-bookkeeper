@@ -68,6 +68,28 @@ class BookingCategoryController extends Controller
         $totals['debet'] = 0;
         $totals['credit'] = 0;
 
+        if ($filter == 'btw') {
+
+            // get the category wiht named_id = btw
+            $btw_cat = BookingCategory::where('named_id', 'btw')->first();
+            $btw_uit_cat = BookingCategory::where('named_id', 'btw-uit')->first();
+
+            // get the sum of the bookings for this category
+            $btw_debet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $btw_credit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $btw_verschil = $btw_debet - $btw_credit;
+
+            $totals['btw_debet'] = $btw_debet;
+            $totals['btw_credit'] = $btw_credit;
+            $totals['btw_verschil'] = $btw_verschil;
+
+            $totals['btw_debet'] = number_format($totals['btw_debet'] / 100, 2, ',', '.');
+            $totals['btw_credit'] = number_format($totals['btw_credit'] / 100, 2, ',', '.');
+            $totals['btw_verschil'] = number_format($totals['btw_verschil'] / 100, 2, ',', '.');
+        }
+
+
+
         foreach ($this->categoryList as $category) {
 
             // if $category_key is in accountList, skip it
@@ -83,6 +105,11 @@ class BookingCategoryController extends Controller
             if ($category->id == '') {
                 $category->name = 'onbekend';
             }
+
+
+
+
+
 
             // get the sum of the bookings for this category where polarity is 1
             $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
@@ -121,8 +148,9 @@ class BookingCategoryController extends Controller
 
         $totals['debetNr'] = $totals['debet'];
         $totals['creditNr'] = $totals['credit'];
-
         $totals['result'] = $totals['debet'] - $totals['credit'];
+
+
 
 
         $totals['debet'] = number_format($totals['debet'] / 100, 2, ',', '.');
