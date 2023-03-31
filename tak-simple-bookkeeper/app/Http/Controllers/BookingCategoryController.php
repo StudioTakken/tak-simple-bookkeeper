@@ -57,6 +57,7 @@ class BookingCategoryController extends Controller
 
         if ($filter == false) {
             $filter = 'venw';
+            session(['filter' => $filter]);
         }
 
         $this->setCategoryList($filter);

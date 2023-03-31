@@ -28,9 +28,10 @@ copy .env.example to .env
 `cp .env.example .env`
 
 edit .env  
-Set database and the test admin password at the end of the file.  
-provide the mail settings. I use mailhug in dev.
-
+Set `database` 
+and the `test admin mail and password` at the end of the file.  
+Provide the mail settings. I use mailhug in dev.
+Set the `main booking account`, this is the account for importing your bank cvs file.  
 
 composer https://getcomposer.org/ should be installed first to be able to install all dependencies  
 `composer install`
@@ -44,6 +45,8 @@ Generate appication key
 You'll need npm: https://docs.npmjs.com/  
 Then  
 `npm install`  
+
+and go:  
 `npm run dev`   
 or  
 `npm run build`  

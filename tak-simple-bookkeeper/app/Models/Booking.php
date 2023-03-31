@@ -244,11 +244,11 @@ class Booking extends Model
 
 
 
-    public function scopeBookings($query)
-    {
-        return $query
-            ->where('account', 'NL94INGB0007001049');
-    }
+    // public function scopeBookings($query)
+    // {
+    //     return $query
+    //         ->where('account', 'NL12INGB1234567890');
+    // }
 
 
     // https://laravel.com/docs/9.x/eloquent#dynamic-scopes

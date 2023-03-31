@@ -15,15 +15,20 @@ class BookingAccountSeeder extends Seeder
      */
     public function run()
     {
+
+
+        $main_booking_account = config('bookings.main_booking_account');
+
+
         DB::table('booking_accounts')->insert(
             [
                 'slug' => 'debiteuren',
                 'named_id' => 'debiteuren',
                 'name' => 'Debiteuren',
                 'include_children' => 1,
-                'intern' => 0,
+                'intern' => 1,
                 'polarity' => -1,
-                'start_balance' => 0,
+                'start_balance' => 280720,
             ],
         );
 
@@ -33,7 +38,7 @@ class BookingAccountSeeder extends Seeder
                 'named_id' => 'crediteuren',
                 'name' => 'Crediteuren',
                 'include_children' => 1,
-                'intern' => 0,
+                'intern' => 1,
                 'polarity' => -1,
                 'start_balance' => 0,
             ],
@@ -43,8 +48,8 @@ class BookingAccountSeeder extends Seeder
         DB::table('booking_accounts')->insert(
             [
                 'slug' => 'bank',
-                'named_id' => 'NL94INGB0007001049',
-                'name' => 'Bank',
+                'named_id' =>  $main_booking_account,
+                'name' =>  $main_booking_account,
                 'include_children' => 1,
                 'intern' => 1,
                 'polarity' => 1,

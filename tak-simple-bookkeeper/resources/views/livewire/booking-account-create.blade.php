@@ -57,7 +57,7 @@
                                 </div>
                                 <p class="text-sm text-gray-700">
                                     Deze naam wordt intern gebruikt als account naam. Als je bank account bijvoorbeeld
-                                    'NL94INGB0007001049' is dan
+                                    'NL12INGB1234567890' is dan
                                     kun je dat hier invullen. De boekingen worden dan ook opgeslagen met deze naam.
                                 </p>
                             </div>
