@@ -11,6 +11,7 @@ class BookingCategoryEdit extends Component
     public BookingCategory $category;
     public $delete_confirm = false;
     public $nr_of_bookings_in_category;
+    public $all_categories;
 
     protected $rules = [
         'category.name' => 'required|string|min:3',
@@ -18,12 +19,14 @@ class BookingCategoryEdit extends Component
         'category.named_id' => 'required|string|min:3',
         'category.polarity' => 'required|int',
         'category.loss_profit_overview' => 'required|int',
+        'category.on_balance' => 'required|int',
         'category.vat_overview' => 'required|int',
 
     ];
 
     public function render()
     {
+        $this->all_categories = BookingCategory::getAll();
         $this->getNrOfBookingsInCategory();
         return view('livewire.booking-category-edit');
     }

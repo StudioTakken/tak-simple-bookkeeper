@@ -6,6 +6,11 @@
             Settings voor account {{ $account->name }}
         </h2>
     </x-slot>
+    <div class="text-xs">
+        @foreach ($all_accounts as $list_account)
+            <a href="{{ route('accounts.edit', $list_account->id) }}">{{ $list_account->name }}<a> |
+        @endforeach
+    </div>
 
 
     <div class="py-6">

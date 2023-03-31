@@ -7,6 +7,13 @@
         </h2>
     </x-slot>
 
+    <div class="text-xs">
+        @foreach ($all_categories as $list_category)
+            <a href="{{ route('categories.edit', $list_category->id) }}">{{ $list_category->name }}<a> |
+        @endforeach
+    </div>
+
+
 
     <div class="py-6">
         <div class="">
@@ -108,7 +115,7 @@
                         </div>
 
 
-                        <div class="grid grid-cols-3 gap-4">
+                        <div class="grid grid-cols-4 gap-4">
 
 
 
@@ -166,13 +173,40 @@
                             </div>
 
 
+                            <div class="px-6 py-4 my-5">
+
+                                <label class="text-sm" for="opmerkingen">Opnemen in Balans</label><br />
+                                <div class="form-row">
+                                    <div class="pl-4 form-group col-md-1">
+                                        <input type="radio" checked wire:model="category.on_balance" value="1">
+                                        <label for="on_balance">{{ __('Ja') }}</label>
+                                    </div>
+                                    <div class="pl-4 form-group col-md-1">
+
+                                        <input type="radio" wire:model="category.on_balance" value="0">
+                                        <label for="on_balance">{{ __('Nee') }}</label>
+                                    </div>
+                                    @error('category.on_balance')
+                                        <br />
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                    <p class="mt-2 text-sm text-gray-700">
+                                        Normaal gesproken staat iedere categorie op de balans. Maar soms wil je een
+                                        categorie uitsluiten, zoals prive opnamen.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
 
                             <div class="px-6 py-4 my-5">
 
                                 <label class="text-sm" for="opmerkingen">Weergeven in BTW overzicht</label><br />
                                 <div class="form-row">
                                     <div class="pl-4 form-group col-md-1">
-                                        <input type="radio" checked wire:model="category.vat_overview" value="1">
+                                        <input type="radio" checked wire:model="category.vat_overview"
+                                            value="1">
                                         <label for="vat_overview">{{ __('Ja') }}</label>
                                     </div>
                                     <div class="pl-4 form-group col-md-1">

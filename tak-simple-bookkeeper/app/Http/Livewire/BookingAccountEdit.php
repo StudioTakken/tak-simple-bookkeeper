@@ -13,6 +13,7 @@ class BookingAccountEdit extends Component
     public $delete_confirm = false;
     public $nr_of_bookings_in_account = 0;
     public $nr_of_cross_bookings_in_account = 0;
+    public $all_accounts;
 
 
     protected $messages = [
@@ -66,6 +67,7 @@ class BookingAccountEdit extends Component
     public function render()
     {
 
+        $this->all_accounts = BookingAccount::getAll();
 
         $this->getNrOfBookingsInAccount();
         $this->getNrOfCrossBookingsInAccount();
