@@ -79,6 +79,7 @@ class BookingCategoryCreate extends Component
         $category->slug = $this->slug;
         $category->named_id = $this->named_id;
         $category->polarity = $this->polarity;
+        $category->on_balance = 1;
         $category->remarks = $this->remarks;
         $category->loss_profit_overview = 1;
         $category->vat_overview = 1;
