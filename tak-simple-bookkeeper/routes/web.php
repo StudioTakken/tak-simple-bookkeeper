@@ -7,6 +7,7 @@ use App\Http\Controllers\BookingAccountController;
 use App\Http\Controllers\BookingCategoryController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,13 @@ Route::middleware('auth')->group(function () {
     // route for summary xlsx
     Route::get('/summary-xlsx', [BookingCategoryController::class, 'summaryXlsx'])->name('summary-xlsx');
     Route::get('/summary-xlsx/{filter}', [BookingCategoryController::class, 'summaryXlsx'])->name('summary-xlsx.filter');
+
+
+
+    Route::get('/backitup', function () {
+        Artisan::call('database:backup');
+        return 'Created backup.';
+    })->name('backitup');
 });
 
 

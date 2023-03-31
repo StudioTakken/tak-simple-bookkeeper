@@ -23,7 +23,7 @@
                 te importeren</a>.<br />
         </div>
 
-        <div class="grid grid-cols-2 mt-5 text-sm">
+        <div class="grid grid-cols-3 mt-5 text-sm">
 
 
             <div>
@@ -61,9 +61,6 @@
                     @endforeach
                 </ul>
 
-
-
-
                 <div class="mt-5">
                     <button class="settingsbutton soft">
                         <a href="{{ route('category.create') }}">Add a category</a>
@@ -72,7 +69,23 @@
                 </div>
             </div>
 
+            <div>
+                <div class="font-bold">
+                    Acties:<br /><br />
+                </div>
+
+                <div class="mt-5">
+                    <button class="settingsbutton soft">
+                        <a href="{{ route('backitup') }}">Make a database backup</a>
+                    </button>
+                    </button>
+                </div>
+            </div>
+
         </div>
+
+
+    </div>
 
 
     </div>
