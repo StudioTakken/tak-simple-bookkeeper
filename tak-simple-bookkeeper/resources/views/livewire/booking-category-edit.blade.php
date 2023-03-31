@@ -138,7 +138,7 @@
                                         <br />
                                         <span class="error">{{ $message }}</span>
                                     @enderror
-                                    <p class="mt-2 text-sm text-gray-700">
+                                    <p class="mt-2 text-xs text-gray-700">
                                         Debet categorieën zijn categorieën waarop je geld binnen krijgt. <br />
                                         Credit categorieën zijn categorieën waarop je geld uitgeeft.
                                     </p>
@@ -165,7 +165,7 @@
                                         <br />
                                         <span class="error">{{ $message }}</span>
                                     @enderror
-                                    <p class="mt-2 text-sm text-gray-700">
+                                    <p class="mt-2 text-xs text-gray-700">
                                         Is dit een categorie die invloed heeft op de winst en verlies?
                                     </p>
                                 </div>
@@ -190,7 +190,7 @@
                                         <br />
                                         <span class="error">{{ $message }}</span>
                                     @enderror
-                                    <p class="mt-2 text-sm text-gray-700">
+                                    <p class="mt-2 text-xs text-gray-700">
                                         Normaal gesproken staat iedere categorie op de balans. Maar soms wil je een
                                         categorie uitsluiten, zoals prive opnamen.
                                     </p>
@@ -218,7 +218,7 @@
                                         <br />
                                         <span class="error">{{ $message }}</span>
                                     @enderror
-                                    <p class="mt-2 text-sm text-gray-700">
+                                    <p class="mt-2 text-xs text-gray-700">
                                         Is dit een categorie die invloed heeft op de btw?
                                     </p>
                                 </div>

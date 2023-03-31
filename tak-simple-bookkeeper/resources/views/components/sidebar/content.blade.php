@@ -8,7 +8,7 @@
 
     @livewire('booking-account-menu')
 
-    <x-sidebar.link title="Summary" href="{{ route('summary') }}">
+    <x-sidebar.link title="Overzicht" href="{{ route('summary') }}">
         <x-slot name="icon">
             <x-icons.list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>

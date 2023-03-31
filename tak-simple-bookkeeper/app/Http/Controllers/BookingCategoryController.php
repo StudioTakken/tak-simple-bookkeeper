@@ -54,6 +54,11 @@ class BookingCategoryController extends Controller
     public function getSummary($filter = false)
     {
 
+
+        if ($filter == false) {
+            $filter = 'venw';
+        }
+
         $this->setCategoryList($filter);
 
         $summary = [];

@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <h2 class="text-xl font-semibold leading-tight">
-                Summary periode: {{ Session::get('startDate') }} - {{ Session::get('stopDate') }}
+                Overzicht periode: {{ Session::get('startDate') }} - {{ Session::get('stopDate') }}
             </h2>
         </div>
     </x-slot>
@@ -16,13 +16,13 @@
 
     <div class="py-6">
         <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
-            <a href="{{ route('summary.filter', 'inout') }}">In en Uit</a>
-        </button>
-        <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
             <a href="{{ route('summary.filter', 'venw') }}">Verlies en Winst</a>
         </button>
         <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
             <a href="{{ route('summary.filter', 'btw') }}">BTW overzicht</a>
+        </button>
+        <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+            <a href="{{ route('summary.filter', 'inout') }}">In en Uit</a>
         </button>
     </div>
 
@@ -86,28 +86,28 @@
 
 
         {{-- // if the route is venw then show the result --}}
-        {{-- @if (session()->get('filter') == 'venw') --}}
-        <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
-            <div class="grid w-1/2 grid-cols-2 gap-4">
-                <div>
+        @if (session()->get('filter') == 'venw')
+            <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
+                <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
 
-                </div>
-                <div class='font-mono text-right'>
+                    </div>
+                    <div class='font-mono text-right'>
 
+                    </div>
                 </div>
+
+                <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
+                        Winst
+                    </div>
+                    <div class='font-mono text-right'>
+                        {{ $summary['totals']['result'] }}
+                    </div>
+                </div>
+
             </div>
-
-            <div class="grid w-1/2 grid-cols-2 gap-4">
-                <div>
-                    Winst
-                </div>
-                <div class='font-mono text-right'>
-                    {{ $summary['totals']['result'] }}
-                </div>
-            </div>
-
-        </div>
-        {{-- @endif --}}
+        @endif
 
 
 
