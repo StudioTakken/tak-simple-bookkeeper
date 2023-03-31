@@ -255,7 +255,6 @@ class BookingController extends Controller
 
             // if it is a debiteuren booking then split the booking in 2 bookings
             if ($gb_rek == 'Debiteuren') {
-                // Booking::find($id)->splitBookingBtw('in');
                 Booking::find($id)->addBookingBtw('in');
             }
             // count the number of bookings that are imported

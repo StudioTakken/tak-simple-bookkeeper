@@ -218,7 +218,13 @@ class AdminRowBooking extends Component
 
     public function splitBookingBtw()
     {
-        $ok = $this->booking->splitBookingBtw('out');
+
+        if ($this->booking->polarity == '1') {
+            $ok = $this->booking->splitBookingBtw('in');
+        } else {
+            $ok = $this->booking->splitBookingBtw('out');
+        }
+        // $ok = $this->booking->splitBookingBtw('out');
         $this->blink($ok);
         $this->emit('refreshBookings');
     }
