@@ -215,9 +215,14 @@ class Booking extends Model
     public function splitBookingBtw($inorout = 'in')
     {
 
+        $original_amount = $this->amount_inc;
         $this->amount_inc = $this->amount_inc / 121 * 100;
         $btw = (int)$this->amount_inc * 0.21;
 
+        // format $original_amount to 2 decimals
+        $original_amount = number_format($original_amount / 100, 2, '.', '');
+
+        $this->remarks = $this->remarks  . ' (inc: ' . $original_amount . ')';
         $this->save();
 
         // create a new booking for the btw
@@ -253,7 +258,12 @@ class Booking extends Model
 
     public function addBookingBtw($inorout = 'in')
     {
+        $inc_amount = $this->amount_inc * 1.21;
 
+        // format $original_amount to 2 decimals
+        $inc_amount = number_format($inc_amount / 100, 2, '.', '');
+
+        $this->remarks = $this->remarks  . ' (inc: ' . $inc_amount . ')';
         $this->save();
 
         // create a new booking 
