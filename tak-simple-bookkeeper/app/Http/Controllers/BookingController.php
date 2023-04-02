@@ -183,8 +183,7 @@ class BookingController extends Controller
                     $importData_arr[$row][$colname[$c]] = $filedata[$c];
                 }
 
-                // todo: categorien toewijzin obv omschrijving
-
+                // todo: categorien toewijzing obv omschrijving
                 $importData_arr[$row]['invoice_nr'] = '';
                 $row++;
             }
@@ -240,7 +239,10 @@ class BookingController extends Controller
                 $insertData['category'] =  $oCategory->id;
             }
 
-            if (Booking::checkIfAllreadyImported($insertData)) {
+            // add a hash to the booking
+            $insertData['hashed'] = md5(serialize($insertData));
+
+            if (Booking::checkIfAllreadyImported($insertData['hashed'])) {
                 // count the number of bookings that are allready imported
                 $imported_allready_counter++;
                 continue;
@@ -250,6 +252,8 @@ class BookingController extends Controller
 
             // append $aOriginals with the original values
             $insertData['originals'] = $aOriginals;
+
+
 
             $id = Booking::insertData($insertData);
 

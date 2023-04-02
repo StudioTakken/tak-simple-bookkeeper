@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('cross_account')->nullable();
             $table->text('remarks');
             $table->json('originals')->nullable();
+            $table->string('hashed');
 
             $table->timestamps();
         });

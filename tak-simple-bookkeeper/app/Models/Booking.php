@@ -53,6 +53,7 @@ class Booking extends Model
         'remarks',
         'tag',
         'mutation_type',
+        'hashed',
         'category',
         'cross_account',
         'originals'
@@ -68,8 +69,10 @@ class Booking extends Model
         'remarks' => '',
         'tag' => '',
         'mutation_type' => '',
+        'hashed' => '',
         'polarity' => 1,
-        'cross_account' => ''
+        'cross_account' => '',
+        'hashed' => ''
     );
 
     public static function insertData($insertData)
@@ -89,6 +92,7 @@ class Booking extends Model
         $booking->remarks           = $insertData['remarks'];
         $booking->tag               = $insertData['tag'];
         $booking->mutation_type     = $insertData['mutation_type'];
+        $booking->hashed          = $insertData['hashed'];
         $booking->category          = $insertData['category'];
         $booking->cross_account     = '';
 
@@ -105,20 +109,20 @@ class Booking extends Model
 
     // @TODO beter cecken op dubbele boekingen. Dire bijna identieke gaan fout.
     // wellicht met een hash van de data?
-    public static function checkIfAllreadyImported($insertData)
+    public static function checkIfAllreadyImported($hashed)
     {
-        $booking = Booking::where('date', $insertData['date'])
+        $booking = Booking::where('hashed', $hashed)
 
             // not changing fields
-            ->where('account', $insertData['account'])
-            ->where('description', $insertData['description'])
-            ->where('plus_min',    $insertData['plus_min'])
-            ->where('polarity', $insertData['polarity'])
-            ->where('mutation_type', $insertData['mutation_type'])
+            // ->where('account', $insertData['account'])
+            // ->where('description', $insertData['description'])
+            // ->where('plus_min',    $insertData['plus_min'])
+            // ->where('polarity', $insertData['polarity'])
+            // ->where('mutation_type', $insertData['mutation_type'])
 
-            // changing fields
-            ->whereJsonContains('originals->contra_account', $insertData['contra_account'])
-            ->whereJsonContains('originals->amount_inc', $insertData['amount_inc'])
+            // // changing fields
+            // ->whereJsonContains('originals->contra_account', $insertData['contra_account'])
+            // ->whereJsonContains('originals->amount_inc', $insertData['amount_inc'])
 
             //  ->where('invoice_nr', $invoice_nr)
             // ->where('category', $category)
@@ -158,6 +162,7 @@ class Booking extends Model
         $this->remarks           = $insertData['remarks'];
         $this->tag               = $insertData['tag'];
         $this->mutation_type     = $insertData['mutation_type'];
+        $this->hashed     = $insertData['hashed'];
         $this->category          = $insertData['category'];
         $this->cross_account     = '';
 
@@ -196,6 +201,7 @@ class Booking extends Model
         $newBooking->remarks = $this->remarks . ' (split off)';
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
+        $newBooking->hashed = $this->hashed;
         $newBooking->category = $this->category;
         $newBooking->cross_account = $this->cross_account;
 
@@ -238,6 +244,7 @@ class Booking extends Model
         $newBooking->remarks = $this->remarks;
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
+        $newBooking->hashed = $this->hashed;
         $newBooking->category = $bookingCategory->id;
 
         return $newBooking->save();
@@ -273,6 +280,7 @@ class Booking extends Model
         $newBooking->remarks = $this->remarks;
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
+        $newBooking->hashed = $this->hashed;
         $newBooking->category = $bookingCategory->id;
 
         return $newBooking->save();
