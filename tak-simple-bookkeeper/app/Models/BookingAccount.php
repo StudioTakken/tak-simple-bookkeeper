@@ -50,9 +50,10 @@ class BookingAccount extends Model
      */
     public function balance($period)
     {
-        ddl($period);
+
         $debet = Booking::getDebetOrCredit($this->named_id, 'debet', $period);
         $credit = Booking::getDebetOrCredit($this->named_id, 'credit', $period);
+
         $this->balance = $this->start_balance + $debet - $credit;
 
         return $this->balance;

@@ -45,9 +45,12 @@ class AdminEditBooking extends AdminRowBooking
 
     public function removeBooking()
     {
-        $account = $this->booking->account;
+        $account = $this->booking->booking_account;
+        ddl($account);
+
+
         $this->booking->delete();
-        return redirect()->route('account.onaccount', ['account' => $account]);
+        return redirect()->route('account.onaccount', ['account' => $account->slug]);
     }
 
     public function removeBookingCancel()

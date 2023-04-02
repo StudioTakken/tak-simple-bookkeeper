@@ -10,6 +10,7 @@ use App\Models\BookingCategory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -49,7 +50,9 @@ class BookingAccountController extends Controller
         $account = BookingAccount::where('slug', $sAccount)->first();
 
         // store the account in the session
-        session(['viewscope' => $account->named_id]);
+        if (isset($account->named_id)) {
+            session(['viewscope' => $account->named_id]);
+        }
 
         // return the view with the account
         return view('bookings.index', [
@@ -90,7 +93,8 @@ class BookingAccountController extends Controller
         $not_on_balance = BookingCategory::where('on_balance', 0)->get();
 
         foreach ($not_on_balance as $nob_category) {
-            $prive_opnamen += Booking::period()->where('category', $nob_category->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $prive_opnamen += Booking::period()->where('category', $nob_category->id)->where('polarity', '-1')->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $prive_opnamen -= Booking::period()->where('category', $nob_category->id)->where('polarity', '1')->orderBy('date')->orderBy('id')->sum('amount_inc');
         }
 
 
@@ -121,7 +125,22 @@ class BookingAccountController extends Controller
 
         session(['viewscope' => 'balance']);
 
-        return view('bookings.balance', ['balance' => $this->balanceArray, 'balancetotals' => $this->balanceTotals]);
+        $start = Session::get('startDate');
+        // minus 1 day
+        $start = date('Y-m-d', strtotime($start . ' -1 day'));
+        $stop = Session::get('stopDate');
+
+        return view(
+            'bookings.balance',
+            [
+                'balance' => $this->balanceArray,
+                'balancetotals' => $this->balanceTotals,
+                'start' => $start,
+                'stop' => $stop
+            ]
+
+
+        );
     }
 
 

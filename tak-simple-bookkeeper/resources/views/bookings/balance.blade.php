@@ -19,10 +19,10 @@
                     Account
                 </div>
                 <div class='text-right '>
-                    {{ Session::get('startDate') }}
+                    {{ $start }}
                 </div>
                 <div class='text-right '>
-                    {{ Session::get('stopDate') }}
+                    {{ $stop }}
                 </div>
 
             </div>

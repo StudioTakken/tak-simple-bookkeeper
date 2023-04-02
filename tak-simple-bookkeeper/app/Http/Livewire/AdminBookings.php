@@ -36,6 +36,7 @@ class AdminBookings extends Component
         // get the account from the BookingAccount model
         $bookingAccount = BookingAccount::where('named_id', $this->viewscope)->first();
 
+
         // ddl($this->method);
         // ddl($this->viewscope);
         if ($this->method == 'account.onaccount') {
@@ -59,6 +60,7 @@ class AdminBookings extends Component
         }
 
 
+
         if (isset($bookingAccount->start_balance)) {
 
             $bookingAccount->start_balance =  BookingAccount::getBalance($this->viewscope, 'start');
@@ -69,6 +71,9 @@ class AdminBookings extends Component
             $bookingAccount = new BookingAccount;
             $bookingAccount->start_balance = 0;
             $bookingAccount->end_balance = 0;
+            // ddl($this->viewscope);
+            $bookingAccount->end_balance =  0 + $this->debet - $this->credit;
+            $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
         }
 
 

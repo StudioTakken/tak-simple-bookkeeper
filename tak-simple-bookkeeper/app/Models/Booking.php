@@ -12,7 +12,7 @@ class Booking extends Model
     // belongs to account
     public function booking_account()
     {
-        return $this->belongsTo(BookingAccount::class, 'named_id', 'account');
+        return $this->belongsTo(BookingAccount::class, 'account', 'named_id');
     }
 
     public function booking_cross_account()
@@ -103,6 +103,8 @@ class Booking extends Model
 
 
 
+    // @TODO beter cecken op dubbele boekingen. Dire bijna identieke gaan fout.
+    // wellicht met een hash van de data?
     public static function checkIfAllreadyImported($insertData)
     {
         $booking = Booking::where('date', $insertData['date'])
@@ -123,7 +125,7 @@ class Booking extends Model
             //  ->where('amount', $insertData['amount'])
             //  ->where('btw', $btw)
             //   ->where('amount_inc', $insertData['amount_inc'])
-            //  ->where('remarks', $remarks)
+            //   ->where('remarks', $insertData['amount_inc'])
             //  ->where('tag', $tag)
             ->first();
         if ($booking) {
@@ -316,7 +318,9 @@ class Booking extends Model
         }
 
 
-        return $query->where('date', '>=', session('startDate'))->where('date', '<=', session('stopDate'));
+        return $query
+            ->where('date', '>=', session('startDate'))
+            ->where('date', '<=', session('stopDate'));
     }
 
 
@@ -327,7 +331,11 @@ class Booking extends Model
             session(['startDate' => date('Y-m-d', strtotime('-1 year'))]);
         }
 
-        return $query->where('date', '<=', session('startDate'));
+        // one day before startdate
+        //   $startDate = session('startDate');
+        $startDate = date('Y-m-d', strtotime(session('startDate') . ' -1 day'));
+
+        return $query->where('date', '<=', $startDate);
     }
 
 
@@ -337,8 +345,11 @@ class Booking extends Model
         if (session('stopDate') == null) {
             session(['stopDate' => date('Y-m-d')]);
         }
+        $stopDate = session('stopDate');
+        //  $stopDate = date('Y-m-d', strtotime(session('stopDate') . ' -1 day'));
 
-        return $query->where('date', '<=', session('stopDate'));
+
+        return $query->where('date', '<=', $stopDate);
     }
 
 
@@ -375,6 +386,8 @@ class Booking extends Model
      */
     public static function getDebetOrCredit($pAccount, $debetOrCredit, $period = '')
     {
+
+        //        ddl($pAccount);
 
         if ($debetOrCredit == 'debet') {
             $plusMin = '1';
