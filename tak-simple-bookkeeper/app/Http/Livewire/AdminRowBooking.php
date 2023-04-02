@@ -23,6 +23,7 @@ class AdminRowBooking extends Component
     public $balance;
     public $listOfCategories = [];
     public $listOfCrossCategoryAccounts = [];
+    public $active;
 
 
 
@@ -36,6 +37,7 @@ class AdminRowBooking extends Component
 
     public function mount()
     {
+        $this->active = false;
 
         if ($this->booking->category) {
             $this->category = $this->booking->category;
@@ -289,6 +291,7 @@ class AdminRowBooking extends Component
 
     public function openSidePanel()
     {
+        session()->flash('booking', $this->booking->id);
         $this->emit('openRightPanel', $this->booking->description, 'admin-edit-booking', $this->booking, key(now()) . '-' . Str::random());
     }
 

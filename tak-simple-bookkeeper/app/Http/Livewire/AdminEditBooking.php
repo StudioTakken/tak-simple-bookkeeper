@@ -18,7 +18,7 @@ class AdminEditBooking extends AdminRowBooking
     public $invoice_nr;
     public $delete_confirm = false;
     public $open_dropzone = false;
-    // public $remarks;
+
 
     protected $listeners = ['refreshBookings' => 'refreshThis'];
 
@@ -46,8 +46,6 @@ class AdminEditBooking extends AdminRowBooking
     public function removeBooking()
     {
         $account = $this->booking->booking_account;
-        ddl($account);
-
 
         $this->booking->delete();
         return redirect()->route('account.onaccount', ['account' => $account->slug]);

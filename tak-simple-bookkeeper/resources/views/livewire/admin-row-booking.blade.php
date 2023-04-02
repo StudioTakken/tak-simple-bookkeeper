@@ -1,6 +1,11 @@
-<tr wire:click="openSidePanel"
-    class="   
+<tr 
+x-data="{ activated: false }" 
+x-on:click="activated = true" 
+x-on:click.outside="activated = false"
+:class="activated ? 'activated' : ''"
+wire:click="openSidePanel" 
 
+class="
 border-t-2 border-gray-200
 @if (session()->has('message')) @if (session('message') === 'success') 
 success-fader @endif
@@ -9,10 +14,11 @@ success-fader @endif
 error-fader @endif
 @endif
 "
-    wire:loading.class.remove="success-fader" wire:loading.class.remove="error-fader">
+    wire:loading.class.remove="success-fader" wire:loading.class.remove="error-fader" wire:loading.class.remove="active">
 
     <td id="{{ $booking->id }}" class="px-1 py-1 text-sm font-light text-gray-900 whitespace-nowrap ">
 
+        {{ $active }}
         @if (session()->has('message'))
             @if (session('message') === 'error')
                 X - please reload! @endif
@@ -87,7 +93,8 @@ error-fader @endif
                 <option class="pr-3" value='{{ $category['id'] }}'>{{ $category['name'] }}</option>
             @endforeach
             @foreach ($listOfCrossCategoryAccounts as $crossCategory)
-                <option class="pr-3" value='{{ $crossCategory['category'] }}::{{ $crossCategory['named_id'] }}'>naar:
+                <option class="pr-3" value='{{ $crossCategory['category'] }}::{{ $crossCategory['named_id'] }}'>
+                    naar:
                     {{ $crossCategory['name'] }}
                 </option>
             @endforeach

@@ -125,3 +125,7 @@
 .soft {
     @apply text-gray-600 bg-white border border-red-600;
 }
+
+.activated {
+    background-color: #f5f4f4;
+}
