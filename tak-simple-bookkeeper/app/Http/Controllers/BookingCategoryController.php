@@ -23,6 +23,8 @@ class BookingCategoryController extends Controller
 
     public function oncategory($sCategory)
     {
+
+
         $oCategory = BookingCategory::where('slug', $sCategory)->first();
 
         if ($oCategory) {
@@ -88,8 +90,6 @@ class BookingCategoryController extends Controller
             $totals['btw_verschil'] = number_format($totals['btw_verschil'] / 100, 2, ',', '.');
         }
 
-
-
         foreach ($this->categoryList as $category) {
 
             // if $category_key is in accountList, skip it
@@ -105,10 +105,6 @@ class BookingCategoryController extends Controller
             if ($category->id == '') {
                 $category->name = 'onbekend';
             }
-
-
-
-
 
 
             // get the sum of the bookings for this category where polarity is 1
@@ -133,6 +129,32 @@ class BookingCategoryController extends Controller
                 $summary['credit'][$category->id]['credit'] = $credit;
             }
         }
+
+        if ($filter != 'venw' and $filter != 'btw') {
+
+            // extra category for bookings without a category
+            $debet = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
+            if ($debet > 0) {
+                $totals['debet'] += $debet;
+                $summary['debet'][0]['name'] = 'Geen categorie';
+                $summary['debet'][0]['debetNr'] = $debet;
+                $debet = number_format($debet / 100, 2, ',', '.');
+                $summary['debet'][0]['debet'] = $debet;
+            }
+
+            $credit = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+            if ($credit > 0) {
+                $totals['credit'] += $credit;
+                $summary['credit'][0]['name'] = 'Geen categorie';
+                $summary['credit'][0]['creditNr'] = $credit;
+                $credit = number_format($credit / 100, 2, ',', '.');
+                $summary['credit'][0]['credit'] = $credit;
+            }
+        }
+
+
+
+
 
         if (isset($summary['debet'])) {
             usort($summary['debet'], function ($a, $b) {

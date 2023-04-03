@@ -41,6 +41,8 @@ class AdminBookings extends Component
         // ddl($this->viewscope);
         if ($this->method == 'account.onaccount') {
 
+
+
             $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
 
             $this->debetStart      = Booking::getDebetOrCredit($this->viewscope, 'debet', 'start');
@@ -53,10 +55,20 @@ class AdminBookings extends Component
 
             // no children in category!
             $category = $this->viewscope;
+            ddl($category);
 
-            $this->bookings     = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->get();
-            $this->debet        = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
-            $this->credit       = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+            if ($this->viewscope == '16') {
+
+
+                $this->bookings     = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->get();
+                $this->debet        = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
+                $this->credit       = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+            } else {
+
+                $this->bookings     = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->get();
+                $this->debet        = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
+                $this->credit       = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+            }
         }
 
 

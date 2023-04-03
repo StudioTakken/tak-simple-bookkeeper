@@ -196,5 +196,17 @@ class BookingCategorySeeder extends Seeder
                 'polarity' => -1,
             ],
         );
+
+        DB::table('booking_categories')->insert(
+            [
+                'slug' => 'administratie',
+                'named_id' => 'administratie',
+                'name' => 'Administratie',
+                'loss_profit_overview' => 1,
+                'on_balance' => 1,
+                'vat_overview' => 1,
+                'polarity' => -1,
+            ],
+        );
     }
 }
