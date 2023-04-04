@@ -13,6 +13,7 @@ class BookingCreate extends Component
     public $amount_inc;
     public $account;
     public $polarity = 1;
+    public $hashed;
 
     protected $rules = [
         'date' => 'required|date',
@@ -53,6 +54,7 @@ class BookingCreate extends Component
             'amount_inc' => $this->amount_inc,
             'account' => $this->account->named_id,
             'polarity' => $this->polarity,
+            'hashed' => '',
         ]);
 
         // after submit, clear the form

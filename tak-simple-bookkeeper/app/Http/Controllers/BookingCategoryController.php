@@ -92,6 +92,9 @@ class BookingCategoryController extends Controller
 
         foreach ($this->categoryList as $category) {
 
+            ddl($category);
+
+
             // if $category_key is in accountList, skip it
             if ($filter == 'venw' and $category->loss_profit_overview == 0) {
                 continue;
@@ -108,7 +111,15 @@ class BookingCategoryController extends Controller
 
 
             // get the sum of the bookings for this category where polarity is 1
+
+            // if ($category->polarity == -1) {
+            //     $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+            //     $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
+            // } else {
             $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
+            $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+
+
 
             if ($debet > 0) {
                 $totals['debet'] += $debet;
@@ -118,8 +129,7 @@ class BookingCategoryController extends Controller
                 $summary['debet'][$category->id]['debet'] = $debet;
             }
 
-            // get the sum of the bookings for this category where polarity is -1
-            $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+
 
             if ($credit > 0) {
                 $totals['credit'] += $credit;

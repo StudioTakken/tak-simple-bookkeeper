@@ -64,10 +64,9 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
         /// resultaat, nog af te dragen belasting, winst of verlies
         $this->balanceArray[] = ['Resultaat', '', $result];
         $this->boldRows[] = count($this->balanceArray);
+
         $this->balanceArray[] = ['- Nog af te dragen BTW', '', ($this->aBalanceConclusion['btw_verschil'] / 100)];
-        $this->boldRows[] = count($this->balanceArray);
         $this->balanceArray[] = ['+ Prive opname en belasting', '', ($this->aBalanceConclusion['prive_opnamen'] / 100)];
-        $this->boldRows[] = count($this->balanceArray);
         $this->balanceArray[] = ['Winst', '', $winst];
         $this->boldRows[] = count($this->balanceArray);
 
@@ -92,7 +91,7 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
     {
 
         foreach ($this->boldRows as $boldRow) {
-            $sheet->getStyle('A' . ($boldRow - 1) . ':C' . $boldRow)->getFont()->setBold(true);
+            $sheet->getStyle('A' . ($boldRow) . ':C' . $boldRow)->getFont()->setBold(true);
         }
 
 

@@ -71,8 +71,7 @@ class Booking extends Model
         'mutation_type' => '',
         'hashed' => '',
         'polarity' => 1,
-        'cross_account' => '',
-        'hashed' => ''
+        'cross_account' => ''
     );
 
     public static function insertData($insertData)

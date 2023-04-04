@@ -39,10 +39,10 @@
                         {{ $details['name'] }}
                     </div>
                     <div class='font-mono text-right'>
-                        {{ $details['start'] }}
+                        {{ number_format($details['start'] / 100, 2) }}
                     </div>
                     <div class='font-mono text-right'>
-                        {{ $details['end'] }}
+                        {{ number_format($details['end'] / 100, 2) }}
                     </div>
                 @endforeach
             </div>
@@ -68,6 +68,13 @@
 
         </div>
 
+
+
+
+
+
+
+
         <div class="flex items-start w-full grid-cols-2 gap-8 mt-20 font-bold">
 
             <div class="grid w-1/2 grid-cols-3 gap-4">
@@ -86,7 +93,7 @@
 
         </div>
 
-        <div class="flex items-start w-full grid-cols-2 gap-8 mt-2 font-bold">
+        <div class="flex items-start w-full grid-cols-2 gap-8 mt-2 ">
 
             <div class="grid w-1/2 grid-cols-3 gap-4">
 
@@ -104,7 +111,8 @@
 
         </div>
 
-        <div class="flex items-start w-full grid-cols-2 gap-8 mt-2 font-bold">
+
+        <div class="flex items-start w-full grid-cols-2 gap-8 mt-2 ">
 
             <div class="grid w-1/2 grid-cols-3 gap-4">
 
