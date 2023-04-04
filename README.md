@@ -51,7 +51,11 @@ and start for developing:
 or  
 `npm run build`  
 
-Now we are ready to serve:  
+Make a backup directory and a directory for uploaded files  
+`mkdir storage/app/backup`  
+`mkdir storage/app/prove`  
+
+Now we are ready to serve. Open another shell and:  
 `php artisan serve`  
 or  
 point your server to the public folder.
