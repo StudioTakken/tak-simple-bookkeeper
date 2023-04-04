@@ -212,8 +212,8 @@ class BookingController extends Controller
             }
 
             // make the value form comma to dot
-            $importData['amount_inc'] = str_replace(',', '.', $importData['amount_inc']);
-            $importData['amount_inc'] = Centify($importData['amount_inc']);
+            $importData['amount'] = str_replace(',', '.', $importData['amount']);
+            $importData['amount'] = Centify($importData['amount']);
 
             $insertData = array(
                 "date" => date('Y-m-d', strtotime($importData['date'])),
@@ -224,7 +224,7 @@ class BookingController extends Controller
                 "polarity" => $importData['polarity'],
                 "invoice_nr" => $importData['invoice_nr'],
                 "bank_code" => $importData['bank_code'],
-                "amount_inc" => (float)$importData['amount_inc'],
+                "amount" => (float)$importData['amount'],
                 "remarks" => $importData['remarks'],
                 "tag" => $importData['tag'],
                 "mutation_type" => $importData['mutation_type'],
@@ -277,12 +277,12 @@ class BookingController extends Controller
             'Tegenrekening' => 'contra_account',
             'klant' => 'klant',
             'Af Bij' => 'plus_min',
-            'incl' => 'amount_inc',
+            'incl' => 'amount',
             'Mededelingen' => 'remarks',
             'Tag' => 'tag',
             'Mutatiesoort' => 'mutation_type',
             'Code' => 'bank_code',
-            'Bedrag (EUR)' => 'amount_inc',
+            'Bedrag (EUR)' => 'amount',
             'Naam / Omschrijving' => 'description',
         ];
 
@@ -291,7 +291,7 @@ class BookingController extends Controller
 
             // remove the key incl
             unset($map['incl']);
-            $map['excl']        = 'amount_inc';  // we add the btw later
+            $map['excl']        = 'amount';  // we add the btw later
             $map['Rekening']    = 'invoice_nr';
         }
 

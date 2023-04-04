@@ -49,7 +49,7 @@ class Booking extends Model
         'polarity',
         'invoice_nr',
         'bank_code',
-        'amount_inc',
+        'amount',
         'remarks',
         'tag',
         'mutation_type',
@@ -65,7 +65,7 @@ class Booking extends Model
         'plus_min' => '',
         'invoice_nr' => '',
         'bank_code' => '',
-        'amount_inc' => '',
+        'amount' => '',
         'remarks' => '',
         'tag' => '',
         'mutation_type' => '',
@@ -87,7 +87,7 @@ class Booking extends Model
         $booking->polarity      = $insertData['polarity'];
         $booking->invoice_nr        = $insertData['invoice_nr'];
         $booking->bank_code         = $insertData['bank_code'];
-        $booking->amount_inc        = $insertData['amount_inc'];
+        $booking->amount        = $insertData['amount'];
         $booking->remarks           = $insertData['remarks'];
         $booking->tag               = $insertData['tag'];
         $booking->mutation_type     = $insertData['mutation_type'];
@@ -121,14 +121,14 @@ class Booking extends Model
 
             // // changing fields
             // ->whereJsonContains('originals->contra_account', $insertData['contra_account'])
-            // ->whereJsonContains('originals->amount_inc', $insertData['amount_inc'])
+            // ->whereJsonContains('originals->amount', $insertData['amount'])
 
             //  ->where('invoice_nr', $invoice_nr)
             // ->where('category', $category)
             //  ->where('amount', $insertData['amount'])
             //  ->where('btw', $btw)
-            //   ->where('amount_inc', $insertData['amount_inc'])
-            //   ->where('remarks', $insertData['amount_inc'])
+            //   ->where('amount', $insertData['amount'])
+            //   ->where('remarks', $insertData['amount'])
             //  ->where('tag', $tag)
             ->first();
         if ($booking) {
@@ -157,7 +157,7 @@ class Booking extends Model
         $this->polarity          = $insertData['polarity'];
         $this->invoice_nr        = $insertData['invoice_nr'];
         $this->bank_code         = $insertData['bank_code'];
-        $this->amount_inc        = $insertData['amount_inc'];
+        $this->amount        = $insertData['amount'];
         $this->remarks           = $insertData['remarks'];
         $this->tag               = $insertData['tag'];
         $this->mutation_type     = $insertData['mutation_type'];
@@ -196,7 +196,7 @@ class Booking extends Model
         $newBooking->polarity = $this->polarity;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        $newBooking->amount_inc = $splitOffCents;
+        $newBooking->amount = $splitOffCents;
         $newBooking->remarks = $this->remarks . ' (split off)';
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
@@ -205,7 +205,7 @@ class Booking extends Model
         $newBooking->cross_account = $this->cross_account;
 
 
-        $this->amount_inc = $this->amount_inc - $splitOffCents;
+        $this->amount = $this->amount - $splitOffCents;
         $this->save();
 
         return $newBooking->save();
@@ -214,9 +214,9 @@ class Booking extends Model
     public function splitBookingBtw($inorout = 'in')
     {
 
-        $original_amount = $this->amount_inc;
-        $this->amount_inc = $this->amount_inc / 121 * 100;
-        $btw = (int)$this->amount_inc * 0.21;
+        $original_amount = $this->amount;
+        $this->amount = $this->amount / 121 * 100;
+        $btw = (int)$this->amount * 0.21;
 
         // format $original_amount to 2 decimals
         $original_amount = number_format($original_amount / 100, 2, '.', '');
@@ -244,7 +244,7 @@ class Booking extends Model
         $newBooking->polarity = $this->polarity;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        $newBooking->amount_inc = $btw;
+        $newBooking->amount = $btw;
         $newBooking->remarks = $this->remarks;
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
@@ -257,7 +257,7 @@ class Booking extends Model
 
     public function addBookingBtw($inorout = 'in')
     {
-        $inc_amount = $this->amount_inc * 1.21;
+        $inc_amount = $this->amount * 1.21;
 
         // format $original_amount to 2 decimals
         $inc_amount = number_format($inc_amount / 100, 2, '.', '');
@@ -266,7 +266,7 @@ class Booking extends Model
         $this->save();
 
         // create a new booking 
-        $btw = $this->amount_inc * 0.21;
+        $btw = $this->amount * 0.21;
 
         // get the bookingCategory named btw or btw-uit
         if ($inorout == 'in') {
@@ -285,7 +285,7 @@ class Booking extends Model
         $newBooking->polarity = $this->polarity;
         $newBooking->invoice_nr = $this->invoice_nr;
         $newBooking->bank_code = $this->bank_code;
-        $newBooking->amount_inc = $btw;
+        $newBooking->amount = $btw;
         $newBooking->remarks = $this->remarks;
         $newBooking->tag = $this->tag;
         $newBooking->mutation_type = $this->mutation_type;
@@ -416,16 +416,16 @@ class Booking extends Model
 
         if ($period === 'start') {
 
-            $periodSum        = self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount_inc');
-            $periodSum        += self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount_inc');
+            $periodSum        = self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount');
+            $periodSum        += self::periodBefore()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount');
         } elseif ($period === 'end') {
 
-            $periodSum        = self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount_inc');
-            $periodSum        += self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount_inc');
+            $periodSum        = self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount');
+            $periodSum        += self::periodEnd()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount');
         } else {
 
-            $periodSum        = self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount_inc');
-            $periodSum        += self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount_inc');
+            $periodSum        = self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('account', '=', $pAccount)->where('polarity', $plusMin)->sum('amount');
+            $periodSum        += self::period()->ofAccount($pAccount)->orderBy('date')->orderBy('id')->where('cross_account', '=', $pAccount)->where('polarity', -$plusMin)->sum('amount');
         }
 
 

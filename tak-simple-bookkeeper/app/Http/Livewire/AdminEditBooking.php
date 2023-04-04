@@ -11,7 +11,7 @@ class AdminEditBooking extends AdminRowBooking
     public $booking;
     public $freshnow;
     public $splitOffAmount;
-    public $amount_inc;
+    public $amount;
     public $description;
     public $date;
     public $polarity;

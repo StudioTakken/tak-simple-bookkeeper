@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('polarity');
             $table->string('invoice_nr');
             $table->string('bank_code');
-            $table->integer('amount_inc');
+            $table->integer('amount');
             $table->string('tag');
             $table->string('mutation_type');
             $table->integer('category')->nullable();

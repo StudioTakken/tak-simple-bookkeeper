@@ -23,7 +23,7 @@ it('can import file', function () {
     $importer->import();
     $bookingCount = Booking::count();
 
-    $total = (int)Booking::sum('amount_inc');
+    $total = (int)Booking::sum('amount');
 
     $this->assertTrue($bookingCount === 42);
     $this->assertTrue($total === 4916302);

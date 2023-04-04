@@ -64,11 +64,11 @@
                     <div class="py-1 text-sm font-light text-gray-900 whitespace-nowrap">
                         <label for="amount">Bedrag</label><br />
 
-                        <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
+                        <input type="text" wire:model.debounce.4s="amount" wire:change="updateAmountInc"
                             class="numberinputfield" />
 
 
-                        @error('amount_inc')
+                        @error('amount')
                             <br />
                             <span class="error">{{ $message }}</span>
                         @enderror

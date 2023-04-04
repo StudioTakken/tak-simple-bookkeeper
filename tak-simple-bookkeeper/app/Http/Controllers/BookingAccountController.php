@@ -130,8 +130,8 @@ class BookingAccountController extends Controller
         $btw_in_account = BookingCategory::where('named_id', 'btw')->first();
         $btw_out_account = BookingCategory::where('named_id', 'btw-uit')->first();
 
-        $this->aBalanceConclusion['btw_in'] = Booking::period()->where('category', $btw_in_account->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
-        $this->aBalanceConclusion['btw_uit'] = Booking::period()->where('category', $btw_out_account->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+        $this->aBalanceConclusion['btw_in'] = Booking::period()->where('category', $btw_in_account->id)->orderBy('date')->orderBy('id')->sum('amount');
+        $this->aBalanceConclusion['btw_uit'] = Booking::period()->where('category', $btw_out_account->id)->orderBy('date')->orderBy('id')->sum('amount');
         $this->aBalanceConclusion['btw_verschil'] = $this->aBalanceConclusion['btw_in'] - $this->aBalanceConclusion['btw_uit'];
 
 
@@ -141,8 +141,8 @@ class BookingAccountController extends Controller
         $not_on_balance = BookingCategory::where('on_balance', 0)->get();
 
         foreach ($not_on_balance as $nob_category) {
-            $prive_opnamen += Booking::period()->where('category', $nob_category->id)->where('polarity', '-1')->orderBy('date')->orderBy('id')->sum('amount_inc');
-            $prive_opnamen -= Booking::period()->where('category', $nob_category->id)->where('polarity', '1')->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $prive_opnamen += Booking::period()->where('category', $nob_category->id)->where('polarity', '-1')->orderBy('date')->orderBy('id')->sum('amount');
+            $prive_opnamen -= Booking::period()->where('category', $nob_category->id)->where('polarity', '1')->orderBy('date')->orderBy('id')->sum('amount');
         }
 
         $this->aBalanceConclusion['prive_opnamen'] = $prive_opnamen;

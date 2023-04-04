@@ -77,8 +77,8 @@ class BookingCategoryController extends Controller
             $btw_uit_cat = BookingCategory::where('named_id', 'btw-uit')->first();
 
             // get the sum of the bookings for this category
-            $nBtwDebet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
-            $nBtwCredit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $nBtwDebet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+            $nBtwCredit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
             $nBtwVerschil = $nBtwDebet - $nBtwCredit;
 
             $totals['nBtwDebet'] = $nBtwDebet;
@@ -87,9 +87,6 @@ class BookingCategoryController extends Controller
         }
 
         foreach ($this->categoryList as $category) {
-
-            ddl($category);
-
 
             // if $category_key is in accountList, skip it
             if ($filter == 'venw' and $category->loss_profit_overview == 0) {
@@ -106,8 +103,8 @@ class BookingCategoryController extends Controller
             }
 
 
-            $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
-            $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+            $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount');
+            $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount');
 
 
 
@@ -131,7 +128,7 @@ class BookingCategoryController extends Controller
         if ($filter != 'venw' and $filter != 'btw') {
 
             // extra category for bookings without a category
-            $debet = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
+            $debet = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount');
             if ($debet > 0) {
                 $totals['debet'] += $debet;
                 $summary['debet'][0]['name'] = 'Geen categorie';
@@ -139,7 +136,7 @@ class BookingCategoryController extends Controller
                 $summary['debet'][0]['debet'] = $debet;
             }
 
-            $credit = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+            $credit = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount');
             if ($credit > 0) {
                 $totals['credit'] += $credit;
                 $summary['credit'][0]['name'] = 'Geen categorie';

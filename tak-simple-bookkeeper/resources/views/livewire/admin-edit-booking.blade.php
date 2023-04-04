@@ -26,7 +26,7 @@ error-fader @endif
             <tr class=''>
                 <td class="px-2 text-sm align-top border border-slate-300">Bedrag</td>
                 <td class="px-2 font-bold align-top border border-slate-300">
-                    {{ $amount_inc }}
+                    {{ $amount }}
                 </td>
             </tr>
             <tr class=''>
@@ -204,7 +204,7 @@ error-fader @endif
 
                                                 <i>
                                                     {{ $booking->description }}<br />
-                                                    {{ $amount_inc }}
+                                                    {{ $amount }}
                                                 </i><br />
                                                 <p class="text-sm text-gray-500">Weet je zeker dat deze boeking moet
                                                     worden verwijderd? Kan niet ongedaan worden gemaakt.</p>

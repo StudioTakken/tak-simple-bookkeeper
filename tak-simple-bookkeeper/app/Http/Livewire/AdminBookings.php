@@ -61,13 +61,13 @@ class AdminBookings extends Component
 
 
                 $this->bookings     = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->get();
-                $this->debet        = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
-                $this->credit       = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+                $this->debet        = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount');
+                $this->credit       = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount');
             } else {
 
                 $this->bookings     = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->get();
-                $this->debet        = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
-                $this->credit       = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
+                $this->debet        = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount');
+                $this->credit       = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount');
             }
         }
 

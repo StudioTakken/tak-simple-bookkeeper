@@ -10,7 +10,7 @@ class BookingCreate extends Component
 
     public $date;
     public $description;
-    public $amount_inc;
+    public $amount;
     public $account;
     public $polarity = 1;
     public $hashed;
@@ -19,14 +19,14 @@ class BookingCreate extends Component
         'date' => 'required|date',
         'description' => 'required|min:3',
         'account' => 'required|min:3',
-        'amount_inc' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
+        'amount' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
         'polarity' => 'required|int',
     ];
     protected $messages = [
         'date' => 'Een datum is verplicht',
         'description' => 'Een omschrijving is verplicht',
         'account' => 'required|min:3',
-        'amount_inc' => 'Een bedrag is verplicht, en moet een nummer zijn, met maximaal 2 decimalen',
+        'amount' => 'Een bedrag is verplicht, en moet een nummer zijn, met maximaal 2 decimalen',
         'polarity' => 'Standaard is plus',
     ];
 
@@ -35,12 +35,12 @@ class BookingCreate extends Component
 
         // ddl($this->date);
         // ddl($this->description);
-        // ddl($this->amount_inc);
+        // ddl($this->amount);
         // ddl($this->polarity);
         // ddl($this->account);
 
-        // centify the amount_inc
-        $this->amount_inc = Centify($this->amount_inc);
+        // centify the amount
+        $this->amount = Centify($this->amount);
 
 
         $this->validate();
@@ -51,7 +51,7 @@ class BookingCreate extends Component
         Booking::create([
             'date' => $this->date,
             'description' => $this->description,
-            'amount_inc' => $this->amount_inc,
+            'amount' => $this->amount,
             'account' => $this->account->named_id,
             'polarity' => $this->polarity,
             'hashed' => '',
@@ -60,7 +60,7 @@ class BookingCreate extends Component
         // after submit, clear the form
         $this->date = '';
         $this->description = '';
-        $this->amount_inc = '';
+        $this->amount = '';
         //  $this->account = '';
 
         // refresh the bookingslist
@@ -73,15 +73,15 @@ class BookingCreate extends Component
 
     public function updateAmountInc()
     {
-        $this->amount_inc = Centify($this->amount_inc);
+        $this->amount = Centify($this->amount);
     }
 
     public function render()
     {
 
-        // only if the amount_inc is numeric, then format it
-        if (is_numeric($this->amount_inc)) {
-            $this->amount_inc = number_format($this->amount_inc / 100, 2, ',', '.');
+        // only if the amount is numeric, then format it
+        if (is_numeric($this->amount)) {
+            $this->amount = number_format($this->amount / 100, 2, ',', '.');
         }
 
         return view('livewire.booking-create');

@@ -13,7 +13,7 @@ class AdminRowBooking extends Component
     public $booking;
     public $category = '';
     public $hasChildren = false;
-    public $amount_inc;
+    public $amount;
     public $description;
     public $date;
     public $polarity;
@@ -83,7 +83,7 @@ class AdminRowBooking extends Component
 
         $this->checkBalance();
         $this->calculateChildren();
-        $this->amount_inc = number_format($this->booking->amount_inc / 100, 2, ',', '.');
+        $this->amount = number_format($this->booking->amount / 100, 2, ',', '.');
         $this->description = $this->booking->description;
         $this->remarks = $this->booking->remarks;
         $this->date = $this->booking->date;
@@ -122,14 +122,14 @@ class AdminRowBooking extends Component
                 // }
 
                 // if ($cross_account_polarity == '-1') {
-                //     $booking->amount_inc = $booking->amount_inc * $cross_account_polarity;
+                //     $booking->amount = $booking->amount * $cross_account_polarity;
                 // }
 
                 if ($booking->cross_account != '' and $booking->account != $booking->cross_account) {
-                    $booking->amount_inc = $booking->amount_inc * -1;
+                    $booking->amount = $booking->amount * -1;
                 }
 
-                $balance += $booking->amount_inc;
+                $balance += $booking->amount;
             }
 
 
@@ -148,7 +148,7 @@ class AdminRowBooking extends Component
 
     public function updateAmountInc()
     {
-        $this->booking->amount_inc = Centify($this->amount_inc);
+        $this->booking->amount = Centify($this->amount);
         $ok = $this->booking->save();
         $this->blink($ok);
         $this->emit('refreshBookings');

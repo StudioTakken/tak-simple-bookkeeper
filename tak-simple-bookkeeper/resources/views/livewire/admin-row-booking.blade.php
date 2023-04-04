@@ -1,11 +1,6 @@
-<tr 
-x-data="{ activated: false }" 
-x-on:click="activated = true" 
-x-on:click.outside="activated = false"
-:class="activated ? 'activated' : ''"
-wire:click="openSidePanel" 
-
-class="
+<tr x-data="{ activated: false }" x-on:click="activated = true" x-on:click.outside="activated = false"
+    :class="activated ? 'activated' : ''" wire:click="openSidePanel"
+    class="
 border-t-2 border-gray-200
 @if (session()->has('message')) @if (session('message') === 'success') 
 success-fader @endif
@@ -64,12 +59,12 @@ error-fader @endif
         </td>
         <td class="font-mono text-right text-red-700">
 
-            <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
+            <input type="text" wire:model.debounce.4s="amount" wire:change="updateAmountInc"
                 class="numberinputfield" />
         </td>
     @else
         <td class="font-mono text-right">
-            <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
+            <input type="text" wire:model.debounce.4s="amount" wire:change="updateAmountInc"
                 class="numberinputfield" />
         </td>
 
