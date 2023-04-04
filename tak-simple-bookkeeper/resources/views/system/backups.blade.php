@@ -6,6 +6,11 @@
     </x-slot>
 
 
+    <button class="mb-10 settingsbutton soft">
+        <a href="{{ route('backitup') }}">Make a database backup</a>
+    </button>
+
+
 
 
     @if (session()->has('message'))

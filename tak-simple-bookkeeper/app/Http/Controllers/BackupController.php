@@ -21,7 +21,11 @@ class BackupController extends Controller
     public function backup()
     {
         Artisan::call('database:backup');
-        return 'created a backup yes';
+
+        session()->flash('message', 'Backup gemaakt');
+
+        // redirect to the backup page and change the location to the backup page
+        return redirect()->route('backups');
     }
 
 
