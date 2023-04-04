@@ -63,8 +63,6 @@
 
                     <div class="py-1 text-sm font-light text-gray-900 whitespace-nowrap">
                         <label for="amount">Bedrag</label><br />
-                        {{-- amount --}}
-                        {{-- <input class="py-0 text-sm border-gray-400" type="text" wire:model.lazy="amount"> --}}
 
                         <input type="text" wire:model.debounce.4s="amount_inc" wire:change="updateAmountInc"
                             class="numberinputfield" />

@@ -84,10 +84,6 @@ class BookingCategoryController extends Controller
             $totals['nBtwDebet'] = $nBtwDebet;
             $totals['nBtwCredit'] = $nBtwCredit;
             $totals['nBtwVerschil'] = $nBtwVerschil;
-
-            $totals['btw_debet'] = number_format($totals['nBtwDebet'] / 100, 2, ',', '.');
-            $totals['btw_credit'] = number_format($totals['nBtwCredit'] / 100, 2, ',', '.');
-            $totals['btw_verschil'] = number_format($totals['nBtwVerschil'] / 100, 2, ',', '.');
         }
 
         foreach ($this->categoryList as $category) {
@@ -110,12 +106,6 @@ class BookingCategoryController extends Controller
             }
 
 
-            // get the sum of the bookings for this category where polarity is 1
-
-            // if ($category->polarity == -1) {
-            //     $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
-            //     $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
-            // } else {
             $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount_inc');
             $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount_inc');
 
@@ -125,7 +115,6 @@ class BookingCategoryController extends Controller
                 $totals['debet'] += $debet;
                 $summary['debet'][$category->id]['name'] = $category->name;
                 $summary['debet'][$category->id]['nDebet'] = $debet;
-                $debet = number_format($debet / 100, 2, ',', '.');
                 $summary['debet'][$category->id]['debet'] = $debet;
             }
 
@@ -135,7 +124,6 @@ class BookingCategoryController extends Controller
                 $totals['credit'] += $credit;
                 $summary['credit'][$category->id]['name'] = $category->name;
                 $summary['credit'][$category->id]['nCredit'] = $credit;
-                $credit = number_format($credit / 100, 2, ',', '.');
                 $summary['credit'][$category->id]['credit'] = $credit;
             }
         }
@@ -148,7 +136,6 @@ class BookingCategoryController extends Controller
                 $totals['debet'] += $debet;
                 $summary['debet'][0]['name'] = 'Geen categorie';
                 $summary['debet'][0]['nDebet'] = $debet;
-                $debet = number_format($debet / 100, 2, ',', '.');
                 $summary['debet'][0]['debet'] = $debet;
             }
 
@@ -157,7 +144,6 @@ class BookingCategoryController extends Controller
                 $totals['credit'] += $credit;
                 $summary['credit'][0]['name'] = 'Geen categorie';
                 $summary['credit'][0]['nCredit'] = $credit;
-                $credit = number_format($credit / 100, 2, ',', '.');
                 $summary['credit'][0]['credit'] = $credit;
             }
         }
@@ -181,13 +167,6 @@ class BookingCategoryController extends Controller
         $totals['nDebet'] = $totals['debet'];
         $totals['nCredit'] = $totals['credit'];
         $totals['result'] = $totals['debet'] - $totals['credit'];
-
-
-
-
-        $totals['debet'] = number_format($totals['debet'] / 100, 2, ',', '.');
-        $totals['credit'] = number_format($totals['credit'] / 100, 2, ',', '.');
-        $totals['result'] = number_format($totals['result'] / 100, 2, ',', '.');
 
 
         // add the totals to the summary array

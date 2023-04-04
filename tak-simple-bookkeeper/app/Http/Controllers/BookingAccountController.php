@@ -86,14 +86,6 @@ class BookingAccountController extends Controller
         $this->balanceTotals['winst'] = $this->balanceTotals['result'] - $this->aBalanceConclusion['btw_verschil']
             + $this->aBalanceConclusion['prive_opnamen'];
 
-        $this->balanceTotals['start'] = number_format($this->balanceTotals['start'] / 100, 2, ',', '.');
-        $this->balanceTotals['end'] = number_format($this->balanceTotals['end'] / 100, 2, ',', '.');
-
-        $this->balanceTotals['result'] = number_format($this->balanceTotals['result'] / 100, 2, ',', '.');
-        $this->balanceTotals['btw_afdracht'] = number_format($this->balanceTotals['btw_afdracht'] / 100, 2, ',', '.');
-        $this->balanceTotals['prive'] = number_format($this->balanceTotals['prive'] / 100, 2, ',', '.');
-        $this->balanceTotals['winst'] = number_format($this->balanceTotals['winst'] / 100, 2, ',', '.');
-
         session(['viewscope' => 'balance']);
 
         $start = Session::get('startDate');

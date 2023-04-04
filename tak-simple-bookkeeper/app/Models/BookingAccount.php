@@ -80,18 +80,4 @@ class BookingAccount extends Model
         $this->start_balance = Centify($start_balance);
         $this->save();
     }
-
-
-
-    // public function getStartBalanceAttribute($value)
-    // {
-
-    //     // only if it is  an integer
-    //     //  if (!is_int((int)$value)) {
-    //     //  $value = Centify($value);
-    //     $value = number_format($value / 100, 2, ',', '.');
-    //     // }
-
-    //     return $value;
-    // }
 }

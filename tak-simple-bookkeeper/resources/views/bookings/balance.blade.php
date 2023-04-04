@@ -39,10 +39,11 @@
                         {{ $details['name'] }}
                     </div>
                     <div class='font-mono text-right'>
-                        {{ number_format($details['start'] / 100, 2) }}
+
+                        {{ number_format($details['start'] / 100, 2, ',', '.') }}
                     </div>
                     <div class='font-mono text-right'>
-                        {{ number_format($details['end'] / 100, 2) }}
+                        {{ number_format($details['end'] / 100, 2, ',', '.') }}
                     </div>
                 @endforeach
             </div>
@@ -58,10 +59,10 @@
                     Totals
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $balancetotals['start'] }}
+                    {{ number_format($balancetotals['start'] / 100, 2, ',', '.') }}
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $balancetotals['end'] }}
+                    {{ number_format($balancetotals['end'] / 100, 2, ',', '.') }}
                 </div>
 
             </div>
@@ -86,7 +87,7 @@
 
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $balancetotals['result'] }}
+                    {{ number_format($balancetotals['result'] / 100, 2, ',', '.') }}
                 </div>
 
             </div>
@@ -104,7 +105,7 @@
 
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $balancetotals['btw_afdracht'] }}
+                    {{ number_format($balancetotals['btw_afdracht'] / 100, 2, ',', '.') }}
                 </div>
 
             </div>
@@ -123,7 +124,7 @@
 
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $balancetotals['prive'] }}
+                    {{ number_format($balancetotals['prive'] / 100, 2, ',', '.') }}
                 </div>
 
             </div>
@@ -142,7 +143,7 @@
 
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $balancetotals['winst'] }}
+                    {{ number_format($balancetotals['winst'] / 100, 2, ',', '.') }}
                 </div>
 
             </div>

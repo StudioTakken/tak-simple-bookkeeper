@@ -40,7 +40,8 @@
                             {{ $item['name'] }}
                         </div>
                         <div class='font-mono text-right'>
-                            {{ $item['debet'] }}
+
+                            {{ number_format($item['debet'] / 100, 2, ',', '.') }}
                         </div>
                     @endforeach
                 @endif
@@ -53,7 +54,7 @@
                             {{ $item['name'] }}
                         </div>
                         <div class='font-mono text-right'>
-                            {{ $item['credit'] }}
+                            {{ number_format($item['credit'] / 100, 2, ',', '.') }}
                         </div>
                     @endforeach
                 @endif
@@ -69,7 +70,7 @@
                     Totaal In
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $summary['totals']['debet'] }}
+                    {{ number_format($summary['totals']['debet'] / 100, 2, ',', '.') }}
                 </div>
             </div>
 
@@ -78,7 +79,7 @@
                     Totaal Uit
                 </div>
                 <div class='font-mono text-right'>
-                    {{ $summary['totals']['credit'] }}
+                    {{ number_format($summary['totals']['credit'] / 100, 2, ',', '.') }}
                 </div>
             </div>
 
@@ -102,7 +103,7 @@
                         Winst
                     </div>
                     <div class='font-mono text-right'>
-                        {{ $summary['totals']['result'] }}
+                        {{ number_format($summary['totals']['result'] / 100, 2, ',', '.') }}
                     </div>
                 </div>
 
@@ -129,7 +130,7 @@
                         BTW op inkomsten
                     </div>
                     <div class='font-mono text-right'>
-                        {{ $summary['totals']['btw_debet'] }}
+                        {{ number_format($summary['totals']['nBtwDebet'] / 100, 2, ',', '.') }}
                     </div>
                 </div>
 
@@ -151,7 +152,7 @@
                         Voorbelasting
                     </div>
                     <div class='font-mono text-right'>
-                        {{ $summary['totals']['btw_credit'] }}
+                        {{ number_format($summary['totals']['nBtwCredit'] / 100, 2, ',', '.') }}
                     </div>
                 </div>
 
@@ -172,7 +173,7 @@
                         Af te dragen
                     </div>
                     <div class='font-mono text-right'>
-                        {{ $summary['totals']['btw_verschil'] }}
+                        {{ number_format($summary['totals']['nBtwVerschil'] / 100, 2, ',', '.') }}
                     </div>
                 </div>
 
