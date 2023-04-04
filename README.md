@@ -21,8 +21,8 @@ Oh, and yes, texts are meanly in dutch, or in bad english.
 clone the repository  
 `git clone https://github.com/StudioTakken/tak-simple-bookkeeper.git`
 
-cd to tak-simple-bookkeeper. Yeah it's in a subfolder...  
-`cd tak-simple-bookkeeper/tak-simple-bookkeeper`
+cd to tak-simple-bookkeeper  
+`cd tak-simple-bookkeeper`
 
 copy .env.example to .env  
 `cp .env.example .env`
