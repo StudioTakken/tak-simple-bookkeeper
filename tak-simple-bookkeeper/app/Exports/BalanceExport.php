@@ -13,6 +13,9 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class BalanceExport extends BookingAccountController implements WithColumnFormatting, FromCollection, WithStyles, WithColumnWidths
 {
+
+    public $boldRows = [];
+
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -20,6 +23,7 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
     {
         $this->balanceArray();
         $this->balanceTotals();
+        $this->balanceConclusion();
 
         // prepend a header row
         array_unshift($this->balanceArray, ['Balans',  Session::get('startDate'), Session::get('stopDate')]);
@@ -29,7 +33,7 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
 
         // append a totals row
         $this->balanceArray[] = $this->balanceTotals;
-
+        $this->boldRows[] = count($this->balanceArray);
 
         // devide every internal array by 100 if it is a number
         foreach ($this->balanceArray as $key => $row) {
@@ -51,6 +55,23 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
             }
         }
 
+        $this->balanceArray[] = ['', '', ''];
+
+
+        $result = $this->balanceArray[$key]['end'] - $this->balanceArray[$key]['start'];
+        $winst = $result - ($this->aBalanceConclusion['btw_verschil'] / 100) + ($this->aBalanceConclusion['prive_opnamen'] / 100);
+
+        /// resultaat, nog af te dragen belasting, winst of verlies
+        $this->balanceArray[] = ['Resultaat', '', $result];
+        $this->boldRows[] = count($this->balanceArray);
+        $this->balanceArray[] = ['- Nog af te dragen BTW', '', ($this->aBalanceConclusion['btw_verschil'] / 100)];
+        $this->boldRows[] = count($this->balanceArray);
+        $this->balanceArray[] = ['+ Prive opname en belasting', '', ($this->aBalanceConclusion['prive_opnamen'] / 100)];
+        $this->boldRows[] = count($this->balanceArray);
+        $this->balanceArray[] = ['Winst', '', $winst];
+        $this->boldRows[] = count($this->balanceArray);
+
+
 
 
         return  collect($this->balanceArray);
@@ -69,23 +90,20 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
 
     public function styles(Worksheet $sheet)
     {
+
+        foreach ($this->boldRows as $boldRow) {
+            $sheet->getStyle('A' . ($boldRow - 1) . ':C' . $boldRow)->getFont()->setBold(true);
+        }
+
+
         return [
             // Style the first row as bold text.
             1    => ['font' => ['bold' => true]],
-
-            // Styling a specific cell by coordinate.
-            // 'B2' => ['font' => ['italic' => true]],
-
-            // Styling an entire column.
-            //  'C'  => ['font' => ['size' => 16]],
-
             // set alignment to right
             'B' => ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT]],
             'C' => ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT]],
 
 
-            // style the last row
-            count($this->balanceArray) => ['font' => ['bold' => true]],
         ];
     }
 
@@ -94,7 +112,7 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
     public function columnWidths(): array
     {
         return [
-            'A' => 18,
+            'A' => 32,
             'B' => 18,
             'C' => 18,
         ];

@@ -77,17 +77,17 @@ class BookingCategoryController extends Controller
             $btw_uit_cat = BookingCategory::where('named_id', 'btw-uit')->first();
 
             // get the sum of the bookings for this category
-            $btw_debet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
-            $btw_credit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
-            $btw_verschil = $btw_debet - $btw_credit;
+            $nBtwDebet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $nBtwCredit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $nBtwVerschil = $nBtwDebet - $nBtwCredit;
 
-            $totals['btw_debet'] = $btw_debet;
-            $totals['btw_credit'] = $btw_credit;
-            $totals['btw_verschil'] = $btw_verschil;
+            $totals['nBtwDebet'] = $nBtwDebet;
+            $totals['nBtwCredit'] = $nBtwCredit;
+            $totals['nBtwVerschil'] = $nBtwVerschil;
 
-            $totals['btw_debet'] = number_format($totals['btw_debet'] / 100, 2, ',', '.');
-            $totals['btw_credit'] = number_format($totals['btw_credit'] / 100, 2, ',', '.');
-            $totals['btw_verschil'] = number_format($totals['btw_verschil'] / 100, 2, ',', '.');
+            $totals['btw_debet'] = number_format($totals['nBtwDebet'] / 100, 2, ',', '.');
+            $totals['btw_credit'] = number_format($totals['nBtwCredit'] / 100, 2, ',', '.');
+            $totals['btw_verschil'] = number_format($totals['nBtwVerschil'] / 100, 2, ',', '.');
         }
 
         foreach ($this->categoryList as $category) {
@@ -113,7 +113,7 @@ class BookingCategoryController extends Controller
             if ($debet > 0) {
                 $totals['debet'] += $debet;
                 $summary['debet'][$category->id]['name'] = $category->name;
-                $summary['debet'][$category->id]['debetNr'] = $debet;
+                $summary['debet'][$category->id]['nDebet'] = $debet;
                 $debet = number_format($debet / 100, 2, ',', '.');
                 $summary['debet'][$category->id]['debet'] = $debet;
             }
@@ -124,7 +124,7 @@ class BookingCategoryController extends Controller
             if ($credit > 0) {
                 $totals['credit'] += $credit;
                 $summary['credit'][$category->id]['name'] = $category->name;
-                $summary['credit'][$category->id]['creditNr'] = $credit;
+                $summary['credit'][$category->id]['nCredit'] = $credit;
                 $credit = number_format($credit / 100, 2, ',', '.');
                 $summary['credit'][$category->id]['credit'] = $credit;
             }
@@ -137,7 +137,7 @@ class BookingCategoryController extends Controller
             if ($debet > 0) {
                 $totals['debet'] += $debet;
                 $summary['debet'][0]['name'] = 'Geen categorie';
-                $summary['debet'][0]['debetNr'] = $debet;
+                $summary['debet'][0]['nDebet'] = $debet;
                 $debet = number_format($debet / 100, 2, ',', '.');
                 $summary['debet'][0]['debet'] = $debet;
             }
@@ -146,7 +146,7 @@ class BookingCategoryController extends Controller
             if ($credit > 0) {
                 $totals['credit'] += $credit;
                 $summary['credit'][0]['name'] = 'Geen categorie';
-                $summary['credit'][0]['creditNr'] = $credit;
+                $summary['credit'][0]['nCredit'] = $credit;
                 $credit = number_format($credit / 100, 2, ',', '.');
                 $summary['credit'][0]['credit'] = $credit;
             }
@@ -158,18 +158,18 @@ class BookingCategoryController extends Controller
 
         if (isset($summary['debet'])) {
             usort($summary['debet'], function ($a, $b) {
-                return $b['debetNr'] <=> $a['debetNr'];
+                return $b['nDebet'] <=> $a['nDebet'];
             });
         }
 
         if (isset($summary['credit'])) {
             usort($summary['credit'], function ($a, $b) {
-                return $b['creditNr'] <=> $a['creditNr'];
+                return $b['nCredit'] <=> $a['nCredit'];
             });
         }
 
-        $totals['debetNr'] = $totals['debet'];
-        $totals['creditNr'] = $totals['credit'];
+        $totals['nDebet'] = $totals['debet'];
+        $totals['nCredit'] = $totals['credit'];
         $totals['result'] = $totals['debet'] - $totals['credit'];
 
 

@@ -14,6 +14,7 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
 {
 
     public $summaryForExcel = [];
+    public $boldRows = [];
 
     /**
      * @return \Illuminate\Support\Collection
@@ -32,18 +33,25 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
         $summaryForExcel = [];
         $summaryForExcel[$rn]['A'] = 'Samenvatting ' . $this->filterNames[$this->filter];
         $rn++;
+
+        $summaryForExcel[$rn] = ['A' => '', 'B' => '', 'C' => '', 'D' => ''];
+        $rn++;
+
         $summaryForExcel[$rn]['A'] = 'Categorie';
         $summaryForExcel[$rn]['B'] = 'Debet';
         $summaryForExcel[$rn]['C'] = 'Categorie';
         $summaryForExcel[$rn]['D'] = 'Credit';
 
+        $rn++;
+        $startRowBalance = $rn;
+        $highestRowNr = $rn;
 
 
         foreach ($summary as $listname => $list) {
 
             // debet, credit, totals
             if ($listname == 'debet') {
-                $rn = 3;
+                $rn =  $startRowBalance;
                 foreach ($list as $key => $row) {
 
                     if (!isset($summaryForExcel[$rn])) {
@@ -55,13 +63,17 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
                     }
 
                     $summaryForExcel[$rn]['A'] = $row['name'];
-                    $summaryForExcel[$rn]['B'] = $row['debetNr'] / 100;
+                    $summaryForExcel[$rn]['B'] = $row['nDebet'] / 100;
                     $rn++;
+
+                    if ($rn > $highestRowNr) {
+                        $highestRowNr = $rn;
+                    }
                 }
             }
             // debet, credit, totals
             if ($listname == 'credit') {
-                $rn = 3;
+                $rn =  $startRowBalance;
                 foreach ($list as $key => $row) {
 
                     if (!isset($summaryForExcel[$rn])) {
@@ -73,19 +85,84 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
                     }
 
                     $summaryForExcel[$rn]['C'] = $row['name'];
-                    $summaryForExcel[$rn]['D'] = $row['creditNr'] / 100;
+                    $summaryForExcel[$rn]['D'] = $row['nCredit'] / 100;
                     $rn++;
+
+                    if ($rn > $highestRowNr) {
+                        $highestRowNr = $rn;
+                    }
                 }
             }
 
+            $rn = $highestRowNr + 1;
+
+            $rn++;
+
+            $summaryForExcel[$rn] = ['A' => '', 'B' => '', 'C' => '', 'D' => ''];
+            $rn++;
+
+
             if ($listname == 'totals') {
+
+                $this->boldRows[] = $rn;
                 $summaryForExcel[$rn] = [];
-                $summaryForExcel[$rn]['A'] = $list['name'];
-                $summaryForExcel[$rn]['B'] = $list['debetNr'] / 100;
-                $summaryForExcel[$rn]['C'] = '';
-                $summaryForExcel[$rn]['D'] = $list['creditNr'] / 100;
+                $summaryForExcel[$rn]['A'] = 'Totaal In';
+                $summaryForExcel[$rn]['B'] = $list['nDebet'] / 100;
+                $summaryForExcel[$rn]['C'] = 'Totaal Uit';
+                $summaryForExcel[$rn]['D'] = $list['nCredit'] / 100;
             }
         }
+        $rn++;
+        $summaryForExcel[$rn] = ['A' => '', 'B' => '', 'C' => '', 'D' => ''];
+        $rn++;
+
+        // if ($this->filter == 'inout') {
+        //     $this->boldRows[] = $rn;
+        //     $summaryForExcel[$rn]['A'] = '';
+        //     $summaryForExcel[$rn]['B'] = '';
+        //     $summaryForExcel[$rn]['C'] = 'Saldo';
+        //     $summaryForExcel[$rn]['D'] = ($list['nDebet'] - $list['nCredit']) / 100;
+        //     $rn++;
+        // }
+
+
+        if ($this->filter == 'venw') {
+            // winst
+            $this->boldRows[] = $rn;
+            $summaryForExcel[$rn]['A'] = '';
+            $summaryForExcel[$rn]['B'] = '';
+            $summaryForExcel[$rn]['C'] = 'Winst';
+            $summaryForExcel[$rn]['D'] = ($list['nDebet'] - $list['nCredit']) / 100;
+            $rn++;
+        }
+
+        if ($this->filter == 'btw') {
+            // btw
+            $this->boldRows[] = $rn;
+            $summaryForExcel[$rn]['A'] = '';
+            $summaryForExcel[$rn]['B'] = '';
+            $summaryForExcel[$rn]['C'] = 'BTW op inkomsten';
+            $summaryForExcel[$rn]['D'] = ($list['nBtwDebet']) / 100;
+            $rn++;
+
+            $this->boldRows[] = $rn;
+            $summaryForExcel[$rn]['A'] = '';
+            $summaryForExcel[$rn]['B'] = '';
+            $summaryForExcel[$rn]['C'] = 'Voorbelasting';
+            $summaryForExcel[$rn]['D'] = ($list['nBtwCredit']) / 100;
+            $rn++;
+
+            $this->boldRows[] = $rn;
+            $summaryForExcel[$rn]['A'] = '';
+            $summaryForExcel[$rn]['B'] = '';
+            $summaryForExcel[$rn]['C'] = 'Af te dragen';
+            $summaryForExcel[$rn]['D'] = ($list['nBtwVerschil']) / 100;
+            $rn++;
+        }
+
+
+
+
 
         $this->summaryForExcel = $summaryForExcel;
         return collect($summaryForExcel);
@@ -104,6 +181,13 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
 
     public function styles(Worksheet $sheet)
     {
+
+        foreach ($this->boldRows as $boldRow) {
+            $sheet->getStyle('A' . ($boldRow - 1) . ':D' . $boldRow)->getFont()->setBold(true);
+        }
+
+
+
         return [
 
             1    => ['font' => ['bold' => true]],
@@ -112,9 +196,6 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
             'B' => ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT]],
             'D' => ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT]],
 
-
-            // style the last row
-            count($this->summaryForExcel) => ['font' => ['bold' => true]],
         ];
     }
 

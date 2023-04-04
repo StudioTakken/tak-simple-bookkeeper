@@ -22,6 +22,7 @@ class BookingAccountController extends Controller
     public $balanceArrayExtern = [];
     public $balanceArrayNotInProvit = [];
     public $balanceTotals = [];
+    public $aBalanceConclusion = [];
 
     /**
      * Display a listing of the resource.
@@ -75,49 +76,19 @@ class BookingAccountController extends Controller
     {
         $this->balanceArray();
         $this->balanceTotals();
-
-
-        // get the total of bookingCategory btw-in
-        // todo on slug, make a list in .env oid
-        $btw_in_account = BookingCategory::where('named_id', 'btw')->first();
-        $btw_out_account = BookingCategory::where('named_id', 'btw-uit')->first();
-
-        $btw_in = Booking::period()->where('category', $btw_in_account->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
-        $btw_uit = Booking::period()->where('category', $btw_out_account->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
-        $btw_verschil = $btw_in - $btw_uit;
-
-
-
-        $prive_opnamen = 0;
-        // get the bookingCategories that have on_balance = 0
-        $not_on_balance = BookingCategory::where('on_balance', 0)->get();
-
-        foreach ($not_on_balance as $nob_category) {
-            $prive_opnamen += Booking::period()->where('category', $nob_category->id)->where('polarity', '-1')->orderBy('date')->orderBy('id')->sum('amount_inc');
-            $prive_opnamen -= Booking::period()->where('category', $nob_category->id)->where('polarity', '1')->orderBy('date')->orderBy('id')->sum('amount_inc');
-        }
-
-
-        // devide every internal array by 100 if it is a number
-        foreach ($this->balanceArray as $key => $row) {
-            if (isset($row['start']) and is_numeric($row['start'])) {
-                $this->balanceArray[$key]['start'] = number_format($this->balanceArray[$key]['start'] / 100, 2, ',', '.');
-            }
-            if (isset($row['end']) and is_numeric($row['end'])) {
-                $this->balanceArray[$key]['end'] = number_format($this->balanceArray[$key]['end'] / 100, 2, ',', '.');
-            }
-        }
-
-
+        $this->balanceConclusion();
 
 
         $this->balanceTotals['result'] = $this->balanceTotals['end'] - $this->balanceTotals['start'];
-        $this->balanceTotals['btw_afdracht'] = $btw_verschil;
-        $this->balanceTotals['prive'] = $prive_opnamen;
-        $this->balanceTotals['winst'] = $this->balanceTotals['result'] - $btw_verschil + $prive_opnamen;
+
+        $this->balanceTotals['btw_afdracht'] = $this->aBalanceConclusion['btw_verschil'];
+        $this->balanceTotals['prive'] = $this->aBalanceConclusion['prive_opnamen'];
+        $this->balanceTotals['winst'] = $this->balanceTotals['result'] - $this->aBalanceConclusion['btw_verschil']
+            + $this->aBalanceConclusion['prive_opnamen'];
 
         $this->balanceTotals['start'] = number_format($this->balanceTotals['start'] / 100, 2, ',', '.');
         $this->balanceTotals['end'] = number_format($this->balanceTotals['end'] / 100, 2, ',', '.');
+
         $this->balanceTotals['result'] = number_format($this->balanceTotals['result'] / 100, 2, ',', '.');
         $this->balanceTotals['btw_afdracht'] = number_format($this->balanceTotals['btw_afdracht'] / 100, 2, ',', '.');
         $this->balanceTotals['prive'] = number_format($this->balanceTotals['prive'] / 100, 2, ',', '.');
@@ -158,16 +129,32 @@ class BookingAccountController extends Controller
         }
     }
 
-    // public function balanceArrayExtern()
-    // {
-    //     $accounts = BookingAccount::all()->where('intern', 0);
 
-    //     foreach ($accounts as $account) {
-    //         $this->balanceArrayExtern[$account->named_id]['name'] = $account->name;
-    //         $this->balanceArrayExtern[$account->named_id]['start'] = $account->balance('start');
-    //         $this->balanceArrayExtern[$account->named_id]['end'] = $account->balance('end');
-    //     }
-    // }
+    public function balanceConclusion()
+    {
+
+        // get the total of bookingCategory btw-in
+        // todo on slug, make a list in .env oid
+        $btw_in_account = BookingCategory::where('named_id', 'btw')->first();
+        $btw_out_account = BookingCategory::where('named_id', 'btw-uit')->first();
+
+        $this->aBalanceConclusion['btw_in'] = Booking::period()->where('category', $btw_in_account->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+        $this->aBalanceConclusion['btw_uit'] = Booking::period()->where('category', $btw_out_account->id)->orderBy('date')->orderBy('id')->sum('amount_inc');
+        $this->aBalanceConclusion['btw_verschil'] = $this->aBalanceConclusion['btw_in'] - $this->aBalanceConclusion['btw_uit'];
+
+
+
+        $prive_opnamen = 0;
+        // get the bookingCategories that have on_balance = 0
+        $not_on_balance = BookingCategory::where('on_balance', 0)->get();
+
+        foreach ($not_on_balance as $nob_category) {
+            $prive_opnamen += Booking::period()->where('category', $nob_category->id)->where('polarity', '-1')->orderBy('date')->orderBy('id')->sum('amount_inc');
+            $prive_opnamen -= Booking::period()->where('category', $nob_category->id)->where('polarity', '1')->orderBy('date')->orderBy('id')->sum('amount_inc');
+        }
+
+        $this->aBalanceConclusion['prive_opnamen'] = $prive_opnamen;
+    }
 
 
     public function balanceTotals()
@@ -178,10 +165,6 @@ class BookingAccountController extends Controller
             $this->balanceTotals['end'] += $row['end'];
         }
     }
-
-
-
-
 
     public function balanceXlsx()
     {
