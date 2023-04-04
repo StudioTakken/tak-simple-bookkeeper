@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackupController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
@@ -74,11 +75,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/summary-xlsx/{filter}', [BookingCategoryController::class, 'summaryXlsx'])->name('summary-xlsx.filter');
 
 
-
-    Route::get('/backitup', function () {
-        Artisan::call('database:backup');
-        return 'Created backup.';
-    })->name('backitup');
+    Route::get('/backups', [BackupController::class, 'index'])->name('backups');
+    Route::get('/backitup', [BackupController::class, 'backup'])->name('backitup');
+    Route::get('/restore/{file}', [BackupController::class, 'restore'])->name('restore');
 });
 
 

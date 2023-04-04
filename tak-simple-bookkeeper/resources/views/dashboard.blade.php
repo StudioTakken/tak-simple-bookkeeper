@@ -74,6 +74,16 @@
                     Acties:<br /><br />
                 </div>
 
+
+                <ul>
+
+                    <li class="py-1"><a class=" text-takred-500" href="{{ route('backups') }}">Backups</a>
+                    </li>
+
+                </ul>
+
+
+
                 <div class="mt-5">
                     <button class="settingsbutton soft">
                         <a href="{{ route('backitup') }}">Make a database backup</a>
