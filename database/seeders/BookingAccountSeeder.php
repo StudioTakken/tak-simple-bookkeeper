@@ -28,7 +28,7 @@ class BookingAccountSeeder extends Seeder
                 'include_children' => 1,
                 'intern' => 1,
                 'polarity' => -1,
-                'start_balance' => 280720,
+                'start_balance' => 0,
             ],
         );
 
@@ -53,7 +53,7 @@ class BookingAccountSeeder extends Seeder
                 'include_children' => 1,
                 'intern' => 1,
                 'polarity' => 1,
-                'start_balance' => 130588,
+                'start_balance' => 0,
             ],
         );
 
