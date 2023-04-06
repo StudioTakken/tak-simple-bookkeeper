@@ -79,12 +79,17 @@ class BookingAccountController extends Controller
         $this->balanceConclusion();
 
 
-        $this->balanceTotals['result'] = $this->balanceTotals['end'] - $this->balanceTotals['start'];
+        $this->balanceTotals['resultDebet'] = $this->balanceTotals['endDebet'] - $this->balanceTotals['startDebet'];
+        $this->balanceTotals['resultCredit'] = $this->balanceTotals['endCredit'] - $this->balanceTotals['startCredit'];
+
+        $this->balanceTotals['result'] = $this->balanceTotals['resultDebet'] - $this->balanceTotals['resultCredit'];
 
         $this->balanceTotals['btw_afdracht'] = $this->aBalanceConclusion['btw_verschil'];
         $this->balanceTotals['prive'] = $this->aBalanceConclusion['prive_opnamen'];
         $this->balanceTotals['winst'] = $this->balanceTotals['result'] - $this->aBalanceConclusion['btw_verschil']
             + $this->aBalanceConclusion['prive_opnamen'];
+
+
 
         session(['viewscope' => 'balance']);
 
@@ -118,6 +123,7 @@ class BookingAccountController extends Controller
             $this->balanceArray[$account->named_id]['name'] = $account->name;
             $this->balanceArray[$account->named_id]['start'] = $account->balance('start');
             $this->balanceArray[$account->named_id]['end'] = $account->balance('end');
+            $this->balanceArray[$account->named_id]['polarity'] = $account->polarity;
         }
     }
 
@@ -151,11 +157,34 @@ class BookingAccountController extends Controller
 
     public function balanceTotals()
     {
-        $this->balanceTotals = ['name' => 'Totals', 'start' => 0, 'end' => 0];
+        $this->balanceTotals = [
+            'name' => 'Totals',
+            'startDebet' => 0,
+            'endDebet' => 0,
+            'startCredit' => 0,
+            'endCredit' => 0,
+
+
+        ];
         foreach ($this->balanceArray as $row) {
-            $this->balanceTotals['start'] += $row['start'];
-            $this->balanceTotals['end'] += $row['end'];
+
+            if ($row['polarity'] == 1) {
+                $this->balanceTotals['startDebet'] += $row['start'];
+                $this->balanceTotals['endDebet'] += $row['end'];
+            } else {
+                $this->balanceTotals['startCredit'] += $row['start'];
+                $this->balanceTotals['endCredit'] += $row['end'];
+            }
         }
+
+        // startEigenVermogen
+
+
+        $this->balanceTotals['startEigenVermogen'] = $this->balanceTotals['startDebet'] - $this->balanceTotals['startCredit'];
+        $this->balanceTotals['endEigenVermogen'] = $this->balanceTotals['endDebet'] - $this->balanceTotals['endCredit'];
+
+        $this->balanceTotals['startChecksum'] =  $this->balanceTotals['startEigenVermogen'] + $this->balanceTotals['startCredit'];
+        $this->balanceTotals['endChecksum'] =  $this->balanceTotals['endEigenVermogen'] + $this->balanceTotals['endCredit'];
     }
 
     public function balanceXlsx()
