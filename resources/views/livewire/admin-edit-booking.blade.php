@@ -118,7 +118,7 @@ error-fader @endif
             <tr class=''>
                 <td class="px-2 text-sm align-top border border-slate-300">Remarks</td>
                 <td class="px-2 align-top border border-slate-300">
-                    <textarea wire:model.debounce.4s="remarks" wire:change="updateRemarks" class="descriptioninputfield"
+                    <textarea wire:model.debounce.4s="remarks" wire:change="updateRemarks" class="h-64 descriptioninputfield"
                         placeholder="type.." rows="4" required></textarea>
                 </td>
             </tr>

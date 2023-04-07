@@ -23,6 +23,9 @@ class AdminBookings extends Component
     public $method;
     public $bookingAccount;
 
+    public $dateordering = 'asc';
+    public $search;
+
     protected $listeners = ['refreshBookings' => 'refreshThis'];
 
 
@@ -33,17 +36,37 @@ class AdminBookings extends Component
         // get the session variable viewscope
         $this->viewscope = session('viewscope');
 
+        // get the sesion variable ordering
+        if (session('dateordering') == null) {
+            session(['dateordering' => 'asc']);
+        }
+        $this->dateordering = session('dateordering');
+
+
         // get the account from the BookingAccount model
         $bookingAccount = BookingAccount::where('named_id', $this->viewscope)->first();
 
-
-        // ddl($this->method);
-        // ddl($this->viewscope);
         if ($this->method == 'account.onaccount') {
 
 
+            // $this->search is not empty then filter the bookings on the search term
+            if ($this->search != '') {
+                $this->bookings = Booking::period()->ofAccount($this->viewscope)
+                    ->orderBy('date', $this->dateordering)->orderBy('id')
+                    ->where('parent_id', NULL)
+                    ->where(
+                        function ($query) {
+                            $query->where('description', 'like', '%' . $this->search . '%')
+                                ->orWhere('remarks', 'like', '%' . $this->search . '%')
+                                ->orWhere('invoice_nr', 'like', '%' . $this->search . '%');
+                        }
+                    )
+                    ->get();
+            } else {
+                $this->bookings = Booking::period()->ofAccount($this->viewscope)->orderBy('date', $this->dateordering)->orderBy('id')->where('parent_id', NULL)->get();
+            }
 
-            $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date')->orderBy('id')->where('parent_id', NULL)->get();
+            //    $this->bookings     = Booking::period()->ofAccount($this->viewscope)->orderBy('date', $this->dateordering)->orderBy('id')->where('parent_id', NULL)->get();
 
             $this->debetStart      = Booking::getDebetOrCredit($this->viewscope, 'debet', 'start');
             $this->creditStart     = Booking::getDebetOrCredit($this->viewscope, 'credit', 'start');
@@ -52,23 +75,27 @@ class AdminBookings extends Component
             $this->credit     = Booking::getDebetOrCredit($this->viewscope, 'credit');
         } elseif ($this->viewscope != 'bookings') {
 
-
             // no children in category!
             $category = $this->viewscope;
-            ddl($category);
 
-            if ($this->viewscope == '16') {
-
-
-                $this->bookings     = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->get();
-                $this->debet        = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount');
-                $this->credit       = Booking::period()->whereNull('category')->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount');
+            // $this->search is not empty then filter the bookings on the search term
+            if ($this->search != '') {
+                $this->bookings     = Booking::period()
+                    ->where('category', $category)->orderBy('date', $this->dateordering)->orderBy('id')
+                    ->where(
+                        function ($query) {
+                            $query->where('description', 'like', '%' . $this->search . '%')
+                                ->orWhere('remarks', 'like', '%' . $this->search . '%')
+                                ->orWhere('invoice_nr', 'like', '%' . $this->search . '%');
+                        }
+                    )
+                    ->get();
             } else {
-
-                $this->bookings     = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->get();
-                $this->debet        = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount');
-                $this->credit       = Booking::period()->where('category', $category)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount');
+                $this->bookings     = Booking::period()->where('category', $category)->orderBy('date', $this->dateordering)->orderBy('id')->get();
             }
+
+            $this->debet        = Booking::period()->where('category', $category)->orderBy('date', $this->dateordering)->orderBy('id')->where('polarity', '1')->sum('amount');
+            $this->credit       = Booking::period()->where('category', $category)->orderBy('date', $this->dateordering)->orderBy('id')->where('polarity', '-1')->sum('amount');
         }
 
 
@@ -110,5 +137,14 @@ class AdminBookings extends Component
     public function refreshThis()
     {
         $this->freshnow = now();
+    }
+
+
+    public function changeOrder()
+    {
+        // set the session variable dateordering to the opposite of what it is now
+        session(['dateordering' => session('dateordering') == 'asc' ? 'desc' : 'asc']);
+        // refresh the page
+        $this->refreshThis();
     }
 }
