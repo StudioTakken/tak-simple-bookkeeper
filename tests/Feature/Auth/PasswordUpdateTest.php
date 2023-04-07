@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
+// php artisan test --filter PasswordUpdateTest tests/Feature/Auth/PasswordUpdateTest.php
+
 class PasswordUpdateTest extends TestCase
 {
     use RefreshDatabase;

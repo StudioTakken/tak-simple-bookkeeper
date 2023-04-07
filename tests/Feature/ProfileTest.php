@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+// php artisan test --filter ProfileTest tests/Feature/ProfileTest.php
+
 class ProfileTest extends TestCase
 {
     use RefreshDatabase;

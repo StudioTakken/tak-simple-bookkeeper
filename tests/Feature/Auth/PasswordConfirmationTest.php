@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+// php artisan test --filter PasswordConfirmationTest tests/Feature/Auth/PasswordConfirmationTest.php
+
 class PasswordConfirmationTest extends TestCase
 {
     use RefreshDatabase;

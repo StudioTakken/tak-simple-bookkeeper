@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+// php artisan test --filter SidePanelTest tests/Feature/Livewire/SidePanelTest.php
+
 class SidePanelTest extends TestCase
 {
     /** @test */

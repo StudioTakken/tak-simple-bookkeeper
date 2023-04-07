@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+// php artisan test --filter AuthenticationTest tests/Feature/Auth/AuthenticationTest.php
+
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
@@ -34,6 +36,7 @@ class AuthenticationTest extends TestCase
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
+
 
         $this->post('/login', [
             'email' => $user->email,
