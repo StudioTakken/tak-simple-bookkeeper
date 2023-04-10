@@ -38,7 +38,6 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
         // devide every internal array by 100 if it is a number
         foreach ($this->balanceArray as $key => $row) {
 
-
             if (isset($row['start']) and is_numeric($row['start'])) {
                 $this->balanceArray[$key]['start'] = $row['start'] / 100;
                 if ($this->balanceArray[$key]['start'] == 0) {
@@ -57,6 +56,8 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
 
         $this->balanceArray[] = ['', '', ''];
 
+        ddl($this->balanceArray);
+        ddl($key);
 
         $result = $this->balanceArray[$key]['end'] - $this->balanceArray[$key]['start'];
         $winst = $result - ($this->aBalanceConclusion['btw_verschil'] / 100) + ($this->aBalanceConclusion['prive_opnamen'] / 100);

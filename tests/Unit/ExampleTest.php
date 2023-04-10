@@ -1,18 +1,11 @@
 <?php
 
-namespace Tests\Unit;
+// uses()->group('1');
 
-use PHPUnit\Framework\TestCase;
+it('can run an test');
 
-class ExampleTest extends TestCase
-{
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_that_true_is_true()
-    {
-        $this->assertTrue(true);
-    }
-}
+it('is true', function () {
+    expect(true)->toBeTrue();
+})->group('1')
+    // ->skip('Not implemented yet')
+;
