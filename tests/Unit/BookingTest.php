@@ -18,6 +18,16 @@ it('displays debiteuren pagina', function () {
 });
 
 
+it('can import a bank file');
+
+it('can import a debiteuren file');
+
+it('can recognize from which bank the file is');
+
+it('can create a booking');
+
+
+
 // it('can import file', function () {
 //     $user = User::find(1);
 //     $this->actingAs($user);
