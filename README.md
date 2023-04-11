@@ -30,6 +30,10 @@ copy .env.example to .env
 edit .env  
 Set `database` 
 and the `test admin mail and password` at the end of the file.  
+
+Also set `MYSQLDUMP_PATH`  
+you can findout with 'which mysqldump' in terminal  
+
 Provide the mail settings. I use mailhug in dev.  
 Set the `main booking account`, this is the account for importing your bank cvs file.  
 
