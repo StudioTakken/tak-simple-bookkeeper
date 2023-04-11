@@ -18,6 +18,11 @@
             <p>{{ session()->get('message') }}</p>
         </div>
     @endif
+    @if (session()->has('error'))
+        <div class="flex items-center px-4 py-3 mb-5 text-sm font-bold text-white bg-takred-500" role="alert">
+            <p>{{ session()->get('error') }}</p>
+        </div>
+    @endif
 
 
     <div class="space-y-6">
@@ -48,6 +53,9 @@
             </div>
         </div>
 
+        <div class="text-sm my-44">
+            {{ $mysqldump }}
+        </div>
 
 
     </div>

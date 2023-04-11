@@ -2,34 +2,55 @@
 
 
 
+    <div class="float-right w-9/12">
+
+    </div>
+
+
     <table class="w-9/12 ">
+
 
         <thead class="border-b ">
             <tr>
-                <th scope="col" class="w-4 px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-4 h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top">
                 </th>
-                <th scope="col" class="w-4 px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-4 h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top">
                     Id</th>
-                <th scope="col" class="w-4 px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-4 h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top">
                     PId</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900 w-28">
-                    Date
+                <th scope="col" class="h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top w-28">
+                    <button wire:click="changeOrder" class="text-takred-500">Datum</button>
                 </th>
-                <th scope="col" class="w-48 px-1 py-1 text-sm font-medium text-left text-gray-900">
-                    Account</th>
+                <th scope="col" class="w-48 h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top">
+                    Account
+                </th>
 
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
-                    Description</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900 align-top">
+                    <div class="flex justify-between">
+                        <div class="h-full">
+                            Description
+                        </div>
+                        <div>
+                            Zoek: <input wire:model="search" type="text">
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </th>
+
+                <th scope="col" class="h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top">
                     Invoice</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-9000 w-28">Debet</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-right text-gray-9000 w-28">Credit</th>
+                <th scope="col" class="h-20 px-1 py-1 text-sm font-medium text-right align-top text-gray-9000 w-28">
+                    Debet</th>
+                <th scope="col" class="h-20 px-1 py-1 text-sm font-medium text-right align-top text-gray-9000 w-28">
+                    Credit</th>
 
-                <th scope="col" class="w-10 px-1 py-1 text-sm font-medium text-left text-gray-900">
+                <th scope="col" class="w-10 h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top">
                     Info</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900 w-28">
+                <th scope="col" class="h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top w-28">
                     Category</th>
-                <th scope="col" class="px-1 py-1 text-sm font-medium text-left text-gray-900 w-28">
+                <th scope="col" class="h-20 px-1 py-1 text-sm font-medium text-left text-gray-900 align-top w-28">
                     Kruis</th>
 
             </tr>
