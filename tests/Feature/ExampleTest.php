@@ -1,8 +1,6 @@
 <?php
 
-namespace Tests\Feature;
-
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 // php artisan test --filter ExampleTest tests/Feature/ExampleTest.php
