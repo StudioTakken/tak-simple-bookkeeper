@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\BackupController;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 
@@ -48,14 +49,7 @@ class DatabaseBackUp extends Command
      */
     public function handle()
     {
-        $filename = "backup-" . config('database.connections.mysql.database') . '-' . Carbon::now()->format('Y-m-d-His') . ".gz";
 
-        // use settings instead of env() function
-        $command = "mysqldump --user=" . config('database.connections.mysql.username') . " --password=" . config('database.connections.mysql.password') . " --host=" . config('database.connections.mysql.host') . " " . config('database.connections.mysql.database') . "  | gzip > " . storage_path() . "/app/backup/" . $filename;
-
-        $returnVar = NULL;
-        $output  = NULL;
-
-        exec($command, $output, $returnVar);
+        (new BackupController())->backup();
     }
 }
