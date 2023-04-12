@@ -1,8 +1,10 @@
 <div class="flex gap-3 items-left">
     <div class="flex flex-row text-sm">
 
-        <input class="py-0 text-sm border-gray-400" type="date" wire:model="startDate" id="startDate" name="startDate">
-        <input class="py-0 text-sm border-gray-400" type="date" wire:model="stopDate" id="stopDate" name="stopDate">
+        <input class="h-8 py-0 text-sm border-gray-400" type="date" wire:model="startDate" id="startDate"
+            name="startDate">
+        <input class="h-8 py-0 text-sm border-gray-400" type="date" wire:model="stopDate" id="stopDate"
+            name="stopDate">
 
         <div class="flex flex-col p-0 m-0">
         </div>
