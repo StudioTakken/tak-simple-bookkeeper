@@ -84,13 +84,9 @@ trait BookingTrait
     }
 
 
-    public function getBookingsAndChildren()
-    {
-        $this->getBookings();
-    }
 
 
-    public function getBookingAccount()
+    public function getBookingAccountTotals()
     {
 
         // get the account from the BookingAccount model
@@ -100,15 +96,15 @@ trait BookingTrait
 
             $bookingAccount->start_balance =  BookingAccount::getBalance($this->viewscope, 'start');
             $bookingAccount->end_balance =  BookingAccount::getBalance($this->viewscope, 'end');
-            $bookingAccount->start_balance = number_format($bookingAccount->start_balance / 100, 2, ',', '.');
-            $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
+            //    $bookingAccount->start_balance = number_format($bookingAccount->start_balance / 100, 2, ',', '.');
+            //   $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
         } else {
             $bookingAccount = new BookingAccount;
             $bookingAccount->start_balance = 0;
             $bookingAccount->end_balance = 0;
             // ddl($this->viewscope);
             $bookingAccount->end_balance =  0 + (int)$this->debet - (int)$this->credit;
-            $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
+            //   $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
         }
 
         return $bookingAccount;

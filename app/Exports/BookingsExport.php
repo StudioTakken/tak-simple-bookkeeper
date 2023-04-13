@@ -42,7 +42,6 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
     public function collection()
     {
 
-
         $this->method = 'account.onaccount';
         // set the session variable viewscope to the current viewscope
 
@@ -51,11 +50,10 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
         }
 
         // get bookings
-        $this->getBookingsAndChildren();
+        $this->getBookings();
+
 
         $aListOfBookings = [];
-
-
         $aListOfBookings['heading'] = [
             'date' => 'Datum',
             'account' => 'Rekening',
@@ -66,13 +64,10 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
             'cross_account' => 'Cross account',
 
         ];
-
+        $this->boldRows[] = count($aListOfBookings);
 
 
         foreach ($this->bookings as $key => $booking) {
-
-
-
 
             if ($booking->polarity == '-1') {
                 $booking->credit = $booking->amount;
@@ -80,17 +75,12 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
                 $booking->debet = $booking->amount;
             }
 
-            // get the bookingCategory name from the bookingCategory model
-
-
             $bookingCategory = BookingCategory::find($booking->category);
             if ($bookingCategory) {
                 $sBookingCategory = $bookingCategory->name;
             } else {
                 $sBookingCategory = '';
             }
-
-
 
             $aListOfBookings[$key] = [
                 'date' => $booking->date,
@@ -102,6 +92,72 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
                 'cross_account' => $booking->cross_account,
             ];
         }
+
+        $aListOfBookings[] = ['', '', '', '', '', ''];
+
+
+
+        $aListOfBookings[] = [
+            '1' => '',
+            '2' => '',
+            '3' => '',
+            '4' => '=sum(D2:D' . (count($aListOfBookings) - 1) . ')',
+            '5' => '=sum(E2:E' . (count($aListOfBookings) - 1) . ')',
+            '6' => '',
+            '7' => '',
+        ];
+
+
+
+        $this->boldRows[] = count($aListOfBookings);
+
+
+        // empty row
+        $aListOfBookings[] = ['', '', '', '', '', ''];
+        $aListOfBookings[] = ['', '', '', '', '', ''];
+
+
+        $bookingAccount = $this->getBookingAccountTotals();
+        //  ddl($bookingAccount);
+
+        // [id] => 3
+        // [slug] => bank
+        // [named_id] => NL94INGB0007001049
+        // [name] => NL94INGB0007001049
+        // [intern] => 1
+        // [polarity] => 1
+        // [include_children] => 1
+        // [start_balance] => 0,00
+        // [remarks] => 
+        // [created_at] => 
+        // [updated_at] => 
+        // [end_balance] => 922,41
+
+        $aListOfBookings[] = [
+            '1' => '',
+            '2' => '',
+            '3' => 'Balans ' . session('startDate'),
+            '4' => $bookingAccount->start_balance / 100,
+            '5' => '',
+            '6' => '',
+            '7' => '',
+        ];
+
+        $aListOfBookings[] = [
+            '1' => '',
+            '2' => '',
+            '3' => 'Balans ' . session('stopDate'),
+            '4' => $bookingAccount->end_balance / 100,
+            '5' => '',
+            '6' => '',
+            '7' => '',
+        ];
+
+
+
+
+
+
 
         return collect($aListOfBookings);
     }
@@ -119,7 +175,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
     public function styles(Worksheet $sheet)
     {
         foreach ($this->boldRows as $boldRow) {
-            $sheet->getStyle('A' . ($boldRow) . ':F' . $boldRow)->getFont()->setBold(true);
+            $sheet->getStyle('A' . ($boldRow) . ':G' . $boldRow)->getFont()->setBold(true);
         }
     }
 

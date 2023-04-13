@@ -35,7 +35,7 @@ class AdminBookings extends Component
     {
         // from the trait
         $this->getBookings();
-        $bookingAccount = $this->getBookingAccount();
+        $bookingAccount = $this->getBookingAccountTotals();
 
         return view('livewire.admin-bookings', [
             'bookings' => $this->bookings,

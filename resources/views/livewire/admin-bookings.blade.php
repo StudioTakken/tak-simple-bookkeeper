@@ -110,7 +110,7 @@
 
 
     <div class='mt-5'>
-        <p>Balans {{ session('startDate') }}: {{ $start_balance }} </p>
-        <p>Balans {{ session('stopDate') }}: {{ $end_balance }}</p>
+        <p>Balans {{ session('startDate') }}: {{ number_format($start_balance / 100, 2, ',', '.') }} </p>
+        <p>Balans {{ session('stopDate') }}: {{ number_format($end_balance / 100, 2, ',', '.') }}</p>
     </div>
 </div>
