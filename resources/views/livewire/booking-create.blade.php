@@ -44,17 +44,20 @@
 
                         <label for="date">Datum</label><br />
                         {{-- date --}}
-                        <input class="py-0 text-sm border-gray-400" type="date" wire:model="date" id="date"
+                        <input class="h-8 py-0 text-sm border-gray-400 " type="date" wire:model="date" id="date"
                             name="date">
                         @error('date')
                             <br />
                             <span class="error">{{ $message }}</span>
                         @enderror
+
+
+
                     </div>
                     <div class="py-1 text-sm font-light text-gray-900 whitespace-nowrap">
                         <label for="description">Omschrijving</label><br />
                         {{-- description --}}
-                        <input class="py-0 text-sm border-gray-400" type="text" wire:model.lazy="description">
+                        <input class="w-10/12 h-10 py-0 border-gray-400" type="text" wire:model.lazy="description">
                         @error('description')
                             <br />
                             <span class="error">{{ $message }}</span>
@@ -64,8 +67,8 @@
                     <div class="py-1 text-sm font-light text-gray-900 whitespace-nowrap">
                         <label for="amount">Bedrag</label><br />
 
-                        <input type="text" wire:model.debounce.4s="amount" wire:change="updateAmountInc"
-                            class="numberinputfield" />
+                        <input class="h-8 " type="text" wire:model.debounce.4s="amount"
+                            wire:change="updateAmountInc" class="numberinputfield" />
 
 
                         @error('amount')
@@ -78,7 +81,7 @@
 
                     <div class="py-1 text-sm font-light text-gray-900 whitespace-nowrap">
                         <label for="polarity">Plus of Min</label><br />
-                        <select class="py-0 text-sm border-gray-400" wire:model="polarity">
+                        <select class="h-8 py-0 text-sm border-gray-400" wire:model="polarity">
                             <option value="1">Plus</option>
                             <option value="-1">Min</option>
                         </select>

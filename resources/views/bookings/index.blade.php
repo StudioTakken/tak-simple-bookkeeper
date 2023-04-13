@@ -75,6 +75,17 @@
 
         </div>
 
+        <div class="mt-5">
+            <button class="px-4 py-1 text-sm text-black bg-gray-100 border border-gray-600 rounded hover:bg-gray-300">
+                <a href="{{ route('bookings-xlsx') }}">
+                    Download als xls bestand
+                </a>
+            </button>
+        </div>
+
+
+
+
         <div>
 
             @livewire('side-panel', [], key(key(now()) . '-' . Str::random()))

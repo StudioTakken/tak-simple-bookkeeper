@@ -74,6 +74,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/summary-xlsx', [BookingCategoryController::class, 'summaryXlsx'])->name('summary-xlsx');
     Route::get('/summary-xlsx/{filter}', [BookingCategoryController::class, 'summaryXlsx'])->name('summary-xlsx.filter');
 
+    Route::get('/bookings-xlsx', [BookingController::class, 'bookingsXlsx'])->name('bookings-xlsx');
+
 
     Route::get('/backups', [BackupController::class, 'index'])->name('backups');
     Route::get('/backitup', [BackupController::class, 'backup'])->name('backitup');

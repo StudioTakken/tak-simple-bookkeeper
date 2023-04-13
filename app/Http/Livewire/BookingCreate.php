@@ -48,13 +48,23 @@ class BookingCreate extends Component
         // ddl('no valdidation errors');
         // Execution doesn't reach here if validation fails.
 
+        // hash the booking
+        $this->hashed = md5(serialize([
+            'date' => $this->date,
+            'description' => $this->description,
+            'amount' => $this->amount,
+            'account' => $this->account->named_id,
+            'polarity' => $this->polarity,
+        ]));
+
+
         Booking::create([
             'date' => $this->date,
             'description' => $this->description,
             'amount' => $this->amount,
             'account' => $this->account->named_id,
             'polarity' => $this->polarity,
-            'hashed' => '',
+            'hashed' => $this->hashed,
         ]);
 
         // after submit, clear the form
