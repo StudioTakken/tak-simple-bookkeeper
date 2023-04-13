@@ -105,25 +105,12 @@ class AdminRowBooking extends Component
         // is there an invoice_nr?
         if ($this->booking->invoice_nr != '') {
 
-
-
-
             // get all bookings with this invoice_nr
             $bookings = Booking::where('invoice_nr', $this->booking->invoice_nr)->get();
             $balance = 0;
 
 
             foreach ($bookings as $booking) {
-
-                // $cross_account_polarity = 1;
-
-                // if ($booking->booking_cross_account) {
-                //     $cross_account_polarity = $booking->booking_cross_account->polarity;
-                // }
-
-                // if ($cross_account_polarity == '-1') {
-                //     $booking->amount = $booking->amount * $cross_account_polarity;
-                // }
 
                 if ($booking->cross_account != '' and $booking->account != $booking->cross_account) {
                     $booking->amount = $booking->amount * -1;
@@ -189,6 +176,7 @@ class AdminRowBooking extends Component
 
     public function updateDate()
     {
+
         if ($this->date != '') {
             $this->booking->date = $this->date;
             $ok = $this->booking->save();

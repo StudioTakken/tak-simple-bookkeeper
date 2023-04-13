@@ -52,8 +52,8 @@ error-fader @endif
             <tr class=''>
                 <td class="px-2 text-sm align-top border border-slate-300">Datum</td>
                 <td class="px-2 align-top border border-slate-300">
-                    <input class="py-0 text-sm border-gray-400" type="date" wire:model.debounce.2s="date"
-                        id="date" name="date" wire:change.debounce.2s="updateDate">
+                    <input class="py-0 text-sm border-gray-400" type="date" wire:model.debounce.500ms="date"
+                        id="date" name="date" wire:change.debounce.500ms="updateDate">
                 </td>
             </tr>
 
