@@ -25,6 +25,8 @@ class BookingCategoryController extends Controller
     {
 
 
+        session(['method' => 'oncategory']);
+
         $oCategory = BookingCategory::where('slug', $sCategory)->first();
 
         if ($oCategory) {

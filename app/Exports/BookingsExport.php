@@ -42,8 +42,10 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
     public function collection()
     {
 
-        $this->method = 'account.onaccount';
-        // set the session variable viewscope to the current viewscope
+
+        $this->viewscope = Session::get('viewscope');
+        $this->method = Session::get('method');
+
 
         if ($this->viewscope == '') {
             $this->viewscope = config('bookings.main_booking_account');
@@ -118,45 +120,31 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
 
 
         $bookingAccount = $this->getBookingAccountTotals();
-        //  ddl($bookingAccount);
-
-        // [id] => 3
-        // [slug] => bank
-        // [named_id] => NL94INGB0007001049
-        // [name] => NL94INGB0007001049
-        // [intern] => 1
-        // [polarity] => 1
-        // [include_children] => 1
-        // [start_balance] => 0,00
-        // [remarks] => 
-        // [created_at] => 
-        // [updated_at] => 
-        // [end_balance] => 922,41
-
-        $aListOfBookings[] = [
-            '1' => '',
-            '2' => '',
-            '3' => 'Balans ' . session('startDate'),
-            '4' => $bookingAccount->start_balance / 100,
-            '5' => '',
-            '6' => '',
-            '7' => '',
-        ];
-
-        $aListOfBookings[] = [
-            '1' => '',
-            '2' => '',
-            '3' => 'Balans ' . session('stopDate'),
-            '4' => $bookingAccount->end_balance / 100,
-            '5' => '',
-            '6' => '',
-            '7' => '',
-        ];
 
 
+        if (session('method') == 'account.onaccount') {
 
 
+            $aListOfBookings[] = [
+                '1' => '',
+                '2' => '',
+                '3' => 'Balans ' . session('startDate'),
+                '4' => $bookingAccount->start_balance / 100,
+                '5' => '',
+                '6' => '',
+                '7' => '',
+            ];
 
+            $aListOfBookings[] = [
+                '1' => '',
+                '2' => '',
+                '3' => 'Balans ' . session('stopDate'),
+                '4' => $bookingAccount->end_balance / 100,
+                '5' => '',
+                '6' => '',
+                '7' => '',
+            ];
+        }
 
 
         return collect($aListOfBookings);

@@ -73,6 +73,7 @@
 
 
 
+
         <tr class="">
             <th scope="col" class="px-1 text-sm font-medium text-left text-gray-900 py-7">
             </th>
@@ -107,10 +108,10 @@
     </table>
 
 
-
-
-    <div class='mt-5'>
-        <p>Balans {{ session('startDate') }}: {{ number_format($start_balance / 100, 2, ',', '.') }} </p>
-        <p>Balans {{ session('stopDate') }}: {{ number_format($end_balance / 100, 2, ',', '.') }}</p>
-    </div>
+    @if (session('method') == 'account.onaccount')
+        <div class='mt-5'>
+            <p>Balans {{ session('startDate') }}: {{ number_format($start_balance / 100, 2, ',', '.') }} </p>
+            <p>Balans {{ session('stopDate') }}: {{ number_format($end_balance / 100, 2, ',', '.') }}</p>
+        </div>
+    @endif
 </div>
