@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
@@ -80,6 +81,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/backups', [BackupController::class, 'index'])->name('backups');
     Route::get('/backitup', [BackupController::class, 'backup'])->name('backitup');
     Route::get('/restore/{file}', [BackupController::class, 'restore'])->name('restore');
+
+
+    Route::resource('invoices', InvoiceController::class);
 });
 
 
