@@ -11,12 +11,14 @@ use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use App\Http\Traits\BookingTrait;
+use App\Http\Traits\CompanyDetailsTrait;
 use App\Models\BookingCategory;
 
 class BookingsExport extends BookingController implements WithColumnFormatting, FromCollection, WithStyles, WithColumnWidths
 {
 
     use bookingTrait;
+    use CompanyDetailsTrait;
 
     public $boldRows = [];
 
@@ -42,10 +44,10 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
     public function collection()
     {
 
+        $aExcelRows = [];
 
         $this->viewscope = Session::get('viewscope');
         $this->method = Session::get('method');
-
 
         if ($this->viewscope == '') {
             $this->viewscope = config('bookings.main_booking_account');
@@ -54,9 +56,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
         // get bookings
         $this->getBookings();
 
-
-        $aListOfBookings = [];
-        $aListOfBookings['heading'] = [
+        $aExcelRows[] = [
             'date' => 'Datum',
             'account' => 'Rekening',
             'description' => 'Omschrijving',
@@ -64,9 +64,9 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
             'credit' => 'credit',
             'category' => 'Categorie',
             'cross_account' => 'Cross account',
-
         ];
-        $this->boldRows[] = count($aListOfBookings);
+
+        $this->boldRows[] = count($aExcelRows);
 
 
         foreach ($this->bookings as $key => $booking) {
@@ -84,7 +84,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
                 $sBookingCategory = '';
             }
 
-            $aListOfBookings[$key] = [
+            $aExcelRows[] = [
                 'date' => $booking->date,
                 'account' => $booking->account,
                 'description' => $booking->description,
@@ -95,28 +95,28 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
             ];
         }
 
-        $aListOfBookings[] = ['', '', '', '', '', ''];
+        $aExcelRows[] = ['', '', '', '', '', ''];
 
 
 
-        $aListOfBookings[] = [
+        $aExcelRows[] = [
             '1' => '',
             '2' => '',
             '3' => '',
-            '4' => '=sum(D2:D' . (count($aListOfBookings) - 1) . ')',
-            '5' => '=sum(E2:E' . (count($aListOfBookings) - 1) . ')',
+            '4' => '=sum(D2:D' . (count($aExcelRows) - 1) . ')',
+            '5' => '=sum(E2:E' . (count($aExcelRows) - 1) . ')',
             '6' => '',
             '7' => '',
         ];
 
 
 
-        $this->boldRows[] = count($aListOfBookings);
+        $this->boldRows[] = count($aExcelRows);
 
 
         // empty row
-        $aListOfBookings[] = ['', '', '', '', '', ''];
-        $aListOfBookings[] = ['', '', '', '', '', ''];
+        $aExcelRows[] = ['', '', '', '', '', ''];
+        $aExcelRows[] = ['', '', '', '', '', ''];
 
 
         $bookingAccount = $this->getBookingAccountTotals();
@@ -125,7 +125,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
         if (session('method') == 'account.onaccount') {
 
 
-            $aListOfBookings[] = [
+            $aExcelRows[] = [
                 '1' => '',
                 '2' => '',
                 '3' => 'Balans ' . session('startDate'),
@@ -135,7 +135,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
                 '7' => '',
             ];
 
-            $aListOfBookings[] = [
+            $aExcelRows[] = [
                 '1' => '',
                 '2' => '',
                 '3' => 'Balans ' . session('stopDate'),
@@ -146,8 +146,22 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
             ];
         }
 
+        // we need to add an empty row
+        $aExcelRows[] = [''];
+        $aExcelRows[] = [''];
 
-        return collect($aListOfBookings);
+        # get the company details for the excel file 
+        $aCompanyRows = $this->getCompanyDetailsForAsExcellRows('3');
+
+        // append the company details to the excel rows
+        $aExcelRows = array_merge($aExcelRows, $aCompanyRows);
+
+
+
+
+
+
+        return collect($aExcelRows);
     }
 
 

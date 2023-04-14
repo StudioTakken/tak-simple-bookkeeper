@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Http\Controllers\BookingCategoryController;
+use App\Http\Traits\CompanyDetailsTrait;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -12,6 +13,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class SummaryExport extends BookingCategoryController implements WithColumnFormatting, FromCollection, WithStyles, WithColumnWidths
 {
+
+    use CompanyDetailsTrait;
 
     public $summaryForExcel = [];
     public $boldRows = [];
@@ -159,6 +162,15 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
             $summaryForExcel[$rn]['D'] = ($list['nBtwVerschil']) / 100;
             $rn++;
         }
+
+
+        # get the company details for the excel file 
+        $aCompanyRows = $this->getCompanyDetailsForAsExcellRows('1');
+
+        // append the company details to the balance array
+        $summaryForExcel = array_merge($summaryForExcel, $aCompanyRows);
+
+
 
 
 
