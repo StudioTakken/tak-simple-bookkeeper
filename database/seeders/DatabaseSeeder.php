@@ -28,14 +28,14 @@ class DatabaseSeeder extends Seeder
         Client::factory()->count(10)->create();
     }
 
-    protected function configureFactories()
-    {
-        $this->app->bind(ClientFactory::class, function () {
-            return ClientFactory::new();
-        });
+    // protected function configureFactories()
+    // {
+    //     $this->app->bind(ClientFactory::class, function () {
+    //         return ClientFactory::new();
+    //     });
 
-        $this->app->resolving(ClientFactory::class, function ($factory, $app) {
-            $factory->setConnection($this->getConnection());
-        });
-    }
+    //     $this->app->resolving(ClientFactory::class, function ($factory, $app) {
+    //         $factory->setConnection($this->getConnection());
+    //     });
+    // }
 }

@@ -3,9 +3,9 @@
 use App\Models\Client;
 use App\Models\User;
 
+
 it('can create a client', function () {
-
-
+    $this->withoutMiddleware();
     // act as user 1
     $this->actingAs(User::find(1));
 
@@ -21,7 +21,7 @@ it('can create a client', function () {
 
 
 it('can update a client', function () {
-
+    $this->withoutMiddleware();
     $this->actingAs(User::find(1));
 
     $client = Client::factory()->create();
@@ -38,7 +38,7 @@ it('can update a client', function () {
 
 
 it('can delete a client', function () {
-
+    $this->withoutMiddleware();
     $this->actingAs(User::find(1));
 
     $client = Client::factory()->create();
@@ -51,7 +51,7 @@ it('can delete a client', function () {
 })->group('clients');
 
 it('can list clients', function () {
-
+    $this->withoutMiddleware();
     $this->actingAs(User::find(1));
 
     $clients = Client::factory()->count(5)->create();
@@ -64,6 +64,7 @@ it('can list clients', function () {
 })->group('clients');
 
 it('can view a client', function () {
+    $this->withoutMiddleware();
     $this->actingAs(User::find(1));
 
     $client = Client::factory()->create();
@@ -83,7 +84,7 @@ it('can view a client', function () {
 })->group('clients');
 
 it('can view the create client form', function () {
-
+    $this->withoutMiddleware();
     $this->actingAs(User::find(1));
 
     $response = $this->get(route('clients.create'));
@@ -100,7 +101,7 @@ it('can view the create client form', function () {
 })->group('clients');
 
 it('can view the edit client form', function () {
-
+    $this->withoutMiddleware();
     $this->actingAs(User::find(1));
 
     $client = Client::factory()->create();

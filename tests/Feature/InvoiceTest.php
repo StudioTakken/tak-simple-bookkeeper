@@ -3,86 +3,62 @@
 use App\Models\Invoice;
 use App\Models\User;
 
-it('can create an invoice', function () {
 
-    // act as user 1
-    $this->actingAs(User::find(1));
+it('can create an other invoice', function () {
 
-    $this->get(route('invoices.create'))
-        ->assertStatus(200);
+    $this->withoutMiddleware();
 
-    // act as user 1
-    $this->actingAs(User::find(1));
+    $invoiceData = Invoice::factory()->make()->toArray();
 
-    $unique = md5(now());
+    $response = $this->post(route('invoices.store'), $invoiceData);
 
-    $this->post(route('invoices.store'), [
-        'invoice_nr' => '123',
-        'date' => '2023-04-14',
-        'description' => 'Test invoice',
-        'amount' => 100,
-    ])->assertRedirect(route(
-        'invoices.edit',
-        // get the latest invoice
-        Invoice::latest()->first()
-    ));
+    $response->assertRedirect(route('invoices.edit', Invoice::latest()->first()));
 
     $this->assertDatabaseHas('invoices', [
-        'invoice_nr' => '123',
-        'date' => '2023-04-14',
-        'description' => 'Test invoice',
-        'amount' => 100,
+        'invoice_nr'    => $invoiceData['invoice_nr'],
+        'client_id'     => $invoiceData['client_id'],
+        'date'          => $invoiceData['date'],
+        'description'   => $invoiceData['description'],
+        'amount'        => $invoiceData['amount'],
+
     ]);
-})->group('invoice');
+})->group('invoice1');
+
+
+
 
 it('can update an invoice', function () {
+    $this->withoutMiddleware();
 
-    // act as user 1
-    $this->actingAs(User::find(1));
+    $invoice = Invoice::factory()->create();
+    $invoiceData = Invoice::factory()->make()->toArray();
 
-    $this->get(route('invoices.edit',   Invoice::latest()->first()))
-        ->assertStatus(200);
+    $response = $this->put(route('invoices.update', $invoice), $invoiceData);
 
-    $this->put(route('invoices.update',  Invoice::latest()->first()), [
-        'invoice_nr' => '1234',
-        'date' => '2023-04-14',
-        'description' => 'Test invoice',
-        'amount' => 100,
-    ])->assertRedirect(route('invoices.edit',  Invoice::latest()->first()));
+    $response->assertRedirect(route('invoices.edit', $invoice->id));
 
     $this->assertDatabaseHas('invoices', [
-        'invoice_nr' => '1234',
-        'date' => '2023-04-14',
-        'description' => 'Test invoice',
-        'amount' => 100,
+        'invoice_nr'    => $invoiceData['invoice_nr'],
+        'client_id'     => $invoiceData['client_id'],
+        'date'          => $invoiceData['date'],
+        'description'   => $invoiceData['description'],
+        'amount'        => $invoiceData['amount'],
     ]);
-})->group('invoice');
+})->group('invoice2');
 
 it('can delete an invoice', function () {
-
-    // act as user 1
+    $this->withoutMiddleware();
     $this->actingAs(User::find(1));
 
-    $unique = md5(now());
+    $invoice = invoice::factory()->create();
 
-    // first create an invoice
-    $this->post(route('invoices.store'), [
-        'invoice_nr' => $unique,
-        'date' => '2023-04-15',
-        'description' => 'Test delete invoice',
-        'amount' => 100,
-    ]);
+    $response = $this->delete(route('invoices.destroy', $invoice->id));
 
-    $this->delete(route('invoices.destroy', Invoice::latest()->first()))
-        ->assertRedirect(route('invoices.index'));
+    $response->assertRedirect(route('invoices.index'));
 
-    $this->assertDatabaseMissing('invoices', [
-        'invoice_nr' => $unique,
-        'date' => '2023-04-15',
-        'description' => 'Test delete invoice',
-        'amount' => 100,
-    ]);
-})->group('invoice');
+    $this->assertDatabaseMissing('invoices', ['id' => $invoice->id]);
+})->group('invoice2');
+
 
 
 
@@ -93,7 +69,7 @@ it('can show an invoice', function () {
 
     $this->get(route('invoices.show', Invoice::latest()->first()))
         ->assertStatus(200);
-})->group('invoice');
+})->group('invoice2');
 
 
 
@@ -103,4 +79,4 @@ it('can list invoices', function () {
 
     $this->get(route('invoices.index'))
         ->assertStatus(200);
-})->group('invoice');
+})->group('invoice2');

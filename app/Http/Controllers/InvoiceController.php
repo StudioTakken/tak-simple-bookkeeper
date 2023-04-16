@@ -87,8 +87,12 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    // public function update(Request $request, Invoice $invoice)
+    public function update(Request $request, $id)
     {
+
+        $invoice = Invoice::find($id);
+
         // validate the request
         $request->validate([
             'invoice_nr' => 'required',
@@ -101,7 +105,7 @@ class InvoiceController extends Controller
         $invoice->update($request->all());
 
         // redirect to the invoice
-        return redirect()->route('invoices.edit', $invoice);
+        return redirect()->route('invoices.edit', $invoice->id);
     }
 
     /**
@@ -110,8 +114,9 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy($id)
     {
+        $invoice = Invoice::find($id);
         // delete the invoice
         $invoice->delete();
 
