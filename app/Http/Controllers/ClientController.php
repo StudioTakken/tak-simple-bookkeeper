@@ -21,7 +21,7 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $client = new Client;
-        $client->name = $request->name;
+
         $client->email = $request->email;
         $client->company_name = $request->company_name;
         $client->tav = $request->tav;
@@ -49,7 +49,7 @@ class ClientController extends Controller
     {
         $client = Client::find($id);
 
-        $client->name = $request->name;
+
         $client->email = $request->email;
         $client->company_name = $request->company_name;
         $client->tav = $request->tav;

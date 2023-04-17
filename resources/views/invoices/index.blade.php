@@ -7,6 +7,7 @@
     </x-slot>
 
     {{-- list the invoices --}}
+    <button class="settingsbutton soft"><a href="{{ route('invoices.create') }}">Create Invoice</a></button>
 
     <div class="container mx-auto">
         <div class="py-6">
@@ -55,17 +56,30 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <a href="{{ route('invoices.show', $invoice->id) }}"
-                                                    class="mr-4 text-indigo-600 hover:text-indigo-900">{{ __('View') }}</a>
-                                                <a href="{{ route('invoices.edit', $invoice->id) }}"
-                                                    class="mr-4 text-indigo-600 hover:text-indigo-900">{{ __('Edit') }}</a>
+
+                                                <button type="submit" class="settingsbutton soft">
+                                                    <a
+                                                        href="{{ route('invoices.show', $invoice->id) }}">{{ __('View') }}</a>
+                                                </button>
+                                                <button type="submit" class="settingsbutton soft">
+                                                    <a
+                                                        href="{{ route('invoices.edit', $invoice->id) }}">{{ __('Edit') }}</a>
+                                                </button>
+
+
+
+                                                {{-- <a href="{{ route('invoices.show', $invoice->id) }}"
+                                                    class="mr-4 text-indigo-600 hover:text-indigo-900">{{ __('View') }}</a> --}}
+                                                {{-- <a href="{{ route('invoices.edit', $invoice->id) }}"
+                                                    class="mr-4 text-indigo-600 hover:text-indigo-900">{{ __('Edit') }}</a> --}}
+
                                                 <form action="{{ route('invoices.destroy', $invoice->id) }}"
                                                     method="POST"
                                                     onsubmit="return confirm('{{ __('Are you sure you want to delete this invoice?') }}')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
-                                                        class="text-red-600 hover:text-red-900">{{ __('Delete') }}</button>
+                                                        class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Delete') }}</button>
                                                 </form>
                                             </div>
                                         </td>

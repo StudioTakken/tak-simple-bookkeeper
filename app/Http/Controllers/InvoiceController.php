@@ -108,7 +108,6 @@ class InvoiceController extends Controller
             }
         }
 
-
         foreach ($aItems as $key => $item) {
             $aItems[$key]['item_nr'] = $key;
             // if number is set and rate is set, calculate the item_amount
@@ -131,6 +130,14 @@ class InvoiceController extends Controller
             'description' => 'required',
             'amount' => 'required',
         ]);
+
+
+        // if set_date_to_now is set, set the date to now
+        if ($request->set_date_to_now) {
+            $request->merge(['date' => date('Y-m-d')]);
+        }
+
+
 
         // update the invoice
         $invoice->update($request->all());

@@ -170,7 +170,26 @@
                     </div>
 
 
+                    <div class="flex w-full mt-4 space-x-4">
 
+
+
+                        {{-- create a checkbox for setting the date to now --}}
+                        {{-- show date field if dat is set --}}
+                        @if ($invoice->date)
+                            <div class="w-3/4 mt-4">
+                                <x-label for="date">Date</x-label>
+                                <x-input id="date" class="block w-full mt-1" type="date" name="date"
+                                    value="{{ $invoice->date }}" required />
+                            </div>
+                        @else
+                            <div class="w-1/4 mt-4">
+                                <x-label for="Amount" class="">Set date to now on save</x-label>
+                                <input id="set_date_to_now" class="" type="checkbox" name="set_date_to_now"
+                                    value="1" />
+                            </div>
+                        @endif
+                    </div>
 
 
                     <div class="flex items-center justify-end mt-4 space-x-4">

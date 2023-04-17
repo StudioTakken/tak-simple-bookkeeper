@@ -9,6 +9,13 @@ class Client extends Model
 {
     use HasFactory;
 
+
+    // has many invoices
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     protected $fillable = [
         'email',
         'phone',

@@ -37,43 +37,14 @@
                                     value="{{ old('description') }}" />
                             </div>
 
-                            <div class="flex flex-col gap-2">
-                                <label for="amount">Amount</label>
-                                <input type="text" name="amount" id="amount" value="{{ old('amount') }}" />
-                            </div>
-
-                            {{-- <div class="flex flex-col gap-2">
-                                <label for="category_id">Category</label>
-                                <select name="category_id" id="category_id">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label for="account_id">Account</label>
-                                <select name="account_id" id="account_id">
-                                    @foreach ($accounts as $account)
-                                        <option value="{{ $account->id }}">{{ $account->name }}</option>
-                                    @endforeach
-
-                                </select>
-                            </div> --}}
-                            <div class="flex flex-col gap-2">
-                                <label for="date">Date</label>
-                                <input type="date" name="date" id="date" value="{{ old('date') }}" />
-                            </div>
 
 
                             <div class="flex items-center justify-end mt-4 space-x-4">
-                                <x-button class="ml-4">
+                                <x-button type="submit" class="ml-4">
                                     {{ __('Create') }}
                                 </x-button>
                             </div>
 
-
-
-                            <button type="submit" class="settingsbutton ">Create</button>
                         </div>
                     </form>
                 </div>
