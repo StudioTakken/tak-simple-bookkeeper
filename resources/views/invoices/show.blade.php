@@ -12,10 +12,23 @@
                     <p><strong>Id:</strong> {{ $invoice->id }}</p>
                     <p><strong>Date:</strong> {{ $invoice->date }}</p>
                     <p><strong>Invoice Number:</strong> {{ $invoice->invoice_nr }}</p>
-                    <p><strong>Client:</strong> <a
-                            href='{{ route('clients.show', $invoice->client_id) }}'>{{ $invoice->client->company_name }}</a>
+                    <p><strong>Client:</strong>
+
+                        @if ($invoice->client_id == null)
+                            <span class="text-red-500">No client selected</span>
+                        @else
+                            <a
+                                href='{{ route('clients.show', $invoice->client_id) }}'>{{ $invoice->client->company_name }}</a>
+                        @endif
+
                     </p>
-                    <p><strong>t.a.v.:</strong> {{ $invoice->client->tav }}</p>
+
+                    @if ($invoice->client_id == null or $invoice->client->tav == null)
+                    @else
+                        <p><strong>t.a.v.:</strong> {{ $invoice->client->tav }}</p>
+                    @endif
+
+
                     <p><strong>Description:</strong> {{ $invoice->description }}</p>
                     <p><strong>Amount:</strong> {{ $invoice->amount }}</p>
                 </div>

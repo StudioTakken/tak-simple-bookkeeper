@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Client;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -45,10 +45,10 @@ class InvoiceController extends Controller
     {
         // validate the request
         $request->validate([
-            'invoice_nr' => 'required',
-            'date' => 'required',
+            //   'invoice_nr' => 'required',
+            //   'date' => 'required',
             'description' => 'required',
-            'amount' => 'required',
+            //'amount' => 'required',
         ]);
 
         // create the invoice
@@ -81,9 +81,10 @@ class InvoiceController extends Controller
     {
 
         $invoice = Invoice::find($id);
-
+        $details = json_decode($invoice->details);
+        $clients = Client::all();
         // get the invoice and pass it to the view
-        return view('invoices.edit', compact('invoice', $invoice));
+        return view('invoices.edit', compact('invoice', 'details', 'clients'));
     }
 
     /**
@@ -96,17 +97,42 @@ class InvoiceController extends Controller
     // public function update(Request $request, Invoice $invoice)
     public function update(Request $request, $id)
     {
+        $nTotal = 0;
+
+        $aItems = $request->items;
+
+        // if there is no description, remove the item
+        foreach ($aItems as $key => $item) {
+            if ($aItems[$key]['description'] == '') {
+                unset($aItems[$key]);
+            }
+        }
+
+        foreach ($aItems as $key => $item) {
+            $aItems[$key]['item_nr'] = $key;
+            // if number is set and rate is set, calculate the item_amount
+            if ($aItems[$key]['number'] != '' && $aItems[$key]['rate'] != '') {
+                $aItems[$key]['item_amount'] = $aItems[$key]['number'] * $aItems[$key]['rate'];
+            }
+
+
+            $aItems[$key]['item_amount'] = Centify($aItems[$key]['item_amount']);
+            $nTotal += $aItems[$key]['item_amount'];
+        }
+
+        $request->merge(['details' => json_encode($aItems)]);
+        $request->merge(['amount' => $nTotal]);
 
         $invoice = Invoice::find($id);
 
         // validate the request
         $request->validate([
-            // 'invoice_nr' => 'required',
-            //  'client_id' => 'required',
-            'date' => 'required',
             'description' => 'required',
             'amount' => 'required',
         ]);
+
+
+        //   
 
 
         // update the invoice

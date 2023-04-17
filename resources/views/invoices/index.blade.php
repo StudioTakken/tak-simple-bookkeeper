@@ -42,7 +42,13 @@
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $invoice->date }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $invoice->invoice_nr }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $invoice->client->company_name }}
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if ($invoice->client == null)
+                                                --
+                                            @else
+                                                {{ $invoice->client->company_name }}
+                                            @endif
+
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $invoice->description }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $invoice->amount }}</td>

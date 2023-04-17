@@ -32,18 +32,16 @@
                         @csrf
                         <div class="flex flex-col gap-4">
                             <div class="flex flex-col gap-2">
-                                <label for="name">Name</label>
-                                <input type="text" name="name" id="name" value="{{ old('name') }}" />
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label for="description">Description</label>
+                                <label for="description">description</label>
                                 <input type="text" name="description" id="description"
                                     value="{{ old('description') }}" />
                             </div>
+
                             <div class="flex flex-col gap-2">
                                 <label for="amount">Amount</label>
                                 <input type="text" name="amount" id="amount" value="{{ old('amount') }}" />
                             </div>
+
                             {{-- <div class="flex flex-col gap-2">
                                 <label for="category_id">Category</label>
                                 <select name="category_id" id="category_id">
@@ -66,7 +64,16 @@
                                 <input type="date" name="date" id="date" value="{{ old('date') }}" />
                             </div>
 
-                            <button type="submit" class="settingsbutton soft">Create</button>
+
+                            <div class="flex items-center justify-end mt-4 space-x-4">
+                                <x-button class="ml-4">
+                                    {{ __('Create') }}
+                                </x-button>
+                            </div>
+
+
+
+                            <button type="submit" class="settingsbutton ">Create</button>
                         </div>
                     </form>
                 </div>

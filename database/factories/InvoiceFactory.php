@@ -24,13 +24,16 @@ class InvoiceFactory extends Factory
         $client = \App\Models\Client::inRandomOrder()->first();
 
 
-        $details = [];
+        $items = [];
 
         // do a loop to create 3 random items
         for ($i = 0; $i < 3; $i++) {
-            $details[$i]['item'] = $faker->text;
-            $details[$i]['rate'] = $faker->numberBetween(60, 70);
-            $details[$i]['amount'] = $faker->numberBetween(100, 100000);
+
+            $items[$i]['item_nr'] = $i;
+            $items[$i]['description'] = $faker->text;
+            $items[$i]['number'] = $faker->numberBetween(1, 20);
+            $items[$i]['rate'] = $faker->numberBetween(60, 70);
+            $items[$i]['item_amount'] = $faker->numberBetween(100, 100000);
         }
 
 
@@ -41,7 +44,7 @@ class InvoiceFactory extends Factory
             'date' => $faker->date,
             'description' => $faker->name,
             'amount' =>  $faker->numberBetween(100, 100000),
-            'details' => json_encode($details),
+            'details' => json_encode($items),
         ];
     }
 }

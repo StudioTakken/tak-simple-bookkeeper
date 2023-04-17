@@ -34,37 +34,149 @@
                     @csrf
                     @method('PUT')
 
-                    <div>
+                    {{-- <div>
                         <x-label for="date">Date</x-label>
-
                         <x-input id="date" class="block w-full mt-1" type="date" name="date"
                             value="{{ $invoice->date }}" required autofocus />
-                    </div>
+                    </div> --}}
 
+                    {{-- add a field for the invoice nr --}}
                     <div class="mt-4">
-
-                        <x-label for="description">Description</x-label>
-
-                        <x-input id="description" class="block w-full mt-1" type="text" name="description"
-                            value="{{ $invoice->description }}" required />
+                        <x-label for="invoice_nr">Invoice Nr</x-label>
+                        <x-input id="invoice_nr" class="block w-full mt-1" type="text" name="invoice_nr"
+                            value="{{ $invoice->invoice_nr }}" autofocus />
                     </div>
 
 
 
+                    {{-- add a pulldown for the client --}}
                     <div class="mt-4">
-                        <x-label for="Amount">Amount</x-label>
+                        <x-label for="client">Client</x-label>
+                        <select name="client_id" id="client_id" class="block w-full mt-1">
 
-                        <x-input id="amount" class="block w-full mt-1" type="text" name="amount"
-                            value="{{ $invoice->amount }}" required />
+                            <option value="">-- Kies een klant --</option>
+                            @foreach ($clients as $client)
+                                <option value="{{ $client->id }}" @if ($client->id == $invoice->client_id) selected @endif>
+                                    {{ $client->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="mt-4">
 
-                        Items here ...
+                    <div class="flex w-full mt-4 space-x-4">
+                        <div class="w-3/4 mt-4">
+
+                            <x-label for="description">Description</x-label>
+
+                            <x-input id="description" class="block w-full mt-1" type="text" name="description"
+                                value="{{ $invoice->description }}" required />
+                        </div>
+
+                        <div class="w-1/4 mt-4 text-align">
+                            <x-label for="Amount" class="text-right">Total amount</x-label>
+
+                            <x-input id="amount" class="block w-full mt-1 text-right" type="text" name="amount"
+                                value="{{ number_format($invoice->amount / 100, 2, ',', '.') }}" required disabled />
+                        </div>
+
 
                     </div>
 
-                    <div class="flex items-center justify-end mt-4">
+
+
+                    <div class="mt-20">
+
+
+                        @if ($details)
+
+                            @foreach ($details as $detail)
+                                <div class="flex w-full mt-4 space-x-4">
+
+                                    <div class="w-1/12">
+                                        <x-label for="item_nr">Item_nr</x-label>
+                                        <x-input id="item_nr" class="block w-full mt-1" type="text"
+                                            name="items[{{ $detail->item_nr }}][item_nr]"
+                                            value="{{ $detail->item_nr }}" disabled />
+                                    </div>
+                                    <div class="w-9/12">
+                                        <x-label for="description">description</x-label>
+                                        <x-input id="description" class="block w-full mt-1" type="text"
+                                            name="items[{{ $detail->item_nr }}][description]"
+                                            value="{{ $detail->description }}" />
+                                    </div>
+                                    <div class="w-1/12">
+                                        <x-label for="number" class="text-right">number</x-label>
+                                        <x-input id="number" class="block w-full mt-1 text-right" type="text"
+                                            name="items[{{ $detail->item_nr }}][number]"
+                                            value="{{ $detail->number }}" />
+                                    </div>
+                                    <div class="w-1/12">
+                                        <x-label for="rate" class="text-right">rate</x-label>
+                                        <x-input id="rate" class="block w-full mt-1 text-right" type="text"
+                                            name="items[{{ $detail->item_nr }}][rate]" value="{{ $detail->rate }}" />
+                                    </div>
+                                    <div class="w-2/12">
+                                        <x-label for="item_amount" class="text-right">item_amount</x-label>
+                                        <x-input id="item_amount" class="block w-full mt-1 text-right" type="text"
+                                            name="items[{{ $detail->item_nr }}][item_amount]"
+                                            value="{{ number_format($detail->item_amount / 100, 2, ',', '.') }}" />
+                                    </div>
+
+                                </div>
+                            @endforeach
+                        @else
+                            @php
+                                $detail = new stdClass();
+                                $detail->item_nr = 0;
+                            @endphp
+
+                        @endif
+
+
+                        @for ($i = $detail->item_nr + 1; $i < $detail->item_nr + 4; $i++)
+                            <div class="flex w-full mt-4 space-x-4">
+
+                                <div class="w-1/12">
+                                    <x-label for="item_nr">Item_nr</x-label>
+                                    <x-input id="item_nr" class="block w-full mt-1" type="text"
+                                        name="items[{{ $i }}][item_nr]" value="{{ $i }}"
+                                        disabled />
+                                </div>
+                                <div class="w-9/12">
+                                    <x-label for="description">description</x-label>
+                                    <x-input id="description" class="block w-full mt-1" type="text"
+                                        name="items[{{ $i }}][description]" value="" />
+                                </div>
+                                <div class="w-1/12">
+                                    <x-label for="number" class="text-right">number</x-label>
+                                    <x-input id="number" class="block w-full mt-1 text-right" type="text"
+                                        name="items[{{ $i }}][number]" value="" />
+                                </div>
+                                <div class="w-1/12">
+                                    <x-label for="rate" class="text-right">rate</x-label>
+                                    <x-input id="rate" class="block w-full mt-1 text-right" type="text"
+                                        name="items[{{ $i }}][rate]" value="" />
+                                </div>
+                                <div class="w-2/12">
+                                    <x-label for="item_amount" class="text-right">item_amount</x-label>
+                                    <x-input id="item_amount" class="block w-full mt-1 text-right" type="text"
+                                        name="items[{{ $i }}][item_amount]" value="" />
+                                </div>
+
+                            </div>
+                        @endfor
+
+
+                    </div>
+
+
+
+
+
+                    <div class="flex items-center justify-end mt-4 space-x-4">
+                        <x-button class="ml-4 bg-green-500">
+                            {{ __('Download') }}
+                        </x-button>
                         <x-button class="ml-4">
                             {{ __('Update') }}
                         </x-button>
