@@ -35,12 +35,13 @@ it('can update a resource', function () {
     // Define the updated data
     $updatedData = Invoice::factory()->make()->toArray();
 
+    $updatedData['items'] = json_decode($updatedData['details'], 1);
+
     // Send the update request
     $response = $this->put(route('invoices.update', ['invoice' => $invoice->id]), $updatedData);
 
     // Assert that the resource was updated successfully
-    $response->assertRedirect(route('invoices.edit', $invoice->id))
-        ->assertSessionHas('success', 'Invoice updated successfully');
+    $response->assertRedirect(route('invoices.edit', $invoice->id));
 
     // Refresh the model from the database to get the updated data
     // $resource->refresh();

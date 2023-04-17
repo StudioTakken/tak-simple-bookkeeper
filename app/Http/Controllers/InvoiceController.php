@@ -97,8 +97,8 @@ class InvoiceController extends Controller
     // public function update(Request $request, Invoice $invoice)
     public function update(Request $request, $id)
     {
+        $invoice = Invoice::find($id);
         $nTotal = 0;
-
         $aItems = $request->items;
 
         // if there is no description, remove the item
@@ -107,6 +107,7 @@ class InvoiceController extends Controller
                 unset($aItems[$key]);
             }
         }
+
 
         foreach ($aItems as $key => $item) {
             $aItems[$key]['item_nr'] = $key;
@@ -123,17 +124,13 @@ class InvoiceController extends Controller
         $request->merge(['details' => json_encode($aItems)]);
         $request->merge(['amount' => $nTotal]);
 
-        $invoice = Invoice::find($id);
+
 
         // validate the request
         $request->validate([
             'description' => 'required',
             'amount' => 'required',
         ]);
-
-
-        //   
-
 
         // update the invoice
         $invoice->update($request->all());
@@ -143,12 +140,6 @@ class InvoiceController extends Controller
         } else {
             return redirect()->route('invoices.edit', $invoice->id)->with('error', 'Invoice update failed');
         }
-
-
-
-
-        // redirect to the invoice
-        // return redirect()->route('invoices.edit', $invoice->id);
     }
 
     /**
