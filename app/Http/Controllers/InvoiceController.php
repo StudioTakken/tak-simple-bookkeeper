@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -60,8 +64,9 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show($id)
     {
+        $invoice = Invoice::find($id);
         // get the invoice and pass it to the view
         return view('invoices.show', compact('invoice'));
     }
@@ -72,12 +77,13 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(Invoice $invoice)
+    public function edit($id)
     {
 
-        ddl('huh');
+        $invoice = Invoice::find($id);
+
         // get the invoice and pass it to the view
-        return view('invoices.edit', compact('invoice'));
+        return view('invoices.edit', compact('invoice', $invoice));
     }
 
     /**
@@ -95,17 +101,28 @@ class InvoiceController extends Controller
 
         // validate the request
         $request->validate([
-            'invoice_nr' => 'required',
+            // 'invoice_nr' => 'required',
+            //  'client_id' => 'required',
             'date' => 'required',
             'description' => 'required',
             'amount' => 'required',
         ]);
 
+
         // update the invoice
         $invoice->update($request->all());
 
+        if ($invoice->wasChanged()) {
+            return redirect()->route('invoices.edit', $invoice->id)->with('success', 'Invoice updated successfully');
+        } else {
+            return redirect()->route('invoices.edit', $invoice->id)->with('error', 'Invoice update failed');
+        }
+
+
+
+
         // redirect to the invoice
-        return redirect()->route('invoices.edit', $invoice->id);
+        // return redirect()->route('invoices.edit', $invoice->id);
     }
 
     /**
