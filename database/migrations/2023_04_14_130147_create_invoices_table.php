@@ -21,6 +21,9 @@ return new class extends Migration
             $table->integer('amount')->nullable();
             $table->json('details')->nullable();
             $table->timestamps();
+
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->foreign('client_id')->references('id')->on('clients');
         });
     }
 

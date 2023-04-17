@@ -13,15 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('clients', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
+            $table->id();
+
             $table->string('company_name')->nullable();
             $table->string('tav')->nullable();
+            $table->string('email');
+            $table->string('phone');
             $table->string('address')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('city')->nullable();
+
+            $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -30,8 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('clients', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('clients');
     }
 };

@@ -17,7 +17,6 @@ class ClientFactory extends Factory
 
         return [
             'company_name' => $faker->company,
-            'name' => $faker->name,
             'tav' => $faker->name,
             'email' => $faker->email,
             'phone' => $faker->phoneNumber,

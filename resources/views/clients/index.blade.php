@@ -8,7 +8,7 @@
     <table>
         <thead>
             <tr>
-                <th>Name</th>
+
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Company Name</th>
@@ -22,7 +22,7 @@
         <tbody>
             @foreach ($clients as $client)
                 <tr>
-                    <td>{{ $client->name }}</td>
+
                     <td>{{ $client->email }}</td>
                     <td>{{ $client->phone }}</td>
                     <td>{{ $client->company_name }}</td>

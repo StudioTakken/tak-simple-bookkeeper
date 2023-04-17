@@ -7,8 +7,6 @@
     <form action="{{ route('clients.update', $client) }}" method="POST">
         @csrf
         @method('PUT')
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" value="{{ $client->name }}">
         <label for="email">Email:</label>
         <input type="email" name="email" id="email" value="{{ $client->email }}">
         <label for="phone">Phone:</label>

@@ -57,7 +57,7 @@
                             <option value="">-- Kies een klant --</option>
                             @foreach ($clients as $client)
                                 <option value="{{ $client->id }}" @if ($client->id == $invoice->client_id) selected @endif>
-                                    {{ $client->name }}</option>
+                                    {{ $client->company_name }}</option>
                             @endforeach
                         </select>
                     </div>
