@@ -20,6 +20,7 @@ it('can create an other invoice', function () {
         'date'          => $invoiceData['date'],
         'description'   => $invoiceData['description'],
         'amount'        => $invoiceData['amount'],
+        'vat'           => $invoiceData['vat'],
 
     ]);
 })->group('invoice');

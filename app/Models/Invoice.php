@@ -16,6 +16,9 @@ class Invoice extends Model
         'date',
         'description',
         'amount',
+        'vat',
+        'amount_vat',
+        'amount_inc',
         'details'
     ];
 

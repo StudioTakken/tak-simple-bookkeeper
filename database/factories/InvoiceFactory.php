@@ -32,8 +32,8 @@ class InvoiceFactory extends Factory
             $items[$i]['item_nr'] = $i;
             $items[$i]['description'] = $faker->text;
             $items[$i]['number'] = $faker->numberBetween(1, 20);
-            $items[$i]['rate'] = $faker->numberBetween(60, 70);
-            $items[$i]['item_amount'] = $faker->numberBetween(100, 100000);
+            $items[$i]['rate'] = $faker->numberBetween(6000, 7000);
+            $items[$i]['item_amount'] = 0;
         }
 
 
@@ -43,7 +43,10 @@ class InvoiceFactory extends Factory
             'client_id' => $client->id,
             'date' => $faker->date,
             'description' => $faker->name,
-            'amount' =>  $faker->numberBetween(100, 100000),
+            'amount' =>  0,
+            'vat' =>  21,
+            'amount_vat' =>  0,
+            'amount_inc' =>  0,
             'details' => json_encode($items),
         ];
     }

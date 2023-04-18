@@ -19,6 +19,9 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->string('description');
             $table->integer('amount')->nullable();
+            $table->integer('vat')->default(21);
+            $table->integer('amount_vat')->nullable();
+            $table->integer('amount_inc')->nullable();
             $table->json('details')->nullable();
             $table->timestamps();
 

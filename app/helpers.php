@@ -43,8 +43,9 @@ function Centify($value)
         $value .= ',00';
     }
 
-    // now remove all non numeric characters
-    $value = preg_replace('/[^0-9]/', '', $value);
+    // now remove all non numeric characters, except the minus sign
+    $value = preg_replace('/[^0-9\-]/', '', $value);
+    //$value = preg_replace('/[^0-9]/', '', $value);
 
     return $value;
 }

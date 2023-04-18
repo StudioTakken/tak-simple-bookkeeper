@@ -89,6 +89,7 @@ Route::middleware('auth')->group(function () {
 
     // Route::post('invoice/download', [InvoiceController::class, 'download'])->name('invoice.download');
     Route::get('/pdf/{id}', [InvoicePdfExport::class, 'download'])->name('invoice.download');
+    Route::get('/pdfpreview/{id}', [InvoicePdfExport::class, 'preview'])->name('invoice.preview');
 
 
     // Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');

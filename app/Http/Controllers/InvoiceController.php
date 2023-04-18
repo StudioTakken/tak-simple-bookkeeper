@@ -110,19 +110,44 @@ class InvoiceController extends Controller
         }
 
         foreach ($aItems as $key => $item) {
+
+
+            // if the description is set and longer than 80 characters, cut it
+            if (isset($aItems[$key]['description']) && strlen($aItems[$key]['description']) > 80) {
+                $aItems[$key]['description'] = substr($aItems[$key]['description'], 0, 80) . '...';
+            }
+
+
+
             $aItems[$key]['item_nr'] = $key;
+
+            if (isset($aItems[$key]['rate'])) {
+                $aItems[$key]['rate'] = Centify($aItems[$key]['rate']);
+            }
+            $aItems[$key]['item_amount'] = Centify($aItems[$key]['item_amount']);
+
+
             // if number is set and rate is set, calculate the item_amount
             if ($aItems[$key]['number'] != '' && $aItems[$key]['rate'] != '') {
                 $aItems[$key]['item_amount'] = $aItems[$key]['number'] * $aItems[$key]['rate'];
             }
 
-
-            $aItems[$key]['item_amount'] = Centify($aItems[$key]['item_amount']);
             $nTotal += $aItems[$key]['item_amount'];
         }
 
+
+        if ($request->vat == '') {
+            $request->merge(['vat' => 0]);
+        }
+        $invoice->vat = $request->vat;
+
+        $nAmointVat = $nTotal * $invoice->vat / 100;
+        $nAmointInc = $nTotal + $nAmointVat;
+
         $request->merge(['details' => json_encode($aItems)]);
         $request->merge(['amount' => $nTotal]);
+        $request->merge(['amount_vat' => $nAmointVat]);
+        $request->merge(['amount_inc' => $nAmointInc]);
 
 
 
@@ -134,9 +159,13 @@ class InvoiceController extends Controller
 
 
         // if set_date_to_now is set, set the date to now
-        if ($request->set_date_to_now) {
+        if ($request->set_date_to_now == 1) {
             $request->merge(['date' => date('Y-m-d')]);
         }
+        if ($request->set_date_to_null == 1) {
+            $request->merge(['date' => NULL]);
+        }
+
 
         // update the invoice
         $invoice->update($request->all());
