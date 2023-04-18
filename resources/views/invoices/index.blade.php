@@ -32,6 +32,13 @@
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                         {{ __('Description') }}</th>
 
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                        {{ __('Amount') }}</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                        {{ __('VAT') }}</th>
+
 
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
@@ -52,35 +59,47 @@
 
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $invoice->description }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $invoice->amount }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            {{ number_format($invoice->amount / 100, 2, ',', '.') }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            {{ number_format($invoice->amount_vat / 100, 2, ',', '.') }}
+                                        </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
 
-                                                <button type="submit" class="settingsbutton soft">
-                                                    <a
-                                                        href="{{ route('invoices.show', $invoice->id) }}">{{ __('View') }}</a>
-                                                </button>
+                                                @if ($invoice->exported)
+                                                    <button type="submit" class="settingsbutton soft">
+                                                        <a
+                                                            href="{{ route('invoice.download', $invoice->id) }}">{{ __('Download') }}</a>
+                                                    </button>
+                                                @else
+                                                    <button type="submit" class="settingsbutton soft">
+                                                        <a
+                                                            href="{{ route('invoices.show', $invoice->id) }}">{{ __('View') }}</a>
+                                                    </button>
+                                                @endif
+
+
+
                                                 <button type="submit" class="settingsbutton soft">
                                                     <a
                                                         href="{{ route('invoices.edit', $invoice->id) }}">{{ __('Edit') }}</a>
                                                 </button>
 
 
-
-                                                {{-- <a href="{{ route('invoices.show', $invoice->id) }}"
-                                                    class="mr-4 text-indigo-600 hover:text-indigo-900">{{ __('View') }}</a> --}}
-                                                {{-- <a href="{{ route('invoices.edit', $invoice->id) }}"
-                                                    class="mr-4 text-indigo-600 hover:text-indigo-900">{{ __('Edit') }}</a> --}}
-
-                                                <form action="{{ route('invoices.destroy', $invoice->id) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('{{ __('Are you sure you want to delete this invoice?') }}')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Delete') }}</button>
-                                                </form>
+                                                @if ($invoice->exported)
+                                                @else
+                                                    <form action="{{ route('invoices.destroy', $invoice->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('{{ __('Are you sure you want to delete this invoice?') }}')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Delete') }}</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

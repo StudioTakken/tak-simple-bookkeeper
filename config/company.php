@@ -2,6 +2,8 @@
 
 return [
     'name' => env('COMPANYNAME', 'Studio Takken'),
+    'person' => env('COMPANYPERSON', 'Martin Takken'),
+    'logopath' => env('COMPANYLOGOPATH', '/app/images/logo.png'),
     'address' => env('COMPANYADDRESS', ''),
     'zip' => env('COMPANYZIP', ''),
     'city' => env('COMPANYCITY', ''),

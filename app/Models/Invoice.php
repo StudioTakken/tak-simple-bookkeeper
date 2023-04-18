@@ -19,7 +19,8 @@ class Invoice extends Model
         'vat',
         'amount_vat',
         'amount_inc',
-        'details'
+        'details',
+        'exported'
     ];
 
 

@@ -84,6 +84,12 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         $details = json_decode($invoice->details);
         $clients = Client::all();
+
+        if ($invoice->invoice_nr == '') {
+            // get the higest invoice_nr and add 1
+            $invoice->suggested_invoice_nr = Invoice::max('invoice_nr') + 1;
+        }
+
         // get the invoice and pass it to the view
         return view('invoices.edit', compact('invoice', 'details', 'clients'));
     }

@@ -3,6 +3,9 @@
 namespace App\Exports;
 
 use App\Http\Controllers\InvoiceController;
+use App\Models\Booking;
+use App\Models\BookingAccount;
+use App\Models\BookingCategory;
 use App\Models\Client;
 use App\Models\Invoice;
 use Carbon\Carbon;
@@ -35,6 +38,18 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
         $invoice = Invoice::find($id);
         $details = json_decode($invoice->details, true);
         $client = Client::find($invoice->client_id);
+
+
+        // the path is in $invoice->exported, give me the public http download url instead 
+
+        if ($invoice->exported != '') {
+            // do the downdload
+            return response()->download($invoice->exported);
+        }
+
+
+
+
 
 
         // preped zero's for invoice number (e.g. 00001)
@@ -76,9 +91,9 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
         // add two weeks to the invoice date
         $twoweekslater = Carbon::parse($invoice->date)->addWeeks(2)->locale('nl')->isoFormat('LL');
         // format the date in dutch language with the Carbon library
-        $invoice->date = Carbon::parse($invoice->date)->locale('nl')->isoFormat('LL');
+        $invoicedDateFormatted = Carbon::parse($invoice->date)->locale('nl')->isoFormat('LL');
 
-        $this->my_pdf::MultiCell(0, 2, "Datum: " . $invoice->date . '', '', 'R');
+        $this->my_pdf::MultiCell(0, 2, "Datum: " . $invoicedDateFormatted . '', '', 'R');
         $this->my_pdf::SetFont('dejavusans', '', 8);
 
         $this->my_pdf::setY('80');
@@ -123,8 +138,14 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
 
         $this->InvoiceTable($header, $details);
 
+        $company = config('company');
 
         $this->my_pdf::MultiCell(0, 2, 'U wordt vriendelijk verzocht deze rekening voor ' . $twoweekslater . ' te voldoen.', '', 'L');
+        $this->my_pdf::Ln();
+        $this->my_pdf::Ln();
+        $this->my_pdf::MultiCell(0, 2, 'Met vriendelijke groet,', '', 'L');
+        $this->my_pdf::Ln();
+        $this->my_pdf::MultiCell(0, 2, $company['person'] . '.', '', 'L');
 
         $this->Footer();
 
@@ -135,6 +156,9 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
             return $this->my_pdf::Output($filename, 'I');
         } else {
 
+
+
+
             // check if the invoices folder exists
             if (!file_exists(storage_path('app/invoices'))) {
                 // create the invoices folder
@@ -144,6 +168,33 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
             // set the path to the invoices folder storage/app/invoices
             $this->my_pdf::Output(storage_path('app/invoices/' . $filename), 'F');
             // return $this->my_pdf::Output($filename, 'I');
+
+            // set the path in invocie->exported
+            $invoice->exported = storage_path('app/invoices/' . $filename);
+            $invoice->save();
+
+            // make a booking for the invoice into the debiteuren account
+            $booking = new Booking;
+
+            // get the account_id of debiteuren
+            $account = BookingAccount::where('slug', 'Debiteuren')->first();
+            $booking->account = $account->named_id;
+
+            // get the id of category 'inkomsten'
+            $category = BookingCategory::where('slug', 'inkomsten')->first();
+            $booking->category = $category->id;
+
+            $booking->amount = $invoice->amount;
+            $booking->description = 'Factuur ' . $invoice->invoice_nr . ' ' . $invoice->description;
+            $booking->date = $invoice->date;
+
+
+            $booking->save();
+
+            // get last inserted id
+            $id = $booking->id;
+
+            Booking::find($id)->addBookingBtw('in');
 
             return response()->download(storage_path('app/invoices/' . $filename));
         }
@@ -261,25 +312,16 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
     public function Header()
     {
 
+        $sLogo = config('company')['logopath'];
 
-        // $this->my_pdf::SetFillColor(255, 255, 255);
-        // $this->my_pdf::rect(0, 0, 210, 297, 'F');
-
-        // $this->my_pdf::SetFillColor(254, 212, 2);
-        // $this->my_pdf::rect(0, 0, 210, 5, 'F');
-
-
-        //  $sLogo = config('company')['logo'];
-        $sLogo = 'logo_takken.png';
 
         // logo
         if (isset($sLogo) and $sLogo != '') {
             $myWidth = 60;
             $maxHeight = 20;
-            //$file_headers = @get_headers($sLogo)
 
-            $sLogoPath = public_path() . '/images/' . $sLogo;
-            ddl($sLogoPath);
+            // the path to the storage folder
+            $sLogoPath = storage_path() . $sLogo;
 
             if (file_exists($sLogoPath)) {
 
@@ -290,7 +332,7 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
                 if ($newWidth < $myWidth) {
                     $myWidth = $newWidth * 0.9;
                 }
-                // Insert a logo in the top-left corner
+                // Insert a logo in the top-right corner
                 $this->my_pdf::Image($sLogoPath, 130, 10, $myWidth);
             }
         }

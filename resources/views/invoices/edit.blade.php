@@ -43,8 +43,18 @@
                     {{-- add a field for the invoice nr --}}
                     <div class="mt-4">
                         <x-label for="invoice_nr">Invoice Nr</x-label>
-                        <x-input id="invoice_nr" class="block w-full mt-1" type="text" name="invoice_nr"
-                            value="{{ $invoice->invoice_nr }}" autofocus />
+
+
+                        @if ($invoice->invoice_nr == null)
+                            Op basis van laatst bekende rekening-nummer zou ik {{ $invoice->suggested_invoice_nr }}
+                            voorstellen. Maar je kunt hier ook van af wijken.
+                            <x-input id="invoice_nr" class="block w-full mt-1" type="text" name="invoice_nr"
+                                value="{{ $invoice->suggested_invoice_nr }}" autofocus />
+                        @else
+                            <x-input id="invoice_nr" class="block w-full mt-1" type="text" name="invoice_nr"
+                                value="{{ $invoice->invoice_nr }}" autofocus />
+                        @endif
+
                     </div>
 
 
@@ -85,8 +95,8 @@
                                     <div class="w-1/12">
                                         <x-label for="item_nr">Item_nr</x-label>
                                         <x-input id="item_nr" class="block w-full mt-1" type="text"
-                                            name="items[{{ $detail->item_nr }}][item_nr]" value="{{ $detail->item_nr }}"
-                                            disabled />
+                                            name="items[{{ $detail->item_nr }}][item_nr]"
+                                            value="{{ $detail->item_nr }}" disabled />
                                     </div>
                                     <div class="w-9/12">
                                         <x-label for="description">description</x-label>
@@ -242,10 +252,14 @@
                     <div class="flex items-center justify-end mt-4 space-x-4">
 
 
+                        @if ($invoice->exported)
+                        @else
+                            <x-button class="ml-4">
 
-                        <x-button class="ml-4">
-                            {{ __('Update') }}
-                        </x-button>
+                                {{ __('Save') }}
+                            </x-button>
+                        @endif
+
                     </div>
 
 
@@ -255,20 +269,37 @@
                 </form>
 
 
-                <div class="mt-5">
-                    <button class="settingsbutton soft">
-                        @if ($invoice->date)
+
+                @if ($invoice->exported)
+                    <div class="mt-5">
+                        <i>LET OP: Deze rekening is al geëxporteerd. Je kunt de rekening niet meer aanpassen.</i>
+                        <br />
+                        <button class="settingsbutton soft">
                             <a target="new" href="{{ route('invoice.download', $invoice->id) }}">Download
-                                rekening</a>
-                        @else
-                            <a target="new" href="{{ route('invoice.preview', $invoice->id) }}">Preview concept</a>
+                                opgeslagen rekening</a>
+                        </button>
+
+                    </div>
+                @else
+                    <div class="mt-5">
+                        <button class="settingsbutton soft">
+                            @if ($invoice->date)
+                                <a target="new" href="{{ route('invoice.download', $invoice->id) }}">Download
+                                    rekening</a>
+                            @else
+                                <a target="new" href="{{ route('invoice.preview', $invoice->id) }}">Preview
+                                    concept</a>
+                            @endif
+                        </button>
+                        @if ($invoice->date)
+                            <i>LET OP: Hiermee wordt de rekening ook direct opgenomen in de boekhouding, afdeling
+                                Debiteuren.</i>
                         @endif
-                    </button>
-                    @if ($invoice->date)
-                        <i>LET OP: Hiermee wordt de rekening ook direct opgenomen in de boekhouding, afdeling
-                            Debiteuren.</i>
-                    @endif
-                </div>
+                    </div>
+
+
+                @endif
+
 
 
             </div>

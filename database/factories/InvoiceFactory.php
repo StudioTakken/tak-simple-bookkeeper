@@ -47,7 +47,7 @@ class InvoiceFactory extends Factory
             'vat' =>  21,
             'amount_vat' =>  0,
             'amount_inc' =>  0,
-            'details' => json_encode($items),
+            'details' => json_encode($items)
         ];
     }
 }

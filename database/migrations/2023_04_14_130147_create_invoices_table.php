@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('amount_vat')->nullable();
             $table->integer('amount_inc')->nullable();
             $table->json('details')->nullable();
+            $table->string('exported')->nullable();
             $table->timestamps();
 
             $table->unsignedBigInteger('client_id')->nullable();
