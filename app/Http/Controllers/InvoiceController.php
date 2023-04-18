@@ -87,7 +87,11 @@ class InvoiceController extends Controller
 
         if ($invoice->invoice_nr == '') {
             // get the higest invoice_nr and add 1
-            $invoice->suggested_invoice_nr = Invoice::max('invoice_nr') + 1;
+
+            // strip all non numeric characters
+            $sMaxInvoiceNr = preg_replace('/[^0-9]/', '', Invoice::max('invoice_nr'));
+
+            $invoice->suggested_invoice_nr = $sMaxInvoiceNr + 1;
         }
 
         // get the invoice and pass it to the view

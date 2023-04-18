@@ -182,7 +182,7 @@
                             <x-label for="vat">BTW</x-label>
                             <select name="vat" id="vat" class="block w-full mt-1">
                                 <option value="0" @if ($invoice->vat == 0) selected @endif>0 %</option>
-                                <option value="6" @if ($invoice->vat == 6) selected @endif>6 %</option>
+                                <option value="6" @if ($invoice->vat == 9) selected @endif>9 %</option>
                                 <option value="21" @if ($invoice->vat == 21) selected @endif>21 %</option>
                             </select>
                         </div>

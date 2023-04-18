@@ -193,8 +193,9 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
 
             // get last inserted id
             $id = $booking->id;
-
-            Booking::find($id)->addBookingBtw('in');
+            if ($invoice->vat > 0) {
+                Booking::find($id)->addBookingBtw('in', $invoice->vat);
+            }
 
             return response()->download(storage_path('app/invoices/' . $filename));
         }
