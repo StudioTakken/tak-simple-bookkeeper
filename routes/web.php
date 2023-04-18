@@ -10,6 +10,7 @@ use App\Http\Controllers\BookingAccountController;
 use App\Http\Controllers\BookingCategoryController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\DashboardController;
+use App\Exports\InvoicePdfExport;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -85,6 +86,9 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('invoices', InvoiceController::class);
+
+    // Route::post('invoice/download', [InvoiceController::class, 'download'])->name('invoice.download');
+    Route::get('/pdf/{id}', [InvoicePdfExport::class, 'download'])->name('invoice.download');
 
 
     // Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');

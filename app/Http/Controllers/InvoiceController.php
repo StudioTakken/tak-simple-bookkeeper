@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Client;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 
 class InvoiceController extends Controller
 {
-
-
 
     /**
      * Display a listing of the resource.
@@ -136,8 +137,6 @@ class InvoiceController extends Controller
         if ($request->set_date_to_now) {
             $request->merge(['date' => date('Y-m-d')]);
         }
-
-
 
         // update the invoice
         $invoice->update($request->all());

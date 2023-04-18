@@ -193,9 +193,9 @@
 
 
                     <div class="flex items-center justify-end mt-4 space-x-4">
-                        <x-button class="ml-4 bg-green-500">
-                            {{ __('Download') }}
-                        </x-button>
+
+
+
                         <x-button class="ml-4">
                             {{ __('Update') }}
                         </x-button>
@@ -206,6 +206,13 @@
 
 
                 </form>
+
+                <a href="{{ route('invoice.download', $invoice->id) }}">Download Invoice</a>
+
+                {{-- <form action="{{ route('invoice.download') }}" method="POST">
+                    @csrf
+                    <button type="submit">Download Invoice</button>
+                </form> --}}
             </div>
         </div>
     </div>
