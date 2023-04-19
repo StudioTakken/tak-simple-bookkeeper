@@ -33,7 +33,9 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoices.create');
+        // get the clients
+        $clients = Client::all();
+        return view('invoices.create', compact('clients'));
     }
 
     /**
@@ -49,6 +51,7 @@ class InvoiceController extends Controller
             //   'invoice_nr' => 'required',
             //   'date' => 'required',
             'description' => 'required',
+            'client_id' => 'required',
             //'amount' => 'required',
         ]);
 

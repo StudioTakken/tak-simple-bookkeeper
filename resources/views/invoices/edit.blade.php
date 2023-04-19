@@ -1,16 +1,10 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Edit Invoice') }}
-        </h2>
+
+    <x-slot name="header" class="py-0 my-0">
     </x-slot>
 
     <div class="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-
-
         <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
-
-
 
             @if (session('success'))
                 <div class="relative px-4 py-3 text-green-700 bg-green-100 border border-green-400 rounded"
@@ -28,8 +22,37 @@
             @endif
 
 
+            <div class="p-6 bg-white border-b border-gray-200">
+                <div class="flex ">
+                    <div class="flex-none">
+                        <h2 class="text-xl font-semibold leading-tight">
+                            Edit Invoice: {{ $invoice->description }}
+                        </h2>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="flex-none">
+                        <button class="settingsbutton soft">
+                            <a href="{{ route('invoices.index') }}">
+                                Back to invoices
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-            <div class="p-6 bg-white border-b border-gray-200 sm:px-20">
+
+            <div class="p-6 bg-white border-b border-gray-200">
+
+
+                <x-validation-errors class="mb-4" :errors="$errors" />
+
+
+                @if (session()->has('success'))
+                    <div class="my-5 alert alert-success">
+                        {{ session()->get('success') }}
+                    </div>
+                @endif
+
                 <form method="POST" action="{{ route('invoices.update', $invoice->id) }}">
                     @csrf
                     @method('PUT')

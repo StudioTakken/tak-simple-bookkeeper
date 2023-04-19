@@ -14,6 +14,8 @@
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                     <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+
+
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -75,10 +77,10 @@
                                                             href="{{ route('invoice.download', $invoice->id) }}">{{ __('Download') }}</a>
                                                     </button>
                                                 @else
-                                                    <button type="submit" class="settingsbutton soft">
+                                                    {{-- <button type="submit" class="settingsbutton soft">
                                                         <a
                                                             href="{{ route('invoices.show', $invoice->id) }}">{{ __('View') }}</a>
-                                                    </button>
+                                                    </button> --}}
                                                 @endif
 
 

@@ -20,6 +20,14 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
+
+        // validate the request
+        $request->validate([
+            'company_name' => 'required',
+        ]);
+
+
+
         $client = new Client;
 
         $client->email = $request->email;
@@ -30,7 +38,8 @@ class ClientController extends Controller
         $client->zip_code = $request->zip_code;
         $client->city = $request->city;
         $client->save();
-        return redirect()->route('clients.index')->with('success', 'Client created successfully!');
+
+        return redirect()->route('clients.edit', $client->id)->with('success', 'Client created successfully!');
     }
 
     public function show($id)
