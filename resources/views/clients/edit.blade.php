@@ -44,47 +44,55 @@
                         @csrf
                         @method('PUT')
 
-
-                        <label for="company_name">Company Name:</label><br />
-                        <input class="w-full" type="text" name="company_name" id="company_name"
-                            value="{{ $client->company_name }}"><br />
-
-                        <label for="tav">t.a.v.:</label><br />
-                        <input class="w-full" type="text" name="tav" id="tav"
-                            value="{{ $client->tav }}"><br />
-
-                        <label for="address">Address:</label><br />
-                        <input class="w-full" type="text" name="address" id="address"
-                            value="{{ $client->address }}"><br />
-
-                        <label for="zip_code">Zip Code:</label><br />
-                        <input class="w-full" type="text" name="zip_code" id="zip_code"
-                            value="{{ $client->zip_code }}"><br />
-
-                        <label for="city">City:</label><br />
-                        <input class="w-full" type="text" name="city" id="city"
-                            value="{{ $client->city }}"><br />
-
-                        <label for="email">Email:</label><br />
-                        <input class="w-full" type="email" name="email" id="email"
-                            value="{{ $client->email }}"><br />
-
-                        <label for="phone">Phone:</label><br />
-                        <input class="w-full" type="text" name="phone" id="phone"
-                            value="{{ $client->phone }}"><br />
+                        <div class="flex flex-col gap-2">
 
 
-                        <div class="flex items-center justify-end mt-4 space-x-4">
-                            <x-button type="submit" class="ml-4">
-                                {{ __('Update') }}
-                            </x-button>
-                        </div>
+                            <div class="flex flex-col gap-2">
+                                <x-label for="company_name">Company Name:</x-label>
+                                <input class="w-full" type="text" name="company_name" id="company_name"
+                                    value="{{ $client->company_name }}">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <x-label for="tav">t.a.v.:</x-label>
+                                <input class="w-full" type="text" name="tav" id="tav"
+                                    value="{{ $client->tav }}">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <x-label for="address">Address:</x-label>
+                                <input class="w-full" type="text" name="address" id="address"
+                                    value="{{ $client->address }}">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <x-label for="zip_code">Zip Code:</x-label>
+                                <input class="w-full" type="text" name="zip_code" id="zip_code"
+                                    value="{{ $client->zip_code }}">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <x-label for="city">City:</x-label>
+                                <input class="w-full" type="text" name="city" id="city"
+                                    value="{{ $client->city }}">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <x-label for="email">Email:</x-label>
+                                <input class="w-full" type="email" name="email" id="email"
+                                    value="{{ $client->email }}">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <x-label for="phone">Phone:</x-label>
+                                <input class="w-full" type="text" name="phone" id="phone"
+                                    value="{{ $client->phone }}">
+                            </div>
+                            <div class="flex items-center justify-end mt-4 space-x-4">
+                                <x-button type="submit" class="ml-4">
+                                    {{ __('Update') }}
+                                </x-button>
+                            </div>
                     </form>
-
-
                 </div>
+
             </div>
         </div>
+    </div>
 
 
 

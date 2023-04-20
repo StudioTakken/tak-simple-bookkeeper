@@ -69,7 +69,8 @@
 
 
                         @if ($invoice->invoice_nr == null)
-                            Op basis van laatst bekende rekening-nummer zou ik {{ $invoice->suggested_invoice_nr }}
+                            Op basis van de laatst aangemaakte rekening zou ik rekening-nummer
+                            {{ $invoice->suggested_invoice_nr }}
                             voorstellen. Maar je kunt hier ook van af wijken.
                             <x-input id="invoice_nr" class="block w-full mt-1" type="text" name="invoice_nr"
                                 value="{{ $invoice->suggested_invoice_nr }}" autofocus />
@@ -279,7 +280,7 @@
                         @else
                             <x-button class="ml-4">
 
-                                {{ __('Save') }}
+                                {{ __('Update/Save') }}
                             </x-button>
                         @endif
 

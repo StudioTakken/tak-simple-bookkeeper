@@ -1,13 +1,27 @@
 <x-app-layout>
 
+
+
+
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight">
-            Invoices
-        </h2>
+        <div class="flex mr-5">
+            <div class="flex-none">
+                <h2 class="text-xl font-semibold leading-tight">
+                    Invoices
+                </h2>
+            </div>
+            <div class="flex-grow"></div>
+            <div class="flex-none">
+                <button class="settingsbutton soft"><a href="{{ route('invoices.create') }}">Create Invoice</a></button>
+            </div>
+        </div>
     </x-slot>
 
-    {{-- list the invoices --}}
-    <button class="settingsbutton soft"><a href="{{ route('invoices.create') }}">Create Invoice</a></button>
+
+
+
+
+
 
     <div class="container mx-auto">
         <div class="py-6">

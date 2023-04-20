@@ -162,7 +162,7 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
             // check if the invoices folder exists
             if (!file_exists(storage_path('app/invoices'))) {
                 // create the invoices folder
-                mkdir(storage_path('app/invoices'), 0777, true);
+                mkdir(storage_path('app/invoices'), 0755, true);
             }
 
             // set the path to the invoices folder storage/app/invoices
@@ -185,8 +185,9 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
             $booking->category = $category->id;
 
             $booking->amount = $invoice->amount;
-            $booking->description = 'Factuur ' . $invoice->invoice_nr . ' ' . $invoice->description;
+            $booking->description = $client->company_name . ": " . $invoice->description;
             $booking->date = $invoice->date;
+            $booking->invoice_nr = $invoice->invoice_nr;
 
 
             $booking->save();

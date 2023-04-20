@@ -1,11 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex w-9/12">
+        <div class="flex mr-5">
 
             <div class="flex-none">
                 <h2 class="text-xl font-semibold leading-tight">
-
-
                     @if (isset($account))
                         {{ $account->name }}
                     @endif
@@ -13,8 +11,6 @@
                     @if (isset($category))
                         {{ $category->name }}
                     @endif
-
-
                 </h2>
             </div>
             <div class="flex-grow"></div>
@@ -35,12 +31,11 @@
                     </button>
                 @endif
 
-
-
-
             </div>
         </div>
     </x-slot>
+
+
 
     @if (session()->has('success'))
         <div class="alert alert-success">
@@ -50,17 +45,11 @@
 
     <div class="py-6">
 
-
-
-
         @if (isset($account))
             <div>
                 @livewire('booking-create', ['account' => $account], key(now() . '-|-' . Str::random()))
             </div>
         @endif
-
-
-
 
         <div>
 

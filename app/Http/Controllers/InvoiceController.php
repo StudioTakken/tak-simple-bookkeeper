@@ -48,12 +48,10 @@ class InvoiceController extends Controller
     {
         // validate the request
         $request->validate([
-            //   'invoice_nr' => 'required',
-            //   'date' => 'required',
-            'description' => 'required',
-            'client_id' => 'required',
-            //'amount' => 'required',
+            'client_id' => 'required|numeric',
+            'description' => 'required|max:255|min:3',
         ]);
+
 
         // create the invoice
         $invoice = Invoice::create($request->all());
@@ -92,9 +90,9 @@ class InvoiceController extends Controller
             // get the higest invoice_nr and add 1
 
             // strip all non numeric characters
-            $sMaxInvoiceNr = preg_replace('/[^0-9]/', '', Invoice::max('invoice_nr'));
+            $sMaxInvoiceNr = (int)preg_replace('/[^0-9]/', '', Invoice::where('invoice_nr', '!=', '')->latest()->first()->invoice_nr);
 
-            $invoice->suggested_invoice_nr = $sMaxInvoiceNr + 1;
+            $invoice->suggested_invoice_nr = (int)$sMaxInvoiceNr + 1;
         }
 
         // get the invoice and pass it to the view

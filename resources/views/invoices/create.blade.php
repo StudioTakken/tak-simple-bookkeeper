@@ -10,7 +10,7 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="flex w-9/12">
+                    <div class="flex">
                         <div class="flex-none">
                             <h2 class="text-xl font-semibold leading-tight">
                                 Create new invoice
@@ -28,8 +28,8 @@
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
+                    {{-- <x-auth-validation-errors class="mb-4" :errors="$errors" /> --}}
+                    <x-validation-errors class="mb-4" :errors="$errors" />
 
                     <form action="{{ route('invoices.store') }}" method="POST">
                         @csrf

@@ -1,13 +1,20 @@
 <x-app-layout>
 
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Clients') }}
-        </h2>
 
+    <x-slot name="header">
+        <div class="flex mr-5">
+            <div class="flex-none">
+                <h2 class="text-xl font-semibold leading-tight">
+                    {{ __('Clients') }}
+                </h2>
+            </div>
+            <div class="flex-grow"></div>
+            <div class="flex-none">
+                <button class="settingsbutton soft"><a href="{{ route('clients.create') }}">Create Client</a></button>
+            </div>
+        </div>
     </x-slot>
-    <button class="settingsbutton soft"><a href="{{ route('clients.create') }}">Create
-            Client</a></button>
+
 
     <div class="container mx-auto">
         <div class="py-6">
