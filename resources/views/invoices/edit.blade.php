@@ -279,50 +279,64 @@
                         @if ($invoice->exported)
                         @else
                             <x-button class="ml-4">
-
                                 {{ __('Update/Save') }}
                             </x-button>
                         @endif
 
                     </div>
 
-
-
-
-
                 </form>
 
 
 
-                @if ($invoice->exported)
-                    <div class="mt-5">
-                        <i>LET OP: Deze rekening is al geëxporteerd. Je kunt de rekening niet meer aanpassen.</i>
-                        <br />
-                        <button class="settingsbutton soft">
-                            <a target="new" href="{{ route('invoice.download', $invoice->id) }}">Download
-                                opgeslagen rekening</a>
-                        </button>
 
-                    </div>
-                @else
-                    <div class="mt-5">
-                        <button class="settingsbutton soft">
-                            @if ($invoice->date)
+
+
+                <div class="flex">
+                    @if ($invoice->exported)
+                        <div class="w-2/4 mt-5">
+                            <i>LET OP: Deze rekening is al geëxporteerd.<br />Je kunt de rekening niet meer
+                                aanpassen.</i>
+                            <br />
+                            <button class="settingsbutton soft">
                                 <a target="new" href="{{ route('invoice.download', $invoice->id) }}">Download
-                                    rekening</a>
-                            @else
-                                <a target="new" href="{{ route('invoice.preview', $invoice->id) }}">Preview
-                                    concept</a>
-                            @endif
-                        </button>
-                        @if ($invoice->date)
-                            <i>LET OP: Hiermee wordt de rekening ook direct opgenomen in de boekhouding, afdeling
-                                Debiteuren.</i>
+                                    opgeslagen rekening</a>
+                            </button>
+
+                        </div>
+                    @else
+                        <div class="w-2/4 mt-5">
+                            <button class="settingsbutton soft">
+                                @if ($invoice->date)
+                                    <a target="new" href="{{ route('invoice.download', $invoice->id) }}">Download
+                                        rekening</a>
+                                @else
+                                    <a target="new" href="{{ route('invoice.preview', $invoice->id) }}">Preview
+                                        concept</a>
+                                @endif
+                            </button>
+
+                        </div>
+                    @endif
+
+                    <div class="w-2/4 mt-5 text-right">
+                        @if ($invoice->exported)
+                            <i>Ligt niet voor de hand omdat deze rekening al is geëxporteerd.<br />Weet wat je doet.</i>
                         @endif
+
+
+
+                        <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"
+                            onsubmit="return confirm('{{ __('Verwijderen ligt niet voor de hand omdat deze rekening al is geëxporteerd. Weet wat je doet!') }}')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Delete') }}</button>
+                        </form>
                     </div>
 
+                </div>
 
-                @endif
 
 
 

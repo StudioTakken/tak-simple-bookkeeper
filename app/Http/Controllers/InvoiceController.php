@@ -19,8 +19,8 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        // list all invoices
-        $invoices = Invoice::all();
+        // $invoices = Invoice::all();
+        $invoices = Invoice::period()->get();
 
         // pass the invoices to the view
         return view('invoices.index', compact('invoices'));
