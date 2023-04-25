@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'TakBook'),
 
 
     /*
@@ -28,7 +28,7 @@ return [
     | or any other location as required by the application or its packages.
     */
 
-    'version' => '1.0.0',
+    'version' => '1.1.0',
 
 
     /*
