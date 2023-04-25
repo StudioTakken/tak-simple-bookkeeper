@@ -95,7 +95,12 @@ class InvoiceController extends Controller
             // get the higest invoice_nr and add 1
 
             // strip all non numeric characters
-            $sMaxInvoiceNr = (int)preg_replace('/[^0-9]/', '', Invoice::where('invoice_nr', '!=', '')->latest()->first()->invoice_nr);
+            if (Invoice::where('invoice_nr', '!=', '')->latest()->first() == NULL) {
+                $sMaxInvoiceNr = 0;
+            } else {
+                $sMaxInvoiceNr = (int)preg_replace('/[^0-9]/', '', Invoice::where('invoice_nr', '!=', '')->latest()->first()->invoice_nr);
+            }
+
 
             $invoice->suggested_invoice_nr = (int)$sMaxInvoiceNr + 1;
         }

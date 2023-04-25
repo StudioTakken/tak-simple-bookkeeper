@@ -7,7 +7,7 @@ php artisan down --refresh=15
 git pull
 
 # php composer.phar install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-# composer install
+composer install
 
 php artisan migrate
 
