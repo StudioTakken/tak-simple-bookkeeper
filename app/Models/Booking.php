@@ -255,9 +255,11 @@ class Booking extends Model
     }
 
 
-    public function addBookingBtw($inorout = 'in')
+    public function addBookingBtw($inorout = 'in', $perc = 21)
     {
-        $inc_amount = $this->amount * 1.21;
+        $multiplier = 1 + ($perc / 100);
+
+        $inc_amount = $this->amount * $multiplier;
 
         // format $original_amount to 2 decimals
         $inc_amount = number_format($inc_amount / 100, 2, '.', '');
@@ -266,7 +268,7 @@ class Booking extends Model
         $this->save();
 
         // create a new booking 
-        $btw = $this->amount * 0.21;
+        $btw = $this->amount * $perc / 100;
 
         // get the bookingCategory named btw or btw-uit
         if ($inorout == 'in') {

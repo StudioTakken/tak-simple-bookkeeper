@@ -34,10 +34,28 @@
 
     </x-sidebar.dropdown>
 
+
+    <x-sidebar.link title="Rekeningen" href="{{ route('invoices.index') }}">
+        <x-slot name="icon">
+            <x-icons.list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+
+    <x-sidebar.link title="Klanten" href="{{ route('clients.index') }}">
+        <x-slot name="icon">
+            <x-icons.list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+
+
+
+
     <x-sidebar.link title="Importeren" href="{{ route('importing') }}">
         <x-slot name="icon">
             <x-icons.upload class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
+
+
 
 </x-perfect-scrollbar>

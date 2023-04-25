@@ -12,10 +12,12 @@ php artisan config:clear
 php artisan auth:clear-resets
 
 # Clear and cache routes
-php artisan route:cache
+# php artisan route:cache
+php artisan route:clear
 
 # Clear and cache config
-php artisan config:cache
+# php artisan config:cache
+
 
 # Clear and cache views
 php artisan view:cache

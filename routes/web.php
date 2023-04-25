@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\BookingAccountController;
 use App\Http\Controllers\BookingCategoryController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\DashboardController;
+use App\Exports\InvoicePdfExport;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -80,7 +83,32 @@ Route::middleware('auth')->group(function () {
     Route::get('/backups', [BackupController::class, 'index'])->name('backups');
     Route::get('/backitup', [BackupController::class, 'backup'])->name('backitup');
     Route::get('/restore/{file}', [BackupController::class, 'restore'])->name('restore');
+
+
+    Route::resource('invoices', InvoiceController::class);
+
+    // Route::post('invoice/download', [InvoiceController::class, 'download'])->name('invoice.download');
+    Route::get('/pdf/{id}', [InvoicePdfExport::class, 'download'])->name('invoice.download');
+    Route::get('/pdfpreview/{id}', [InvoicePdfExport::class, 'preview'])->name('invoice.preview');
+
+
+    // Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    // Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+    // Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    // Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
+    // Route::get('/invoices/{id}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
+    // Route::put('/invoices/{id}', [InvoiceController::class, 'update'])->name('invoices.update');
+    // Route::delete('/invoices/{id}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+
+    Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+    Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
+    Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
+    Route::get('/clients/{id}', [ClientController::class, 'show'])->name('clients.show');
+    Route::get('/clients/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+    Route::put('/clients/{id}', [ClientController::class, 'update'])->name('clients.update');
+    Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
 });
+
 
 
 require __DIR__ . '/auth.php';

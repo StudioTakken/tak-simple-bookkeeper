@@ -48,7 +48,7 @@
 
                 <!-- Page Heading -->
                 <header>
-                    <div class="p-4 sm:p-6">
+                    <div class="pl-8 ml-3 sm:p-3">
                         {{ $header }}
                     </div>
                 </header>

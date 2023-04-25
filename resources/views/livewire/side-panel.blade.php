@@ -1,5 +1,5 @@
 <section x-data="{ open: @entangle('open') }" {{-- @keydown.window.escape="open = false" --}} x-show="open" x-cloak class="relative z-10"
-    aria-labelledby="slide-over-title" x-ref="dialog" aria-modal="true">
+    aria-labelledby="slide-over-title" x-ref="dialog" aria-modal="true" draggable="true">
 
     <div x-show="open" x-cloak x-transition:enter="ease-in-out duration-500" x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-500"
@@ -8,6 +8,10 @@
     <div class="
     {{-- fixed inset-0 overflow-hidden --}}
     ">
+
+        {{-- make this div dragable with alphine --}}
+
+
         <div class="absolute inset-0 overflow-hidden">
             <div class="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none">
 

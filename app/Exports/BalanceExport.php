@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Http\Controllers\BookingAccountController;
+use App\Http\Traits\CompanyDetailsTrait;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
@@ -14,6 +15,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class BalanceExport extends BookingAccountController implements WithColumnFormatting, FromCollection, WithStyles, WithColumnWidths
 {
 
+    use CompanyDetailsTrait;
+
     public $boldRows = [];
 
     /**
@@ -21,15 +24,17 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
      */
     public function collection()
     {
+
+
         $this->balanceArray();
         $this->balanceTotals();
         $this->balanceConclusion();
 
+
+
+
         // prepend a header row
         array_unshift($this->balanceArray, ['Balans',  Session::get('startDate'), Session::get('stopDate'), ' ', Session::get('startDate'), Session::get('stopDate')]);
-
-        // add an empty row
-        //   
 
 
         // append a totals row
@@ -162,6 +167,18 @@ class BalanceExport extends BookingAccountController implements WithColumnFormat
         $this->balanceArray[] = ['+ Prive opname en belasting', '', ($this->aBalanceConclusion['prive_opnamen'] / 100)];
         $this->balanceArray[] = ['Winst', '', $winst];
         $this->boldRows[] = count($this->balanceArray);
+
+        // we need to add an empty row
+        $this->balanceArray[] = [''];
+        $this->balanceArray[] = [''];
+
+        # get the company details for the excel file 
+        $aCompanyRows = $this->getCompanyDetailsForAsExcellRows('1');
+
+        // append the company details to the balance array
+        $this->balanceArray = array_merge($this->balanceArray, $aCompanyRows);
+
+
 
 
 
