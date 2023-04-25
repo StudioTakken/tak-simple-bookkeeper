@@ -291,13 +291,18 @@
 
 
 
-
                 <div class="flex">
                     @if ($invoice->exported)
                         <div class="w-2/4 mt-5">
                             <i>LET OP: Deze rekening is al geëxporteerd.<br />Je kunt de rekening niet meer
                                 aanpassen.</i>
                             <br />
+
+
+                            @if (Storage::exists($invoice->exported))
+                                <i> {{ $invoice->exported }} </i><br />
+                            @endif
+
                             <button class="settingsbutton soft">
                                 <a target="new" href="{{ route('invoice.download', $invoice->id) }}">Download
                                     opgeslagen rekening</a>
@@ -306,9 +311,15 @@
                         </div>
                     @else
                         <div class="w-2/4 mt-5">
+
+                            @if ($invoice->date)
+                                <i>Hiermee wordt de rekening als pdf aangemaakt en opgenomen in
+                                    debiteuren.</i><br />
+                            @endif
+
                             <button class="settingsbutton soft">
                                 @if ($invoice->date)
-                                    <a target="new" href="{{ route('invoice.download', $invoice->id) }}">Download
+                                    <a href="{{ route('invoice.download', $invoice->id) }}">Maak
                                         rekening</a>
                                 @else
                                     <a target="new" href="{{ route('invoice.preview', $invoice->id) }}">Preview
@@ -319,21 +330,29 @@
                         </div>
                     @endif
 
-                    <div class="w-2/4 mt-5 text-right">
-                        @if ($invoice->exported)
+                    @if ($invoice->exported)
+                        <div class="w-2/4 mt-5 text-right">
                             <i>Ligt niet voor de hand omdat deze rekening al is geëxporteerd.<br />Weet wat je doet.</i>
-                        @endif
 
 
+                            <form action="{{ route('invoices.reset', $invoice->id) }}" method="POST"
+                                onsubmit="return confirm('{{ __('Hiermee wordt de rekening terug gezet op onaf. Weet wat je doet!') }}')">
+                                @csrf
+                                @method('POST')
+                                <button type="submit"
+                                    class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Reset') }}</button>
+                            </form>
 
-                        <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"
-                            onsubmit="return confirm('{{ __('Verwijderen ligt niet voor de hand omdat deze rekening al is geëxporteerd. Weet wat je doet!') }}')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Delete') }}</button>
-                        </form>
-                    </div>
+                            <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"
+                                onsubmit="return confirm('{{ __('Verwijderen ligt niet voor de hand omdat deze rekening al is geëxporteerd. Weet wat je doet!') }}')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Delete') }}</button>
+                            </form>
+
+                        </div>
+                    @endif
 
                 </div>
 

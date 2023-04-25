@@ -23,79 +23,111 @@
                 te importeren</a>.<br />
         </div>
 
-        <div class="grid grid-cols-3 mt-5 text-sm">
+
+        <div>
+
+            <div class="grid grid-cols-3 mt-5 text-sm">
 
 
-            <div>
-                <div class="font-bold">
-                    We have these accounts:<br /><br />
+                <div>
+                    <div class="font-bold">
+                        We have these accounts:<br /><br />
+                    </div>
+
+                    <ul>
+                        @foreach ($accounts as $account)
+                            <li class="py-1"><a class="py-2 text-takred-500"
+                                    href="{{ route('account.onaccount', ['account' => $account->slug]) }}">{{ $account->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <div class="mt-5">
+                        <button class="settingsbutton soft">
+                            <a href="{{ route('account.create') }}">Add an account</a>
+                        </button>
+                    </div>
+
                 </div>
 
-                <ul>
-                    @foreach ($accounts as $account)
-                        <li class="py-1"><a class="py-2 text-takred-500"
-                                href="{{ route('account.onaccount', ['account' => $account->slug]) }}">{{ $account->name }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                <div>
+                    <div class="font-bold">
+                        We have these categories:<br /><br />
+                    </div>
 
-                <div class="mt-5">
-                    <button class="settingsbutton soft">
-                        <a href="{{ route('account.create') }}">Add an account</a>
-                    </button>
+                    <ul>
+                        @foreach ($categories as $category)
+                            <li class="py-1"><a class=" text-takred-500"
+                                    href="{{ route('category.oncategory', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <div class="mt-5">
+                        <button class="settingsbutton soft">
+                            <a href="{{ route('category.create') }}">Add a category</a>
+                        </button>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="font-bold">
+                        Acties:<br /><br />
+                    </div>
+
+
+                    <ul>
+
+                        <li class="py-1"><a class=" text-takred-500" href="{{ route('backups') }}">Backups</a>
+                        </li>
+
+                    </ul>
+
+
+
+                    <div class="mt-5">
+                        <button class="settingsbutton soft">
+                            <a href="{{ route('backitup') }}">Make a database backup</a>
+                        </button>
+                        </button>
+                    </div>
                 </div>
 
             </div>
 
-            <div>
+
+
+            <div class="mt-5 text-sm">
+
                 <div class="font-bold">
-                    We have these categories:<br /><br />
+                    Company Details (.env)<br /><br />
                 </div>
 
-                <ul>
-                    @foreach ($categories as $category)
-                        <li class="py-1"><a class=" text-takred-500"
-                                href="{{ route('category.oncategory', ['category' => $category->slug]) }}">{{ $category->name }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-
-                <div class="mt-5">
-                    <button class="settingsbutton soft">
-                        <a href="{{ route('category.create') }}">Add a category</a>
-                    </button>
-                    </button>
+                <div class="mb-5 text-sm">
+                    De onderstaande gegevens worden gebruikt in de pdf facturen etc.<br />
+                    Je kunt dit in .env instellen.
                 </div>
-            </div>
 
-            <div>
-                <div class="font-bold">
-                    Acties:<br /><br />
+                <div class="pb-8 w-96">
+                    <img src="{{ url('storage/' . config('company')['logopath']) }}" />
                 </div>
 
 
-                <ul>
+                @foreach ($companyDetails as $key => $companyDetail)
+                    <div class="grid grid-cols-2 w-80">
+                        <div class="font-bold">
+                            {{ $key }}
+                        </div>
+                        {{ $companyDetail }}
 
-                    <li class="py-1"><a class=" text-takred-500" href="{{ route('backups') }}">Backups</a>
-                    </li>
+                    </div>
+                @endforeach
 
-                </ul>
-
-
-
-                <div class="mt-5">
-                    <button class="settingsbutton soft">
-                        <a href="{{ route('backitup') }}">Make a database backup</a>
-                    </button>
-                    </button>
-                </div>
             </div>
 
         </div>
-
-
-    </div>
 
 
     </div>

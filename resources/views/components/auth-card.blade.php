@@ -1,7 +1,10 @@
 <main class="flex flex-col items-center flex-1 px-4 pt-6 sm:justify-center">
     <div class="">
         <a href="/">
-            <x-application-logo class="w-80 h-20" />
+            <x-application-logo class="h-20 w-80" />
+            {{-- <div class="w-96">
+                <img src="{{ url('storage/images/logo_studiotakken.png') }}" />
+            </div> --}}
         </a>
     </div>
 

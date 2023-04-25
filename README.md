@@ -59,6 +59,9 @@ Make a backup directory and a directory for uploaded files
 `mkdir storage/app/backup`  
 `mkdir storage/app/prove`  
 
+Link the public files  
+`php artisan storage:link`
+
 Now we are ready to serve. Open another shell and:  
 `php artisan serve`  
 or  

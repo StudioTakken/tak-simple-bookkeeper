@@ -35,6 +35,9 @@ npm ci
 # Build assets using Vite
 npm run build
 
+# link the public files
+php artisan storage:link 
+
 # Turn off maintenance mode
 php artisan up
 

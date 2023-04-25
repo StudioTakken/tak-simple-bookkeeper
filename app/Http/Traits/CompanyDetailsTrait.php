@@ -30,4 +30,11 @@ trait CompanyDetailsTrait
         }
         return $aExcelRows;
     }
+
+
+
+    public function getAllCompanyDetails()
+    {
+        return config('company');
+    }
 }

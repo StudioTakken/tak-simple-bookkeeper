@@ -11,7 +11,7 @@ use App\Models\Invoice;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Elibyy\TCPDF\Facades\TCPDF;
-
+use Illuminate\Support\Facades\Storage;
 
 class InvoicePdfExport extends InvoiceController implements FromCollection
 {
@@ -39,18 +39,10 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
         $details = json_decode($invoice->details, true);
         $client = Client::find($invoice->client_id);
 
-
-        // the path is in $invoice->exported, give me the public http download url instead 
-
         if ($invoice->exported != '') {
-            // do the downdload
-            return response()->download($invoice->exported);
+            // do the download
+            return response()->download(Storage::path($invoice->exported));
         }
-
-
-
-
-
 
         // preped zero's for invoice number (e.g. 00001)
         $invoice->invoice_nr = str_pad($invoice->invoice_nr, 5, '0', STR_PAD_LEFT);
@@ -72,12 +64,10 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
 
         $this->my_pdf::SetFont('helvetica', '', 10);
 
-
         $sGeadresseerde =  $client->company_name . PHP_EOL;
         $sGeadresseerde .= 't.a.v. ' . $client->tav . PHP_EOL;
         $sGeadresseerde .= $client->address . PHP_EOL;
         $sGeadresseerde .= $client->city . PHP_EOL;
-
 
         $this->my_pdf::SetFont('dejavusans', '', 8);
         $this->my_pdf::setY('30');
@@ -101,10 +91,8 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
         $this->my_pdf::MultiCell(0, 2, 'Rekening voor ' . $invoice->description . '', '', 'L');
         $this->my_pdf::SetFont('dejavusans', '', 8);
 
-
         $this->my_pdf::Ln();
         $this->my_pdf::Ln();
-
 
         $header = ['Omschrijving', 'Aantal', 'Tarief', 'Bedrag'];
 
@@ -149,15 +137,9 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
 
         $this->Footer();
 
-
-
         if ($this->preview == true) {
-
             return $this->my_pdf::Output($filename, 'I');
         } else {
-
-
-
 
             // check if the invoices folder exists
             if (!file_exists(storage_path('app/invoices'))) {
@@ -169,8 +151,9 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
             $this->my_pdf::Output(storage_path('app/invoices/' . $filename), 'F');
             // return $this->my_pdf::Output($filename, 'I');
 
-            // set the path in invocie->exported
-            $invoice->exported = storage_path('app/invoices/' . $filename);
+            // set the path in invoice->exported
+            //    $invoice->exported = storage_path('app/invoices/' . $filename);
+            $invoice->exported = 'invoices/' . $filename;
             $invoice->save();
 
             // make a booking for the invoice into the debiteuren account
@@ -198,7 +181,11 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
                 Booking::find($id)->addBookingBtw('in', $invoice->vat);
             }
 
-            return response()->download(storage_path('app/invoices/' . $filename));
+            // dont download the file, just redirect back to the referer
+            return redirect()->back();
+
+            // and then redirect to the invoices page ?
+            // return response()->download(Storage::path($invoice->exported));
         }
     }
 
@@ -280,12 +267,6 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
     // Page footer
     public function Footer()
     {
-
-        // $this->my_pdf::SetFillColor(254, 212, 2);
-        // $this->my_pdf::rect(0, 0, 210, 5, 'F');
-        // $this->my_pdf::rect(0, 292, 210, 297, 'F');
-
-
         // Position at 15 mm from bottom
         $this->my_pdf::SetY(-30);
         // Set font
@@ -316,14 +297,13 @@ class InvoicePdfExport extends InvoiceController implements FromCollection
 
         $sLogo = config('company')['logopath'];
 
-
         // logo
         if (isset($sLogo) and $sLogo != '') {
             $myWidth = 60;
             $maxHeight = 20;
 
             // the path to the storage folder
-            $sLogoPath = storage_path() . $sLogo;
+            $sLogoPath = storage_path() . '/app/public' . $sLogo;
 
             if (file_exists($sLogoPath)) {
 

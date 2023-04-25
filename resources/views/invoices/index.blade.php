@@ -1,8 +1,5 @@
 <x-app-layout>
 
-
-
-
     <x-slot name="header">
         <div class="flex mr-5">
             <div class="flex-none">
@@ -16,12 +13,6 @@
             </div>
         </div>
     </x-slot>
-
-
-
-
-
-
 
     <div class="container mx-auto">
         <div class="py-6">
@@ -90,32 +81,13 @@
                                                         <a
                                                             href="{{ route('invoice.download', $invoice->id) }}">{{ __('Download') }}</a>
                                                     </button>
-                                                @else
-                                                    {{-- <button type="submit" class="settingsbutton soft">
-                                                        <a
-                                                            href="{{ route('invoices.show', $invoice->id) }}">{{ __('View') }}</a>
-                                                    </button> --}}
                                                 @endif
-
-
 
                                                 <button type="submit" class="settingsbutton soft">
                                                     <a
                                                         href="{{ route('invoices.edit', $invoice->id) }}">{{ __('Edit') }}</a>
                                                 </button>
 
-
-                                                @if ($invoice->exported)
-                                                @else
-                                                    <form action="{{ route('invoices.destroy', $invoice->id) }}"
-                                                        method="POST"
-                                                        onsubmit="return confirm('{{ __('Are you sure you want to delete this invoice?') }}')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Delete') }}</button>
-                                                    </form>
-                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -127,8 +99,6 @@
             </div>
         </div>
     </div>
-
-
 
 
 </x-app-layout>

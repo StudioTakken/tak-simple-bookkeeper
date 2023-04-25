@@ -7,7 +7,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -19,8 +19,13 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        // $invoices = Invoice::all();
-        $invoices = Invoice::period()->get();
+        //  $invoices = Invoice::all();
+
+        $invoices_period = Invoice::period()->get();
+        $invoices_open = Invoice::whereNull('date')->get();
+
+        // merge the two collections
+        $invoices = $invoices_period->merge($invoices_open);
 
         // pass the invoices to the view
         return view('invoices.index', compact('invoices'));
@@ -189,7 +194,7 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource.
      *
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
@@ -197,10 +202,42 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         $invoice = Invoice::find($id);
+
+        // delete the file in the storage if it exists
+        if (Storage::exists($invoice->exported)) {
+            Storage::delete($invoice->exported);
+        }
+
+
         // delete the invoice
         $invoice->delete();
 
         // redirect to the invoice list
         return redirect()->route('invoices.index');
+    }
+
+
+    /**
+     * Reset the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function reset(Request $request, $id)
+    {
+        $invoice = Invoice::find($id);
+
+        // set date to null
+        $invoice->date = NULL;
+
+        // set exported to null
+        $invoice->exported = NULL;
+
+        // save the invoice
+        $invoice->save();
+
+        // redirect to the invoice list
+        //  return redirect()->route('invoices.index');
+        return redirect()->route('invoices.edit', $invoice->id)->with('success', 'Invoice resetted successfully');
     }
 }
