@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Traits;
 
 use App\Models\Booking;
@@ -8,8 +7,6 @@ use App\Models\BookingAccount;
 
 trait BookingTrait
 {
-
-
     public function getBookings()
     {
 
@@ -29,8 +26,9 @@ trait BookingTrait
             // $this->search is not empty then filter the bookings on the search term
             if ($this->search != '') {
                 $this->bookings = Booking::period()->ofAccount($this->viewscope)
-                    ->orderBy('date', $this->dateordering)->orderBy('id')
-                    ->where('parent_id', NULL)
+                    ->orderBy('date', $this->dateordering)
+                    ->orderBy('id')
+                    ->where('parent_id', null)
                     ->where(
                         function ($query) {
                             $query->where('description', 'like', '%' . $this->search . '%')
@@ -42,9 +40,17 @@ trait BookingTrait
             } else {
 
                 if ($this->include_children) {
-                    $this->bookings = Booking::period()->ofAccount($this->viewscope)->orderBy('date', $this->dateordering)->orderBy('hashed')->orderBy('id')->get();
+                    $this->bookings = Booking::period()->ofAccount($this->viewscope)
+                    ->orderBy('date', $this->dateordering)
+                    ->orderBy('invoice_nr')
+                    ->orderBy('hashed')
+                    ->orderBy('id')->get();
                 } else {
-                    $this->bookings = Booking::period()->ofAccount($this->viewscope)->orderBy('date', $this->dateordering)->orderBy('hashed')->orderBy('id')->where('parent_id', NULL)->get();
+                    $this->bookings = Booking::period()->ofAccount($this->viewscope)
+                    ->orderBy('date', $this->dateordering)
+                    ->orderBy('invoice_nr')
+                    ->orderBy('hashed')
+                    ->orderBy('id')->where('parent_id', null)->get();
                 }
             }
 
@@ -96,10 +102,10 @@ trait BookingTrait
 
             $bookingAccount->start_balance =  BookingAccount::getBalance($this->viewscope, 'start');
             $bookingAccount->end_balance =  BookingAccount::getBalance($this->viewscope, 'end');
-            //    $bookingAccount->start_balance = number_format($bookingAccount->start_balance / 100, 2, ',', '.');
-            //   $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
+        //    $bookingAccount->start_balance = number_format($bookingAccount->start_balance / 100, 2, ',', '.');
+        //   $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
         } else {
-            $bookingAccount = new BookingAccount;
+            $bookingAccount = new BookingAccount();
             $bookingAccount->start_balance = 0;
             $bookingAccount->end_balance = 0;
             // ddl($this->viewscope);
