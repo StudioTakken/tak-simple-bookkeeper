@@ -186,22 +186,24 @@ class BookingCategoryController extends Controller
         $summary = $this->getSummary($filter);
 
 
+
         // how many days in the year are we?
-        $nDays = Carbon::now()->dayOfYear;
+        $nDaysInAYear = 365;
+
+        if (Carbon::parse(Session::get('stopDate')) > Carbon::now()) {
+            $nPeriodDays = Carbon::parse(Session::get('startDate'))->diffInDays(Carbon::now());
+        } else {
+            $nPeriodDays = Carbon::parse(Session::get('startDate'))->diffInDays(Carbon::parse(Session::get('stopDate')));
+        }
 
         // so the total per day is?
-        $summary['totals']['resultPerDay'] = $summary['totals']['result'] / $nDays;
+        $summary['totals']['resultPerDay'] = $summary['totals']['result'] / $nPeriodDays;
 
         // so the total per month is?
         $summary['totals']['resultPerMonth'] = $summary['totals']['resultPerDay'] * 30;
 
-        // how many days is the session period?
-        $nPeriodDays = Carbon::parse(Session::get('stopDate'))->diffInDays(Carbon::parse(Session::get('startDate')));
-
-        $nPeriodFactor = $nDays / $nPeriodDays;
-
         // so that would be per year?
-        $summary['totals']['resultPerYear'] = $summary['totals']['resultPerDay'] * $nPeriodDays * $nPeriodFactor;
+        $summary['totals']['resultPerYear'] = $summary['totals']['resultPerDay'] * $nDaysInAYear;
 
 
         return view('bookings.summary', ['summary' => $summary]);
