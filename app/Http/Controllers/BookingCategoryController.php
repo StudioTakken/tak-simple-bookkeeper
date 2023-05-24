@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\SummaryExport;
 use App\Models\Booking;
+use App\Exports\SummaryExport;
+use Illuminate\Support\Carbon;
 use App\Models\BookingCategory;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -39,7 +40,7 @@ class BookingCategoryController extends Controller
     }
 
     /**
-     * 
+     *
      */
     public function listCategories()
     {
@@ -183,6 +184,21 @@ class BookingCategoryController extends Controller
     {
         session(['filter' => $filter]);
         $summary = $this->getSummary($filter);
+
+
+        // how many days in the year are we?
+        $nDays = Carbon::now()->dayOfYear;
+
+        // so the total per day is?
+        $summary['totals']['resultPerDay'] = $summary['totals']['result'] / $nDays;
+
+        // so the total per month is?
+        $summary['totals']['resultPerMonth'] = $summary['totals']['resultPerDay'] * 30;
+
+        // so that would be per year?
+        $summary['totals']['resultPerYear'] = $summary['totals']['resultPerDay'] * 365;
+
+
         return view('bookings.summary', ['summary' => $summary]);
     }
 
@@ -196,7 +212,7 @@ class BookingCategoryController extends Controller
 
 
 
-    // edit 
+    // edit
     public function edit($id)
     {
         $category = BookingCategory::find($id);
@@ -207,6 +223,6 @@ class BookingCategoryController extends Controller
     public function summaryXlsx($filter = false)
     {
         session(['filter' => $filter]);
-        return Excel::download(new SummaryExport, 'summary-' . $filter . '.xlsx');
+        return Excel::download(new SummaryExport(), 'summary-' . $filter . '.xlsx');
     }
 }

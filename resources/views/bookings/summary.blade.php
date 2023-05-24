@@ -88,6 +88,9 @@
 
 
         @if (session()->get('filter') == 'venw')
+           
+        
+        
             <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
                 <div class="grid w-1/2 grid-cols-2 gap-4">
                     <div>
@@ -106,16 +109,12 @@
                         {{ number_format($summary['totals']['result'] / 100, 2, ',', '.') }}
                     </div>
                 </div>
-
             </div>
-        @endif
 
 
 
-
-
-        @if (session()->get('filter') == 'btw')
-            <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
+        
+            <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16">
                 <div class="grid w-1/2 grid-cols-2 gap-4">
                     <div>
 
@@ -126,6 +125,54 @@
                 </div>
 
                 <div class="grid w-1/2 grid-cols-2 gap-4">
+                    <div>
+                        Per maand ongeveer
+                    </div>
+                    <div class='font-mono text-right'>
+                        {{ number_format($summary['totals']['resultPerMonth'] / 100, 2, ',', '.') }}
+                    </div>
+                </div>
+            </div>
+        
+
+            <div class="flex items-start w-4/6 grid-cols-2 gap-8">
+                <div class="grid w-1/2 grid-cols-2">
+                    <div>
+
+                    </div>
+                    <div class='font-mono text-right'>
+
+                    </div>
+                </div>
+
+                <div class="grid w-1/2 grid-cols-2">
+                    <div>
+                        Per jaar ongeveer
+                    </div>
+                    <div class='font-mono text-right'>
+                        {{ number_format($summary['totals']['resultPerYear'] / 100, 2, ',', '.') }}
+                    </div>
+                </div>
+            </div>
+
+        @endif
+
+
+
+
+
+        @if (session()->get('filter') == 'btw')
+            <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
+                <div class="grid w-1/2 grid-cols-2">
+                    <div>
+
+                    </div>
+                    <div class='font-mono text-right'>
+
+                    </div>
+                </div>
+
+                <div class="grid w-1/2 grid-cols-2">
                     <div>
                         BTW op inkomsten
                     </div>
