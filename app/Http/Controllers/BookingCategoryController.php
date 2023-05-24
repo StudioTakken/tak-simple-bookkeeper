@@ -7,6 +7,7 @@ use App\Exports\SummaryExport;
 use Illuminate\Support\Carbon;
 use App\Models\BookingCategory;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
 
 class BookingCategoryController extends Controller
 {
@@ -24,7 +25,6 @@ class BookingCategoryController extends Controller
 
     public function oncategory($sCategory)
     {
-
 
         session(['method' => 'oncategory']);
 
@@ -195,8 +195,13 @@ class BookingCategoryController extends Controller
         // so the total per month is?
         $summary['totals']['resultPerMonth'] = $summary['totals']['resultPerDay'] * 30;
 
+        // how many days is the session period?
+        $nPeriodDays = Carbon::parse(Session::get('stopDate'))->diffInDays(Carbon::parse(Session::get('startDate')));
+
+        $nPeriodFactor = $nDays / $nPeriodDays;
+
         // so that would be per year?
-        $summary['totals']['resultPerYear'] = $summary['totals']['resultPerDay'] * 365;
+        $summary['totals']['resultPerYear'] = $summary['totals']['resultPerDay'] * $nPeriodDays * $nPeriodFactor;
 
 
         return view('bookings.summary', ['summary' => $summary]);
