@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\File;
 
 class BackupController extends Controller
 {
-
     public function index()
     {
 
@@ -33,7 +32,7 @@ class BackupController extends Controller
         $notinstalled = $this->checkMysqlDump('true');
 
         if ($notinstalled == 'stop') {
-            session()->flash('error',  'mysqldump is not installed!');
+            session()->flash('error', 'mysqldump is not installed!');
             return redirect()->route('backups');
         }
 
@@ -44,20 +43,27 @@ class BackupController extends Controller
         $output = array();
 
         exec($command, $output, $worked);
-        switch ($worked) {
-            case 0:
-                $answer =  'Database ' . config('database.connections.mysql.database') . ' successfully exported';
-                break;
-            case 1:
-                $answer =  'There was a warning during the export';
-                break;
-            case 2:
-                $answer =  'There was an error during export.';
-                break;
-        }
+        // switch ($worked) {
+        //     case 0:
+        //         $answer =  'Database ' . config('database.connections.mysql.database') . ' successfully exported';
+        //         break;
+        //     case 1:
+        //         $answer =  'There was a warning during the export';
+        //         break;
+        //     case 2:
+        //         $answer =  'There was an error during export.';
+        //         break;
+        // }
+
+        // php 8 match
+        $answer = match ($worked) {
+            0 => 'Database ' . config('database.connections.mysql.database') . ' successfully exported',
+            1 => 'There was a warning during the export',
+            2 => 'There was an error during export',
+        };
 
 
-        session()->flash('message',  $answer);
+        session()->flash('message', $answer);
 
         // redirect to the backup page and change the location to the backup page
         return redirect()->route('backups');
@@ -83,8 +89,8 @@ class BackupController extends Controller
     public function restore($file_name)
     {
 
-        $returnVar = NULL;
-        $output = NULL;
+        $returnVar = null;
+        $output = null;
 
         // copy the file first and remove the .gz extension form the new file
         $extract_file_name = 'restore_' . $file_name;
