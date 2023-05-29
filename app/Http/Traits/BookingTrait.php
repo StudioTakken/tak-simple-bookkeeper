@@ -11,6 +11,7 @@ trait BookingTrait
     public function getBookings()
     {
 
+
         // ddl(session('viewscope'));
         // get the session variable viewscope
         $this->viewscope = session('viewscope');
@@ -88,12 +89,14 @@ trait BookingTrait
                         ->orWhere('invoice_nr', 'like', '%' . $this->search . '%');
                     }
                 )
+                ->with('booking_category')
                 ->get();
             } else {
                 $this->bookings = Booking::period()
                 ->where('category', $category)
                 ->orderBy('date', $this->dateordering)
                 ->orderBy('id')
+                ->with('booking_category')
                 ->get();
             }
 
