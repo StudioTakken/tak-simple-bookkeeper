@@ -69,7 +69,7 @@
                                                 <button class="settingsbutton soft"><a
                                                         href="{{ route('clients.edit', $client) }}">Edit</a></button>
 
-                                                @if (count($client->invoices) == 0)
+                                                @if ($client->invoices_count == 0)
                                                     <form action="{{ route('clients.destroy', $client) }}"
                                                         method="POST">
                                                         @csrf

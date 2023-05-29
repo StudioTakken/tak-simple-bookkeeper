@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
+use Carbon\Carbon;
 use App\Models\Client;
 use App\Models\Invoice;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +19,8 @@ class InvoiceController extends Controller
     {
         //  $invoices = Invoice::all();
 
-        $invoices_period = Invoice::period()->get();
-        $invoices_open = Invoice::whereNull('date')->get();
+        $invoices_period = Invoice::period()->with('client')->get();
+        $invoices_open = Invoice::whereNull('date')->with('client')->get();
 
         // merge the two collections
         $invoices = $invoices_period->merge($invoices_open);
@@ -95,7 +93,7 @@ class InvoiceController extends Controller
             // get the higest invoice_nr and add 1
 
             // strip all non numeric characters
-            if (Invoice::where('invoice_nr', '!=', '')->latest()->first() == NULL) {
+            if (Invoice::where('invoice_nr', '!=', '')->latest()->first() == null) {
                 $sMaxInvoiceNr = 0;
             } else {
                 $sMaxInvoiceNr = (int)preg_replace('/[^0-9]/', '', Invoice::where('invoice_nr', '!=', '')->latest()->first()->invoice_nr);
@@ -184,7 +182,7 @@ class InvoiceController extends Controller
             $request->merge(['date' => date('Y-m-d')]);
         }
         if ($request->set_date_to_null == 1) {
-            $request->merge(['date' => NULL]);
+            $request->merge(['date' => null]);
         }
 
 
@@ -233,10 +231,10 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
 
         // set date to null
-        $invoice->date = NULL;
+        $invoice->date = null;
 
         // set exported to null
-        $invoice->exported = NULL;
+        $invoice->exported = null;
 
         // save the invoice
         $invoice->save();

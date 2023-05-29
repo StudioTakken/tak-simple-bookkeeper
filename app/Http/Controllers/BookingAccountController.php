@@ -17,7 +17,6 @@ use Psr\Container\ContainerExceptionInterface;
 
 class BookingAccountController extends Controller
 {
-
     public $balanceArray = [];
     public $balanceArrayExtern = [];
     public $balanceArrayNotInProvit = [];
@@ -37,7 +36,7 @@ class BookingAccountController extends Controller
 
 
     /**
-     * 
+     *
      * This method is called when the user selects a booking account.
      * The selected booking account is stored in the session and the
      * bookings for the account are loaded.
@@ -49,10 +48,8 @@ class BookingAccountController extends Controller
     {
 
         session(['method' => 'account.onaccount']);
-
         // get the bookingaccount on the slug
         $account = BookingAccount::where('slug', $sAccount)->first();
-
         // store the account in the session
         if (isset($account->named_id)) {
             session(['viewscope' => $account->named_id]);
@@ -71,11 +68,11 @@ class BookingAccountController extends Controller
 
 
     /**
-     * 
-     * @return View|Factory 
-     * @throws BindingResolutionException 
-     * @throws NotFoundExceptionInterface 
-     * @throws ContainerExceptionInterface 
+     *
+     * @return View|Factory
+     * @throws BindingResolutionException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
     public function balance()
     {
@@ -111,8 +108,6 @@ class BookingAccountController extends Controller
                 'start' => $start,
                 'stop' => $stop
             ]
-
-
         );
     }
 
@@ -194,7 +189,7 @@ class BookingAccountController extends Controller
 
     public function balanceXlsx()
     {
-        return Excel::download(new BalanceExport, 'balance.xlsx');
+        return Excel::download(new BalanceExport(), 'balance.xlsx');
     }
 
 

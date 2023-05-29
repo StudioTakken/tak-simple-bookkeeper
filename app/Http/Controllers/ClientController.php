@@ -9,7 +9,8 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::all();
+        /// $clients = Client::all();
+        $clients = Client::withCount('invoices')->get();
         return view('clients.index', compact('clients'));
     }
 
@@ -28,7 +29,7 @@ class ClientController extends Controller
 
 
 
-        $client = new Client;
+        $client = new Client();
 
         $client->email = $request->email;
         $client->company_name = $request->company_name;

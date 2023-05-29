@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // prevent Lazy loading
         // https://laravel.com/docs/8.x/eloquent-relationships#lazy-eager-loading
-        // Model::preventLazyLoading(!app()->isProduction());
+        Model::preventLazyLoading(!app()->isProduction());
 
 
     }
