@@ -12,7 +12,7 @@
         </div>
     </x-slot>
 
-    <div class="overflow-hidden bg-white ">
+    <div class="mb-20 overflow-hidden bg-white ">
 
 
         <div class="text-sm">
@@ -26,7 +26,7 @@
 
         <div>
 
-            <div class="grid grid-cols-3 mt-5 text-sm">
+            <div class="grid grid-cols-3 mt-5 mb-20 text-sm">
 
 
                 <div>
@@ -134,6 +134,7 @@
 
 
     <div class="text-xs sticky top-[100vh]">
-        {{ config('app.name') }} Version: {{ config('app.version') }}
+        {{ config('app.name') }} Version: {{ config('app.version') }}<br />
+    Laravel Version: {{ app()->version() }}
     </div>
 </x-app-layout>
