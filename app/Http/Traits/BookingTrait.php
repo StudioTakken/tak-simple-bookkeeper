@@ -39,7 +39,9 @@ trait BookingTrait
                     ->get();
             } else {
 
+
                 if ($this->include_children) {
+                    //   $this->bookings = Booking::period()->with('booking_category')->ofAccount($this->viewscope)
                     $this->bookings = Booking::period()->ofAccount($this->viewscope)
                     ->orderBy('date', $this->dateordering)
                     ->orderBy('invoice_nr')
@@ -102,8 +104,8 @@ trait BookingTrait
 
             $bookingAccount->start_balance =  BookingAccount::getBalance($this->viewscope, 'start');
             $bookingAccount->end_balance =  BookingAccount::getBalance($this->viewscope, 'end');
-        //    $bookingAccount->start_balance = number_format($bookingAccount->start_balance / 100, 2, ',', '.');
-        //   $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
+            //    $bookingAccount->start_balance = number_format($bookingAccount->start_balance / 100, 2, ',', '.');
+            //   $bookingAccount->end_balance = number_format($bookingAccount->end_balance / 100, 2, ',', '.');
         } else {
             $bookingAccount = new BookingAccount();
             $bookingAccount->start_balance = 0;
