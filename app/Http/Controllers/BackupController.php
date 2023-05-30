@@ -43,17 +43,6 @@ class BackupController extends Controller
         $output = array();
 
         exec($command, $output, $worked);
-        // switch ($worked) {
-        //     case 0:
-        //         $answer =  'Database ' . config('database.connections.mysql.database') . ' successfully exported';
-        //         break;
-        //     case 1:
-        //         $answer =  'There was a warning during the export';
-        //         break;
-        //     case 2:
-        //         $answer =  'There was an error during export.';
-        //         break;
-        // }
 
         // php 8 match
         $answer = match ($worked) {
