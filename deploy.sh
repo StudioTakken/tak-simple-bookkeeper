@@ -1,13 +1,20 @@
 #!/bin/bash
 
+
 # eerst keer: chmod 770 deploy.sh 
 
 php artisan down --refresh=15
 
 git pull
 
+# which php
+
+# php --version
+
+# /usr/local/bin/composer.phar --version
+
 # php composer.phar install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-composer install
+/usr/local/bin/composer.phar install
 
 php artisan migrate
 
