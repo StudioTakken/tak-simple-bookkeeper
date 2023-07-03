@@ -16,7 +16,6 @@ use App\Models\BookingCategory;
 
 class BookingsExport extends BookingController implements WithColumnFormatting, FromCollection, WithStyles, WithColumnWidths
 {
-
     use bookingTrait;
     use CompanyDetailsTrait;
 
@@ -64,12 +63,25 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
             'credit' => 'credit',
             'category' => 'Categorie',
             'cross_account' => 'Cross account',
+            'bank_original_amount' => 'Boeking origineel bedrag',
         ];
 
         $this->boldRows[] = count($aExcelRows);
 
 
         foreach ($this->bookings as $key => $booking) {
+
+
+
+            if (isset($booking->originals['amount'])) {
+                $booking->bank_original_amount = $booking->originals['polarity']*$booking->originals['amount'];
+            } else {
+                $booking->bank_original_amount = null;
+            }
+
+
+
+
 
             if ($booking->polarity == '-1') {
                 $booking->credit = $booking->amount;
@@ -92,6 +104,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
                 'credit' => $booking->credit / 100,
                 'category' => $sBookingCategory,
                 'cross_account' => $booking->cross_account,
+                'bank_original_amount' => $booking->bank_original_amount / 100,
             ];
         }
 
@@ -107,6 +120,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
             '5' => '=sum(E2:E' . (count($aExcelRows) - 1) . ')',
             '6' => '',
             '7' => '',
+            '8' => '',
         ];
 
 
@@ -133,6 +147,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
                 '5' => '',
                 '6' => '',
                 '7' => '',
+                '8' => '',
             ];
 
             $aExcelRows[] = [
@@ -143,6 +158,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
                 '5' => '',
                 '6' => '',
                 '7' => '',
+                '8' => '=sum(H2:H' . (count($aExcelRows) - 1) . ')',
             ];
         }
 
@@ -150,7 +166,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
         $aExcelRows[] = [''];
         $aExcelRows[] = [''];
 
-        # get the company details for the excel file 
+        # get the company details for the excel file
         $aCompanyRows = $this->getCompanyDetailsForAsExcellRows('3');
 
         // append the company details to the excel rows
@@ -171,13 +187,14 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
         return [
             'D' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
             'E' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'H' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
         foreach ($this->boldRows as $boldRow) {
-            $sheet->getStyle('A' . ($boldRow) . ':G' . $boldRow)->getFont()->setBold(true);
+            $sheet->getStyle('A' . ($boldRow) . ':H' . $boldRow)->getFont()->setBold(true);
         }
     }
 
@@ -192,6 +209,7 @@ class BookingsExport extends BookingController implements WithColumnFormatting, 
             'E' => 12,
             'F' => 20,
             'G' => 20,
+            'H' => 20,
 
         ];
     }
