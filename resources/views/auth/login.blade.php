@@ -42,7 +42,7 @@
                 <div class="flex items-center justify-between">
                     <label for="remember_me" class="inline-flex items-center">
                         <input id="remember_me" type="checkbox"
-                            class="text-takred-500 border-gray-300 rounded focus:border-takred-300 focus:ring focus:ring-takred-500 dark:border-gray-600 dark:bg-dark-eval-1 dark:focus:ring-offset-dark-eval-1"
+                            class="border-gray-300 rounded text-takred-500 focus:border-takred-300 focus:ring focus:ring-takred-500 dark:border-gray-600 dark:bg-dark-eval-1 dark:focus:ring-offset-dark-eval-1"
                             name="remember">
 
                         <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">

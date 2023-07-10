@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Booking;
 
 class InvoiceController extends Controller
 {
@@ -98,10 +99,23 @@ class InvoiceController extends Controller
             } else {
                 $sMaxInvoiceNr = (int)preg_replace('/[^0-9]/', '', Invoice::where('invoice_nr', '!=', '')->latest()->first()->invoice_nr);
             }
-
-
             $invoice->suggested_invoice_nr = (int)$sMaxInvoiceNr + 1;
         }
+
+
+
+        $invoice->nr_of_deb_bookings_alert = null;
+        // lets check howmany bookings there are with this invoice_nr
+        $bookings = Booking::where('invoice_nr', $invoice->invoice_nr)
+        ->where('account', 'debiteuren')
+        ->get();
+
+        if ($bookings->count() > 2) {
+            $invoice->nr_of_deb_bookings_alert = 'Het lijkt erop dat er teveel boekingen in debiteuren bestaan met dit rekeningnummer ('.$invoice->invoice_nr.'). Het zijn er totaal: '.$bookings->count().'.
+             <br />Graag even controleren...';
+        }
+
+
 
         // get the invoice and pass it to the view
         return view('invoices.edit', compact('invoice', 'details', 'clients'));
@@ -230,6 +244,18 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($id);
 
+
+        // lets check if there are bookings with this invoice_id and polirity is positive
+        $bookings = Booking::where('invoice_nr', $invoice->invoice_nr)
+        ->where('account', 'debiteuren')
+        // ->where('date', $invoice->date)
+        ->get();
+        // delete these bookings
+        foreach ($bookings as $booking) {
+            $booking->delete();
+        }
+
+
         // set date to null
         $invoice->date = null;
 
@@ -238,6 +264,8 @@ class InvoiceController extends Controller
 
         // save the invoice
         $invoice->save();
+
+
 
         // redirect to the invoice list
         //  return redirect()->route('invoices.index');

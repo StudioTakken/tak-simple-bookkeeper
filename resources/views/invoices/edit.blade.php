@@ -288,11 +288,20 @@
                 </form>
 
 
-
+                        @if ($invoice->nr_of_deb_bookings_alert) 
+                        <div class="mt-5 w-4/4 text-takred-500">
+                        {!! $invoice->nr_of_deb_bookings_alert !!}
+                        </div>
+                        @endif
 
 
                 <div class="flex">
                     @if ($invoice->exported)
+
+
+
+
+
                         <div class="w-2/4 mt-5">
                             <i>LET OP: Deze rekening is al geëxporteerd.<br />Je kunt de rekening niet meer
                                 aanpassen.</i>
@@ -334,9 +343,8 @@
                         <div class="w-2/4 mt-5 text-right">
                             <i>Ligt niet voor de hand omdat deze rekening al is geëxporteerd.<br />Weet wat je doet.</i>
 
-
                             <form action="{{ route('invoices.reset', $invoice->id) }}" method="POST"
-                                onsubmit="return confirm('{{ __('Hiermee wordt de rekening terug gezet op onaf. Weet wat je doet!') }}')">
+                                onsubmit="return confirm('{{ __('Hiermee wordt de rekening terug gezet op onaf. De booking wordt ook verwijderd. Weet wat je doet!') }}')">
                                 @csrf
                                 @method('POST')
                                 <button type="submit"

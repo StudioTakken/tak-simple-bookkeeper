@@ -31,7 +31,7 @@ trait BookingTrait
                     ->ofAccount($this->viewscope)
                     ->orderBy('date', $this->dateordering)
                     ->orderBy('id')
-                    ->where('parent_id', null)
+                  //  ->where('parent_id', null)
                     ->where(
                         function ($query) {
                             $query->where('description', 'like', '%' . $this->search . '%')
