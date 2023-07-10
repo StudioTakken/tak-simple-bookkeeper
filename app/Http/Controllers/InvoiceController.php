@@ -105,13 +105,9 @@ class InvoiceController extends Controller
 
 
         $invoice->nr_of_deb_bookings_alert = null;
-        // lets check howmany bookings there are with this invoice_nr
-        $bookings = Booking::where('invoice_nr', $invoice->invoice_nr)
-        ->where('account', 'debiteuren')
-        ->get();
-
-        if ($bookings->count() > 2) {
-            $invoice->nr_of_deb_bookings_alert = 'Het lijkt erop dat er teveel boekingen in debiteuren bestaan met dit rekeningnummer ('.$invoice->invoice_nr.'). Het zijn er totaal: '.$bookings->count().'.
+        if ($invoice->nr_of_debiteuren_bookings > 2) {
+            $invoice->nr_of_deb_bookings_alert = 'Het lijkt erop dat er teveel boekingen in debiteuren bestaan met dit rekeningnummer ('.$invoice->invoice_nr.'). 
+            Het zijn er totaal: '.$invoice->nr_of_debiteuren_bookings.'.
              <br />Graag even controleren...';
         }
 

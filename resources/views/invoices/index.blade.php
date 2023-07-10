@@ -44,7 +44,11 @@
                                         {{ __('Amount') }}</th>
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                        {{ __('VAT') }}</th>
+                                        {{ __('BTW') }}</th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                        {{ __('!') }}</th>
 
 
                                     <th scope="col"
@@ -71,6 +75,11 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ number_format($invoice->amount_vat / 100, 2, ',', '.') }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if ($invoice->nr_of_debiteuren_bookings > 2)
+                                            <span class="text-takred-500">{{ $invoice->nr_of_debiteuren_bookings }}!</span>
+                                            @endif
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap">
