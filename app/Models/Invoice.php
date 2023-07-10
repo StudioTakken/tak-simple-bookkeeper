@@ -44,4 +44,20 @@ class Invoice extends Model
             ->where('date', '>=', session('startDate'))
             ->where('date', '<=', session('stopDate'));
     }
+
+
+    public function getNrOfDebiteurenBookingsAttribute()
+    {
+
+        $bookingCount = Booking::where('invoice_nr', $this->invoice_nr)
+                    ->where('account', 'debiteuren')
+                    ->count();
+
+        return $bookingCount > 0 ? $bookingCount : false;
+
+    }
+
+
+
+
 }
