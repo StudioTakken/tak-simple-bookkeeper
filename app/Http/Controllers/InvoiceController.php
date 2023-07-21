@@ -217,7 +217,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
 
         // delete the file in the storage if it exists
-        if (Storage::exists($invoice->exported)) {
+        if ($invoice->exported and Storage::exists($invoice->exported)) {
             Storage::delete($invoice->exported);
         }
 
@@ -241,7 +241,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
 
 
-        // lets check if there are bookings with this invoice_id and polirity is positive
+        // lets check if there are bookings with this invoice_id
         $bookings = Booking::where('invoice_nr', $invoice->invoice_nr)
         ->where('account', 'debiteuren')
         // ->where('date', $invoice->date)

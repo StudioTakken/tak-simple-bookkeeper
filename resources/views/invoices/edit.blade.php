@@ -350,15 +350,17 @@
                                 <button type="submit"
                                     class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Reset') }}</button>
                             </form>
+                        </div>
 
+                        @else
+                            <div class="w-2/4 mt-5 text-right">
                             <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"
-                                onsubmit="return confirm('{{ __('Verwijderen ligt niet voor de hand omdat deze rekening al is geëxporteerd. Weet wat je doet!') }}')">
+                                onsubmit="return confirm('{{ __('Weet je zeker dat je deze rekeing wilt verwijderen?') }}')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
                                     class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Delete') }}</button>
                             </form>
-
                         </div>
                     @endif
 

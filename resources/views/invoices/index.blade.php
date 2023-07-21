@@ -40,10 +40,10 @@
                                         {{ __('Description') }}</th>
 
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase ">
                                         {{ __('Amount') }}</th>
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase ">
                                         {{ __('BTW') }}</th>
 
                                     <th scope="col"
@@ -70,10 +70,10 @@
 
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $invoice->description }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-4 text-right whitespace-nowrap">
                                             {{ number_format($invoice->amount / 100, 2, ',', '.') }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-4 text-right whitespace-nowrap">
                                             {{ number_format($invoice->amount_vat / 100, 2, ',', '.') }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">

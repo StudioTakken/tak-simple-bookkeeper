@@ -48,6 +48,9 @@
                                         City</th>
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                        Invoices</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                         Actions</th>
                                 </tr>
                             </thead>
@@ -61,6 +64,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $client->address }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $client->zip_code }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $client->city }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $client->invoices_count }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
 
                                             <div class="flex items-center">
