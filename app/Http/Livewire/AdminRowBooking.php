@@ -51,11 +51,11 @@ class AdminRowBooking extends Component
     public function listOfCrossCategorieForPulldown()
     {
 
-        $this->listOfCategories = cache()->remember('booking_categories', 120, function () {
+        $this->listOfCategories = cache()->remember('booking_categories', 60, function () {
             return BookingCategory::getAll();
         });
 
-        $this->listOfCrossCategoryAccounts = cache()->remember('booking_accounts', 120, function () {
+        $this->listOfCrossCategoryAccounts = cache()->remember('booking_accounts', 60, function () {
             // adding the accounts as links to accounts and category cross-posting
             $bookingAccounts = BookingAccount::getAll();
             // get the bookingCategory cross-posting
@@ -68,10 +68,10 @@ class AdminRowBooking extends Component
             return $bookingAccounts;
         });
 
-
-
     }
 
+
+    // niet meer nodig?
     public function calculateChildren()
     {
         // TODO optimaliseren
@@ -94,7 +94,8 @@ class AdminRowBooking extends Component
 
         // TODO optimaliseren
         $this->checkBalance();
-        $this->calculateChildren();
+        // TODO optimaliseren? Is niet meer nodig denk ik
+        // $this->calculateChildren();
 
         $this->amount = number_format($this->booking->amount / 100, 2, ',', '.');
         $this->description = $this->booking->description;
@@ -123,8 +124,8 @@ class AdminRowBooking extends Component
             $bookings = Booking::where('invoice_nr', $this->booking->invoice_nr)
             ->select('amount', 'cross_account', 'account')
             ->get();
-            $balance = 0;
 
+            $balance = 0;
 
             foreach ($bookings as $booking) {
 
@@ -134,8 +135,6 @@ class AdminRowBooking extends Component
 
                 $balance += $booking->amount;
             }
-
-
 
             if ($balance == 0) {
                 $this->balance = true;

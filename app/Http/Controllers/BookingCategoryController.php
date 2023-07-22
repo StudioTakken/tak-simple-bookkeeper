@@ -89,6 +89,17 @@ class BookingCategoryController extends Controller
             $totals['nBtwVerschil'] = $nBtwVerschil;
         }
 
+
+        // ddl(gettype($this->categoryList));
+
+        $totals_cats = Booking::period()
+            ->whereIn('category', $this->categoryList->pluck('id'))
+            ->selectRaw('category, sum(case when polarity = 1 then amount else 0 end) as debet, sum(case when polarity = -1 then amount else 0 end) as credit')
+            ->groupBy('category')
+            ->get()
+            ->pluck(null, 'category');
+
+
         foreach ($this->categoryList as $category) {
 
             // if $category_key is in accountList, skip it
@@ -105,10 +116,13 @@ class BookingCategoryController extends Controller
                 $category->name = 'onbekend';
             }
 
-
-            $debet = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '1')->sum('amount');
-            $credit = Booking::period()->where('category', $category->id)->orderBy('date')->orderBy('id')->where('polarity', '-1')->sum('amount');
-
+            if (isset($totals_cats[$category->id])) {
+                $debet = $totals_cats[$category->id]['debet'];
+                $credit = $totals_cats[$category->id]['credit'];
+            } else {
+                $debet = 0;
+                $credit = 0;
+            }
 
 
             if ($debet > 0) {
