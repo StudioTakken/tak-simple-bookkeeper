@@ -77,7 +77,7 @@ class Booking extends Model
     public static function insertData($insertData)
     {
 
-        $booking = new Booking;
+        $booking = new Booking();
 
         $booking->date              = $insertData['date'];
         $booking->account           = $insertData['account'];
@@ -186,7 +186,7 @@ class Booking extends Model
 
 
         // create a new booking
-        $newBooking = new Booking;
+        $newBooking = new Booking();
         $newBooking->parent_id = $this->id;
         $newBooking->date = $this->date;
         $newBooking->account = $this->account;
@@ -234,7 +234,7 @@ class Booking extends Model
             $bookingCategory = BookingCategory::where('slug', 'btw-uit')->first();
         }
 
-        $newBooking = new Booking;
+        $newBooking = new Booking();
         $newBooking->parent_id = $this->id;
         $newBooking->date = $this->date;
         $newBooking->account = $this->account;
@@ -267,7 +267,7 @@ class Booking extends Model
         $this->remarks = $this->remarks  . ' (inc: ' . $inc_amount . ')';
         $this->save();
 
-        // create a new booking 
+        // create a new booking
         $btw = $this->amount * $perc / 100;
 
         // get the bookingCategory named btw or btw-uit
@@ -277,7 +277,7 @@ class Booking extends Model
             $bookingCategory = BookingCategory::where('slug', 'btw-uit')->first();
         }
 
-        $newBooking = new Booking;
+        $newBooking = new Booking();
         $newBooking->parent_id = $this->id;
         $newBooking->date = $this->date;
         $newBooking->account = $this->account;
@@ -376,10 +376,24 @@ class Booking extends Model
     {
 
         $viewscope = session('viewscope');
-
         if ($this->cross_account) {
-            $bookingCrossAccount = BookingAccount::where('named_id', $this->cross_account)->first();
+            // new
+            $cacheKey = 'booking_cross_account_' .$this->cross_account;
+            $bookingCrossAccount = cache()->remember($cacheKey, 60, function () {
+                return BookingAccount::where('named_id', $this->cross_account)
+                ->select('named_id')
+                ->first();
+            });
+
+            // old
+            // $bookingCrossAccount =  BookingAccount::where('named_id', $this->cross_account)
+            // ->select('named_id')
+            // ->first();
         }
+
+
+
+
 
         if (
             isset($bookingCrossAccount)
@@ -396,12 +410,12 @@ class Booking extends Model
 
 
     /**
-     * 
-     * @param string $pAccount 
-     * @param string $debetOrCredit 
+     *
+     * @param string $pAccount
+     * @param string $debetOrCredit
      * @param string $period    start or end
-     * @return mixed 
-     * 
+     * @return mixed
+     *
      */
     public static function getDebetOrCredit($pAccount, $debetOrCredit, $period = '')
     {

@@ -50,6 +50,7 @@ class Invoice extends Model
     {
 
         $bookingCount = Booking::where('invoice_nr', $this->invoice_nr)
+                    ->select('account')
                     ->where('account', 'debiteuren')
                     ->count();
 

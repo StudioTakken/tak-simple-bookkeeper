@@ -49,7 +49,8 @@ class BookingAccountController extends Controller
 
         session(['method' => 'account.onaccount']);
         // get the bookingaccount on the slug
-        $account = BookingAccount::where('slug', $sAccount)->first();
+        $account = BookingAccount::where('slug', $sAccount)
+        ->first();
         // store the account in the session
         if (isset($account->named_id)) {
             session(['viewscope' => $account->named_id]);

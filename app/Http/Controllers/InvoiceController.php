@@ -20,8 +20,12 @@ class InvoiceController extends Controller
     {
         //  $invoices = Invoice::all();
 
-        $invoices_period = Invoice::period()->with('client')->get();
-        $invoices_open = Invoice::whereNull('date')->with('client')->get();
+        $invoices_period = Invoice::period()
+        ->with('client')
+        ->get();
+        $invoices_open = Invoice::whereNull('date')
+        ->with('client')
+        ->get();
 
         // merge the two collections
         $invoices = $invoices_period->merge($invoices_open);

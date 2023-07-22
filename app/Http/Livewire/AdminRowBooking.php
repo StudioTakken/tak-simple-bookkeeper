@@ -51,22 +51,33 @@ class AdminRowBooking extends Component
     public function listOfCrossCategorieForPulldown()
     {
 
-        $this->listOfCategories = BookingCategory::getAll();
+        $this->listOfCategories = cache()->remember('booking_categories', 120, function () {
+            return BookingCategory::getAll();
+        });
 
-        // adding the accounts as links to accounts and category cross-posting
-        $bookingAccounts = BookingAccount::getAll();
-        // get the bookingCategory cross-posting
-        $crossCategory = BookingCategory::where('slug', 'cross-posting')->first();
+        $this->listOfCrossCategoryAccounts = cache()->remember('booking_accounts', 120, function () {
+            // adding the accounts as links to accounts and category cross-posting
+            $bookingAccounts = BookingAccount::getAll();
+            // get the bookingCategory cross-posting
+            $crossCategory = BookingCategory::where('slug', 'cross-posting')->first();
 
-        foreach ($bookingAccounts as $bookingAccount) {
-            $bookingAccount->category = $crossCategory->id;
-        }
-        $this->listOfCrossCategoryAccounts = $bookingAccounts;
+            foreach ($bookingAccounts as $bookingAccount) {
+                $bookingAccount->category = $crossCategory->id;
+            }
+
+            return $bookingAccounts;
+        });
+
+
+
     }
 
     public function calculateChildren()
     {
-        $this->hasChildren = Booking::where('parent_id', $this->booking->id)->exists();
+        // TODO optimaliseren
+        $this->hasChildren = Booking::where('parent_id', $this->booking->id)
+        ->select('id')
+        ->exists();
         if ($this->hasChildren) {
             $this->booking->children = Booking::period()->orderBy('date')->orderBy('id')->where('parent_id', $this->booking->id)->get();
         }
@@ -81,8 +92,10 @@ class AdminRowBooking extends Component
     public function beforeRender()
     {
 
+        // TODO optimaliseren
         $this->checkBalance();
         $this->calculateChildren();
+
         $this->amount = number_format($this->booking->amount / 100, 2, ',', '.');
         $this->description = $this->booking->description;
         $this->remarks = $this->booking->remarks;
@@ -93,20 +106,23 @@ class AdminRowBooking extends Component
     }
 
     /**
-     * 
+     *
      * check the balance of the bookings with the same invoice_nr
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function checkBalance()
     {
+
 
         $this->balance = false;
         // is there an invoice_nr?
         if ($this->booking->invoice_nr != '') {
 
             // get all bookings with this invoice_nr
-            $bookings = Booking::where('invoice_nr', $this->booking->invoice_nr)->get();
+            $bookings = Booking::where('invoice_nr', $this->booking->invoice_nr)
+            ->select('amount', 'cross_account', 'account')
+            ->get();
             $balance = 0;
 
 
