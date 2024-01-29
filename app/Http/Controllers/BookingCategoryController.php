@@ -211,7 +211,11 @@ class BookingCategoryController extends Controller
         }
 
         // so the total per day is?
-        $summary['totals']['resultPerDay'] = $summary['totals']['result'] / $nPeriodDays;
+        if ($nPeriodDays != 0) {
+            $summary['totals']['resultPerDay'] = $summary['totals']['result'] / $nPeriodDays;
+        } else {
+            $summary['totals']['resultPerDay'] = 0;
+        }
 
         // so the total per month is?
         $summary['totals']['resultPerMonth'] = $summary['totals']['resultPerDay'] * 30;
