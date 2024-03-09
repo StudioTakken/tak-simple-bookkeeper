@@ -272,7 +272,11 @@ class Booking extends Model
 
         // get the bookingCategory named btw or btw-uit
         if ($inorout == 'in') {
-            $bookingCategory = BookingCategory::where('slug', 'btw')->first();
+            if ($perc == 21) {
+                $bookingCategory = BookingCategory::where('slug', 'btw')->first();
+            } else {
+                $bookingCategory = BookingCategory::where('slug', 'btw9')->first();
+            }
         } else {
             $bookingCategory = BookingCategory::where('slug', 'btw-uit')->first();
         }
@@ -282,7 +286,7 @@ class Booking extends Model
         $newBooking->date = $this->date;
         $newBooking->account = $this->account;
         $newBooking->contra_account = $this->contra_account;
-        $newBooking->description = $this->description . ' 21% btw';
+        $newBooking->description = $this->description . ' ' . $perc . '% btw';
         $newBooking->plus_min = $this->plus_min;
         $newBooking->polarity = $this->polarity;
         $newBooking->invoice_nr = $this->invoice_nr;
@@ -378,11 +382,11 @@ class Booking extends Model
         $viewscope = session('viewscope');
         if ($this->cross_account) {
             // new
-            $cacheKey = 'booking_cross_account_' .$this->cross_account;
+            $cacheKey = 'booking_cross_account_' . $this->cross_account;
             $bookingCrossAccount = cache()->remember($cacheKey, 60, function () {
                 return BookingAccount::where('named_id', $this->cross_account)
-                ->select('named_id')
-                ->first();
+                    ->select('named_id')
+                    ->first();
             });
 
             // old

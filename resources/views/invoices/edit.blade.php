@@ -206,7 +206,7 @@
                             <x-label for="vat">BTW</x-label>
                             <select name="vat" id="vat" class="block w-full mt-1">
                                 <option value="0" @if ($invoice->vat == 0) selected @endif>0 %</option>
-                                <option value="6" @if ($invoice->vat == 9) selected @endif>9 %</option>
+                                <option value="9" @if ($invoice->vat == 9) selected @endif>9 %</option>
                                 <option value="21" @if ($invoice->vat == 21) selected @endif>21 %</option>
                             </select>
                         </div>
@@ -288,11 +288,11 @@
                 </form>
 
 
-                        @if ($invoice->nr_of_deb_bookings_alert) 
-                        <div class="mt-5 w-4/4 text-takred-500">
+                @if ($invoice->nr_of_deb_bookings_alert)
+                    <div class="mt-5 w-4/4 text-takred-500">
                         {!! $invoice->nr_of_deb_bookings_alert !!}
-                        </div>
-                        @endif
+                    </div>
+                @endif
 
 
                 <div class="flex">
@@ -351,9 +351,8 @@
                                     class="text-red-600 hover:text-red-900 settingsbutton soft">{{ __('Reset') }}</button>
                             </form>
                         </div>
-
-                        @else
-                            <div class="w-2/4 mt-5 text-right">
+                    @else
+                        <div class="w-2/4 mt-5 text-right">
                             <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"
                                 onsubmit="return confirm('{{ __('Weet je zeker dat je deze rekeing wilt verwijderen?') }}')">
                                 @csrf
