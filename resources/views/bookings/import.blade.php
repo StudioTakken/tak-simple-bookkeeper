@@ -1,7 +1,9 @@
 <x-app-layout>
 
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+    <script src="{{ asset('js/dropzone.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/dropzone.min.css') }}" type="text/css" />
+
     <x-slot name="header">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <h2 class="text-xl font-semibold leading-tight">
