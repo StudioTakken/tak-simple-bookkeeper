@@ -142,13 +142,37 @@ error-fader @endif
 
             {{-- @if ($booking->category != 'btw') --}}
             <tr class=''>
-                <td class="px-2 text-sm align-top border border-slate-300">btw </td>
+                <td class="px-2 text-sm align-top border border-slate-300">btw 21%</td>
                 <td class="px-2 align-top border border-slate-300">
                     <button class="btn btn-red btn-small" wire:click="splitBookingBtw"><i class="fa fa-share-alt"
                             aria-hidden="true"></i> btw 21%
                         uitsplitsen</button>
                 </td>
             </tr>
+
+            {{-- only show this ig there is a category called btw9 --}}
+            @if (
+                $this->listOfCategories->contains(function ($category) {
+                    return $category->slug == 'btw9';
+                }) &&
+                    $this->listOfCategories->contains(function ($category) {
+                        return $category->slug == 'btw-uit9';
+                    }))
+                <tr class=''>
+                    <td class="px-2 text-sm align-top border border-slate-300">btw 9%</td>
+                    <td class="px-2 align-top border border-slate-300">
+                        <button class="btn btn-red btn-small" wire:click="splitBookingBtw9perc"><i
+                                class="fa fa-share-alt" aria-hidden="true"></i> btw 9%
+                            uitsplitsen</button>
+                    </td>
+                </tr>
+            @else
+                <tr class=''>
+                    <td class="px-2 text-sm align-top border border-slate-300">voeg categorie btw9 en btw-uit9 toe</td>
+
+            @endif
+
+
             <tr class=''>
                 <td class="px-2 align-top border border-slate-300"> <input class="text-right numberinputfield"
                         type="text" wire:model="splitOffAmount" placeholder="00,00" /> </td>

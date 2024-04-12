@@ -21,7 +21,7 @@ class AdminRowBooking extends Component
     public $cross_account = '';
     public $invoice_nr;
     public $balance;
-    public $listOfCategories = [];
+    public $listOfCategories;
     public $listOfCrossCategoryAccounts = [];
     public $active;
 
@@ -67,7 +67,6 @@ class AdminRowBooking extends Component
 
             return $bookingAccounts;
         });
-
     }
 
 
@@ -76,8 +75,8 @@ class AdminRowBooking extends Component
     {
         // TODO optimaliseren
         $this->hasChildren = Booking::where('parent_id', $this->booking->id)
-        ->select('id')
-        ->exists();
+            ->select('id')
+            ->exists();
         if ($this->hasChildren) {
             $this->booking->children = Booking::period()->orderBy('date')->orderBy('id')->where('parent_id', $this->booking->id)->get();
         }
@@ -122,8 +121,8 @@ class AdminRowBooking extends Component
 
             // get all bookings with this invoice_nr
             $bookings = Booking::where('invoice_nr', $this->booking->invoice_nr)
-            ->select('amount', 'cross_account', 'account')
-            ->get();
+                ->select('amount', 'cross_account', 'account')
+                ->get();
 
             $balance = 0;
 
@@ -225,11 +224,22 @@ class AdminRowBooking extends Component
     {
 
         if ($this->booking->polarity == '1') {
-            $ok = $this->booking->splitBookingBtw('in');
+            $ok = $this->booking->splitBookingBtw('in', 21);
         } else {
-            $ok = $this->booking->splitBookingBtw('out');
+            $ok = $this->booking->splitBookingBtw('out', 21);
         }
-        // $ok = $this->booking->splitBookingBtw('out');
+        $this->blink($ok);
+        $this->emit('refreshBookings');
+    }
+
+    public function splitBookingBtw9perc()
+    {
+
+        if ($this->booking->polarity == '1') {
+            $ok = $this->booking->splitBookingBtw('in', 9);
+        } else {
+            $ok = $this->booking->splitBookingBtw('out', 9);
+        }
         $this->blink($ok);
         $this->emit('refreshBookings');
     }

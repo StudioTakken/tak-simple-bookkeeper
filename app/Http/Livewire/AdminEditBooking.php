@@ -26,6 +26,7 @@ class AdminEditBooking extends AdminRowBooking
     {
 
         $this->beforeRender();
+
         return view('livewire.admin-edit-booking');
     }
 

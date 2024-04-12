@@ -211,12 +211,12 @@ class Booking extends Model
         return $newBooking->save();
     }
 
-    public function splitBookingBtw($inorout = 'in')
+    public function splitBookingBtw($inorout = 'in', $perc = 21)
     {
 
         $original_amount = $this->amount;
-        $this->amount = $this->amount / 121 * 100;
-        $btw = (int)$this->amount * 0.21;
+        $this->amount = $this->amount / (100 + $perc) * 100;
+        $btw = (int)$this->amount * ($perc / 100);
 
         // format $original_amount to 2 decimals
         $original_amount = number_format($original_amount / 100, 2, '.', '');
@@ -224,14 +224,18 @@ class Booking extends Model
         $this->remarks = $this->remarks  . ' (inc: ' . $original_amount . ')';
         $this->save();
 
-        // create a new booking for the btw
-
         // get the bookingCategory named btw or btw-uit
         if ($inorout == 'in') {
 
             $bookingCategory = BookingCategory::where('slug', 'btw')->first();
+            if ($perc == 9) {
+                $bookingCategory = BookingCategory::where('slug', 'btw9')->first();
+            }
         } else {
             $bookingCategory = BookingCategory::where('slug', 'btw-uit')->first();
+            if ($perc == 9) {
+                $bookingCategory = BookingCategory::where('slug', 'btw-uit9')->first();
+            }
         }
 
         $newBooking = new Booking();
@@ -239,7 +243,7 @@ class Booking extends Model
         $newBooking->date = $this->date;
         $newBooking->account = $this->account;
         $newBooking->contra_account = $this->contra_account;
-        $newBooking->description = $this->description . ' 21% btw';
+        $newBooking->description = $this->description . ' ' . $perc . '% btw';
         $newBooking->plus_min = $this->plus_min;
         $newBooking->polarity = $this->polarity;
         $newBooking->invoice_nr = $this->invoice_nr;
