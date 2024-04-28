@@ -92,9 +92,18 @@ class BackupController extends Controller
         // remove the .gz extension from the file name
         $extract_file_name = str_replace('.gz', '', $extract_file_name);
 
+
         // restore the database
-        $command = 'mysql --user=' . config('database.connections.mysql.username') . ' --password=' . config('database.connections.mysql.password') . ' --binary-mode=1  ' . config('database.connections.mysql.database') . ' < ' . storage_path() . '/app/backup/' . $extract_file_name;
+        $command = config('database.mysql_path').' --user=' . config('database.connections.mysql.username') . ' --password=' . config('database.connections.mysql.password') . ' --binary-mode=1  ' . config('database.connections.mysql.database') . ' < ' . storage_path() . '/app/backup/' . $extract_file_name;
         exec($command, $output, $returnVar);
+
+        if ($returnVar !== 0) {
+            echo "Command failed with error code: $returnVar <br />";
+            print "Gebruik iets als MYSQL_PATH='/Applications/MAMP/Library/bin/mysql' in .env file om het pad naar mysql in te stellen. <br />";
+            print_r($output); // Print any output captured from the command
+            exit;
+        }
+
 
         // remove the extracted file
         File::delete(storage_path() . '/app/backup/' . $extract_file_name);

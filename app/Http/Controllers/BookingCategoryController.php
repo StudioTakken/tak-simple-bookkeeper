@@ -77,11 +77,15 @@ class BookingCategoryController extends Controller
 
             // get the category wiht named_id = btw
             $btw_cat = BookingCategory::where('named_id', 'btw')->first();
+            $btw9_cat = BookingCategory::where('named_id', 'btw9')->first();
             $btw_uit_cat = BookingCategory::where('named_id', 'btw-uit')->first();
+            $btw9_uit_cat = BookingCategory::where('named_id', 'btw-uit9')->first();
 
             // get the sum of the bookings for this category
             $nBtwDebet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+            $nBtwDebet += Booking::period()->where('category', $btw9_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
             $nBtwCredit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+            $nBtwCredit += Booking::period()->where('category', $btw9_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
             $nBtwVerschil = $nBtwDebet - $nBtwCredit;
 
             $totals['nBtwDebet'] = $nBtwDebet;
