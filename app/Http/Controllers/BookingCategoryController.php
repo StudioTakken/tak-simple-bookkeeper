@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 
 class BookingCategoryController extends Controller
 {
-    public $categoryList = [];
+    public $categoryList ;
     public $accountList = [];
     public $filter = false;
 
@@ -65,7 +65,7 @@ class BookingCategoryController extends Controller
             session(['filter' => $filter]);
         }
 
-        $this->setCategoryList($filter);
+        $this->setCategoryList();
 
         $summary = [];
         $totals = [];
@@ -82,10 +82,18 @@ class BookingCategoryController extends Controller
             $btw9_uit_cat = BookingCategory::where('named_id', 'btw-uit9')->first();
 
             // get the sum of the bookings for this category
-            $nBtwDebet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
-            $nBtwDebet += Booking::period()->where('category', $btw9_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
-            $nBtwCredit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
-            $nBtwCredit += Booking::period()->where('category', $btw9_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+            if ( $btw_cat) {
+                $nBtwDebet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+            }
+            if ($btw9_cat) {
+                $nBtwDebet += Booking::period()->where('category', $btw9_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+            }
+            if( $btw_uit_cat){
+                $nBtwCredit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+            }
+            if ($btw9_uit_cat) {
+                $nBtwCredit += Booking::period()->where('category', $btw9_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+            }
             $nBtwVerschil = $nBtwDebet - $nBtwCredit;
 
             $totals['nBtwDebet'] = $nBtwDebet;
@@ -94,7 +102,7 @@ class BookingCategoryController extends Controller
         }
 
 
-        // ddl(gettype($this->categoryList));
+
 
         $totals_cats = Booking::period()
             ->whereIn('category', $this->categoryList->pluck('id'))
@@ -105,6 +113,11 @@ class BookingCategoryController extends Controller
 
 
         foreach ($this->categoryList as $category) {
+
+            // cross-posting altijd overslaan?
+            // if ($category->slug == 'cross-posting') {
+            //     continue;
+            // }
 
             // if $category_key is in accountList, skip it
             if ($filter == 'venw' and $category->loss_profit_overview == 0) {
