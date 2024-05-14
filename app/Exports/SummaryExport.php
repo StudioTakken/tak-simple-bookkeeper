@@ -36,7 +36,8 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
         $summaryForExcel = [];
         $summaryForExcel[$rn]['A'] = 'Samenvatting ' . $this->filterNames[$this->filter];
         $rn++;
-
+        $summaryForExcel[$rn]['A'] = (session('startDate') . ' - ' .session('stopDate'));
+        $rn++;
         $summaryForExcel[$rn] = ['A' => '', 'B' => '', 'C' => '', 'D' => ''];
         $rn++;
 
@@ -172,7 +173,7 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
 
 
 
-
+ddl($summaryForExcel);
 
 
 

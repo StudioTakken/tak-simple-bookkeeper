@@ -59,7 +59,6 @@ class BookingCategoryController extends Controller
     public function getSummary($filter = false)
     {
 
-
         if ($filter == false) {
             $filter = 'venw';
             session(['filter' => $filter]);
