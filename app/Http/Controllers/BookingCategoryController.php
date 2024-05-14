@@ -114,9 +114,9 @@ class BookingCategoryController extends Controller
         foreach ($this->categoryList as $category) {
 
             // cross-posting altijd overslaan?
-            // if ($category->slug == 'cross-posting') {
-            //     continue;
-            // }
+            if ($category->slug == 'cross-posting') {
+                continue;
+            }
 
             // if $category_key is in accountList, skip it
             if ($filter == 'venw' and $category->loss_profit_overview == 0) {
