@@ -25,32 +25,38 @@ class BookingAccount extends Model
 
 
     /**
-     * 
-     * Return the full list of accounts from database and cache it  
+     *
+     * Return the full list of accounts from database and cache it
      * Cache the database results that are often accessed but seldom changed
-     * 
-     * @return array 
+     *
+     * @return object
      */
     public static function getAll()
     {
 
         // Cache::forget('all_the_booking_accounts');
-        $booking_accounts = Cache::rememberForever('all_the_booking_accounts', function () {
+
+        // Cache Duration: The second argument, 10, specifies the duration (in minutes) for which the data should be cached.
+        $booking_accounts = Cache::remember('all_the_booking_accounts', 10, function () {
             return self::all()->sortBy('name');
         });
+
+        //   $booking_accounts = Cache::rememberForever('all_the_booking_accounts', function () {
+        // return self::all()->sortBy('name');
+        //   });
+
         return $booking_accounts;
     }
 
 
     /**
-     * 
+     *
      * @param string $period    start or end
-     * @return mixed 
-     * 
+     * @return mixed
+     *
      */
     public function balance($period)
     {
-
         $debet = Booking::getDebetOrCredit($this->named_id, 'debet', $period);
         $credit = Booking::getDebetOrCredit($this->named_id, 'credit', $period);
 
@@ -63,10 +69,10 @@ class BookingAccount extends Model
 
 
     /**
-     * 
+     *
      * @param string $period    start or end
-     * @return mixed 
-     * 
+     * @return mixed
+     *
      */
     public static function getBalance($named_id, $period)
     {

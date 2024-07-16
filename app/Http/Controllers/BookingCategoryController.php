@@ -25,13 +25,11 @@ class BookingCategoryController extends Controller
 
     public function oncategory($sCategory)
     {
-
         session(['method' => 'oncategory']);
 
         $oCategory = BookingCategory::where('slug', $sCategory)->first();
 
         if ($oCategory) {
-
             session(['viewscope' => $oCategory->id]);
             return view('bookings.index', ['method' => 'oncategory', 'include_children' => false, 'category' => $oCategory]);
         } else {
@@ -58,7 +56,6 @@ class BookingCategoryController extends Controller
 
     public function getSummary($filter = false)
     {
-
         if ($filter == false) {
             $filter = 'venw';
             session(['filter' => $filter]);
@@ -81,21 +78,22 @@ class BookingCategoryController extends Controller
             $btw9_uit_cat = BookingCategory::where('named_id', 'btw-uit9')->first();
 
             // get the sum of the bookings for this category
-            if ( $btw_cat) {
+            if ($btw_cat) {
                 $nBtwDebet = Booking::period()->where('category', $btw_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
             }
             if ($btw9_cat) {
-                $nBtwDebet += Booking::period()->where('category', $btw9_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
+                $nBtwDebet9 = Booking::period()->where('category', $btw9_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
             }
-            if( $btw_uit_cat){
+            if ($btw_uit_cat) {
                 $nBtwCredit = Booking::period()->where('category', $btw_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
             }
             if ($btw9_uit_cat) {
                 $nBtwCredit += Booking::period()->where('category', $btw9_uit_cat->id)->orderBy('date')->orderBy('id')->sum('amount');
             }
-            $nBtwVerschil = $nBtwDebet - $nBtwCredit;
+            $nBtwVerschil = ($nBtwDebet + $nBtwDebet9) - $nBtwCredit;
 
             $totals['nBtwDebet'] = $nBtwDebet;
+            $totals['nBtwDebet9'] = $nBtwDebet9;
             $totals['nBtwCredit'] = $nBtwCredit;
             $totals['nBtwVerschil'] = $nBtwVerschil;
         }

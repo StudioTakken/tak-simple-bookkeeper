@@ -88,9 +88,6 @@
 
 
         @if (session()->get('filter') == 'venw')
-           
-        
-        
             <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16 font-bold">
                 <div class="grid w-1/2 grid-cols-2 gap-4">
                     <div>
@@ -113,7 +110,7 @@
 
 
 
-        
+
             <div class="flex items-start w-4/6 grid-cols-2 gap-8 mt-16">
                 <div class="grid w-1/2 grid-cols-2 gap-4">
                     <div>
@@ -133,7 +130,7 @@
                     </div>
                 </div>
             </div>
-        
+
 
             <div class="flex items-start w-4/6 grid-cols-2 gap-8">
                 <div class="grid w-1/2 grid-cols-2">
@@ -154,7 +151,6 @@
                     </div>
                 </div>
             </div>
-
         @endif
 
 
@@ -174,7 +170,7 @@
 
                 <div class="grid w-1/2 grid-cols-2">
                     <div>
-                        BTW op inkomsten
+                        BTW op inkomsten (21%)
                     </div>
                     <div class='font-mono text-right'>
                         {{ number_format($summary['totals']['nBtwDebet'] / 100, 2, ',', '.') }}
@@ -183,6 +179,28 @@
 
             </div>
 
+            @if ($summary['totals']['nBtwDebet9'] > 0)
+                <div class="flex items-start w-4/6 grid-cols-2 gap-8 font-bold">
+                    <div class="grid w-1/2 grid-cols-2">
+                        <div>
+
+                        </div>
+                        <div class='font-mono text-right'>
+
+                        </div>
+                    </div>
+
+                    <div class="grid w-1/2 grid-cols-2">
+                        <div>
+                            BTW op inkomsten (9%)
+                        </div>
+                        <div class='font-mono text-right'>
+                            {{ number_format($summary['totals']['nBtwDebet9'] / 100, 2, ',', '.') }}
+                        </div>
+                    </div>
+
+                </div>
+            @endif
 
             <div class="flex items-start w-4/6 grid-cols-2 gap-8 font-bold">
                 <div class="grid w-1/2 grid-cols-2 gap-4">

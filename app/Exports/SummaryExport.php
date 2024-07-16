@@ -13,7 +13,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class SummaryExport extends BookingCategoryController implements WithColumnFormatting, FromCollection, WithStyles, WithColumnWidths
 {
-
     use CompanyDetailsTrait;
 
     public $summaryForExcel = [];
@@ -57,7 +56,6 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
             if ($listname == 'debet') {
                 $rn =  $startRowBalance;
                 foreach ($list as $key => $row) {
-
                     if (!isset($summaryForExcel[$rn])) {
                         $summaryForExcel[$rn] = [];
                         $summaryForExcel[$rn]['A'] = '';
@@ -79,7 +77,6 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
             if ($listname == 'credit') {
                 $rn =  $startRowBalance;
                 foreach ($list as $key => $row) {
-
                     if (!isset($summaryForExcel[$rn])) {
                         $summaryForExcel[$rn] = [];
                         $summaryForExcel[$rn]['A'] = '';
@@ -107,7 +104,6 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
 
 
             if ($listname == 'totals') {
-
                 $this->boldRows[] = $rn;
                 $summaryForExcel[$rn] = [];
                 $summaryForExcel[$rn]['A'] = 'Totaal In';
@@ -145,8 +141,15 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
             $this->boldRows[] = $rn;
             $summaryForExcel[$rn]['A'] = '';
             $summaryForExcel[$rn]['B'] = '';
-            $summaryForExcel[$rn]['C'] = 'BTW op inkomsten';
+            $summaryForExcel[$rn]['C'] = 'BTW op inkomsten 21%';
             $summaryForExcel[$rn]['D'] = ($list['nBtwDebet']) / 100;
+            $rn++;
+
+            $this->boldRows[] = $rn;
+            $summaryForExcel[$rn]['A'] = '';
+            $summaryForExcel[$rn]['B'] = '';
+            $summaryForExcel[$rn]['C'] = 'BTW op inkomsten 9%';
+            $summaryForExcel[$rn]['D'] = ($list['nBtwDebet9']) / 100;
             $rn++;
 
             $this->boldRows[] = $rn;
@@ -165,7 +168,7 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
         }
 
 
-        # get the company details for the excel file 
+        # get the company details for the excel file
         $aCompanyRows = $this->getCompanyDetailsForAsExcellRows('1');
 
         // append the company details to the balance array
@@ -173,7 +176,7 @@ class SummaryExport extends BookingCategoryController implements WithColumnForma
 
 
 
-ddl($summaryForExcel);
+        ddl($summaryForExcel);
 
 
 
@@ -194,7 +197,6 @@ ddl($summaryForExcel);
 
     public function styles(Worksheet $sheet)
     {
-
         foreach ($this->boldRows as $boldRow) {
             $sheet->getStyle('A' . ($boldRow - 1) . ':D' . $boldRow)->getFont()->setBold(true);
         }
