@@ -70,6 +70,10 @@ class BookingCategoryController extends Controller
         $totals['credit'] = 0;
 
         if ($filter == 'btw') {
+            $nBtwDebet=0;
+            $nBtwDebet9=0;
+            $nBtwCredit=0;
+            $nBtwVerschil=0;
 
             // get the category wiht named_id = btw
             $btw_cat = BookingCategory::where('named_id', 'btw')->first();
