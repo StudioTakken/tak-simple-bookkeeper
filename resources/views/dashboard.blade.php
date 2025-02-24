@@ -135,6 +135,7 @@
 
     <div class="text-xs sticky top-[100vh]">
         {{ config('app.name') }} Version: {{ config('app.version') }}<br />
-    Laravel Version: {{ app()->version() }}
+        Laravel Version: {{ app()->version() }}<br />
+        PHP Version: {{ phpversion() }}
     </div>
 </x-app-layout>

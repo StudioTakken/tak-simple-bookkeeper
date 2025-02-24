@@ -110,6 +110,7 @@
 
                     <div class="mt-20">
 
+                        <div class="text-right">Vul aantal (uur) en (uur)tarief in, óf een vast bedrag.</div>
 
                         @if ($details)
 
@@ -117,31 +118,31 @@
                                 <div class="flex w-full mt-4 space-x-4">
 
                                     <div class="w-1/12">
-                                        <x-label for="item_nr">Item_nr</x-label>
+                                        <x-label for="item_nr">Item nr</x-label>
                                         <x-input id="item_nr" class="block w-full mt-1" type="text"
                                             name="items[{{ $detail->item_nr }}][item_nr]"
                                             value="{{ $detail->item_nr }}" disabled />
                                     </div>
                                     <div class="w-9/12">
-                                        <x-label for="description">description</x-label>
+                                        <x-label for="description">Omschrijving</x-label>
                                         <x-input id="description" class="block w-full mt-1" type="text"
                                             maxlength="100" name="items[{{ $detail->item_nr }}][description]"
                                             value="{{ $detail->description }}" />
                                     </div>
                                     <div class="w-1/12">
-                                        <x-label for="number" class="text-right">number</x-label>
+                                        <x-label for="number" class="text-right">Aantal</x-label>
                                         <x-input id="number" class="block w-full mt-1 text-right" type="text"
                                             name="items[{{ $detail->item_nr }}][number]"
                                             value="{{ $detail->number }}" />
                                     </div>
                                     <div class="w-1/12">
-                                        <x-label for="rate" class="text-right">rate</x-label>
+                                        <x-label for="rate" class="text-right">Tarief</x-label>
                                         <x-input id="rate" class="block w-full mt-1 text-right" type="text"
                                             name="items[{{ $detail->item_nr }}][rate]"
                                             value="{{ number_format($detail->rate / 100, 2, ',', '.') }}" />
                                     </div>
                                     <div class="w-2/12">
-                                        <x-label for="item_amount" class="text-right">item_amount</x-label>
+                                        <x-label for="item_amount" class="text-right">Bedrag</x-label>
                                         <x-input id="item_amount" class="block w-full mt-1 text-right" type="text"
                                             name="items[{{ $detail->item_nr }}][item_amount]"
                                             value="{{ number_format($detail->item_amount / 100, 2, ',', '.') }}" />
@@ -162,28 +163,28 @@
                             <div class="flex w-full mt-4 space-x-4">
 
                                 <div class="w-1/12">
-                                    <x-label for="item_nr">Item_nr</x-label>
+                                    <x-label for="item_nr">Nr</x-label>
                                     <x-input id="item_nr" class="block w-full mt-1" type="text"
                                         name="items[{{ $i }}][item_nr]" value="{{ $i }}"
                                         disabled />
                                 </div>
                                 <div class="w-9/12">
-                                    <x-label for="description">description</x-label>
+                                    <x-label for="description">Omschrijving</x-label>
                                     <x-input id="description" class="block w-full mt-1" type="text"
                                         name="items[{{ $i }}][description]" value="" />
                                 </div>
                                 <div class="w-1/12">
-                                    <x-label for="number" class="text-right">number</x-label>
+                                    <x-label for="number" class="text-right">Aantal</x-label>
                                     <x-input id="number" class="block w-full mt-1 text-right" type="text"
                                         name="items[{{ $i }}][number]" value="" />
                                 </div>
                                 <div class="w-1/12">
-                                    <x-label for="rate" class="text-right">rate</x-label>
+                                    <x-label for="rate" class="text-right">Tarief</x-label>
                                     <x-input id="rate" class="block w-full mt-1 text-right" type="text"
                                         name="items[{{ $i }}][rate]" value="" />
                                 </div>
                                 <div class="w-2/12">
-                                    <x-label for="item_amount" class="text-right">item_amount</x-label>
+                                    <x-label for="item_amount" class="text-right">Bedrag</x-label>
                                     <x-input id="item_amount" class="block w-full mt-1 text-right" type="text"
                                         name="items[{{ $i }}][item_amount]" value="" />
                                 </div>
