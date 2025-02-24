@@ -142,7 +142,6 @@ class InvoiceController extends Controller
             }
         }
 
-        ddl($aItems);
 
         foreach ($aItems as $key => $item) {
 
