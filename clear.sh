@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# export PATH="/Applications/MAMP/bin/php/php8.1.13/bin:$PATH"
+export PATH="/Applications/MAMP/bin/php/php8.1.13/bin:$PATH"
 
 
 # eerst keer: chmod 770 clear.sh 
