@@ -61,7 +61,9 @@
                     recalc() {
                         let sum = 0;
                         document.querySelectorAll('.detail-amount').forEach(el => {
-                            let val = parseFloat(el.value.replace(',', '.'));
+                            // Remove thousand separators and replace comma with dot
+                            let normalized = el.value.replace(/\./g, '').replace(',', '.');
+                            let val = parseFloat(normalized);
                             if (!isNaN(val)) { sum += val; }
                         });
                         this.totalAmount = sum;
@@ -138,10 +140,10 @@
                             @foreach ($details as $detail)
                                 <div class="flex w-full mt-4 space-x-4" x-data="{
                                     number: '{{ $detail->number }}',
-                                    rate: '{{ number_format($detail->rate / 100, 2, ',', '.') }}',
-                                    item_amount: '{{ number_format($detail->item_amount / 100, 2, ',', '.') }}'
+                                    rate: '{{ $detail->rate ? number_format($detail->rate / 100, 2, ',', '.') : '' }}',
+                                    item_amount: '{{ $detail->item_amount ? number_format($detail->item_amount / 100, 2, ',', '') : '' }}'
                                 }"
-                                    x-effect="item_amount = ((parseFloat(number.replace(',', '.')) * parseFloat(rate.replace(',', '.'))) || 0).toFixed(2).toString().replace('.', ',')">
+                                    x-effect="if(number !== '' && rate !== '') { item_amount = (parseFloat(number.replace(',', '.')) * parseFloat(rate.replace(',', '.'))).toFixed(2).toString().replace('.', ','); }">
 
                                     <div class="w-1/12">
                                         <x-label for="item_nr">Item nr</x-label>
@@ -165,14 +167,15 @@
                                         <x-label for="rate" class="text-right">Tarief</x-label>
                                         <x-input id="rate" x-model="rate" class="block w-full mt-1 text-right"
                                             type="text" name="items[{{ $detail->item_nr }}][rate]"
-                                            value="{{ number_format($detail->rate / 100, 2, ',', '.') }}" />
+                                            value="{{ $detail->rate ? number_format($detail->rate / 100, 2, ',', '.') : '' }}" />
                                     </div>
                                     <div class="w-2/12">
                                         <x-label for="item_amount" class="text-right">Bedrag</x-label>
                                         <x-input id="item_amount" x-model="item_amount"
+                                            @change="if(item_amount !== '') { let n = parseFloat(item_amount.replace(/\./g, '').replace(',', '.')); if(!isNaN(n)) { item_amount = n.toFixed(2).toString().replace('.', ','); } }"
                                             class="block w-full mt-1 text-right detail-amount" type="text"
                                             name="items[{{ $detail->item_nr }}][item_amount]"
-                                            value="{{ number_format($detail->item_amount / 100, 2, ',', '.') }}" />
+                                            value="{{ $detail->item_amount ? number_format($detail->item_amount / 100, 2, ',', '') : '' }}" />
                                     </div>
 
                                 </div>
@@ -192,7 +195,7 @@
                                 rate: '',
                                 item_amount: ''
                             }"
-                                x-effect="item_amount = ((parseFloat(number.replace(',', '.')) * parseFloat(rate.replace(',', '.'))) || 0).toFixed(2).toString().replace('.', ',')">
+                                x-effect="if(number !== '' && rate !== '') { item_amount = (parseFloat(number.replace(',', '.')) * parseFloat(rate.replace(',', '.'))).toFixed(2).toString().replace('.', ','); }">
 
                                 <div class="w-1/12">
                                     <x-label for="item_nr">Nr</x-label>
@@ -218,6 +221,7 @@
                                 <div class="w-2/12">
                                     <x-label for="item_amount" class="text-right">Bedrag</x-label>
                                     <x-input id="item_amount" x-model="item_amount"
+                                        @change="if(item_amount !== '') { let n = parseFloat(item_amount.replace(/\./g, '').replace(',', '.')); if(!isNaN(n)) { item_amount = n.toFixed(2).toString().replace('.', ','); } }"
                                         class="block w-full mt-1 text-right detail-amount" type="text"
                                         name="items[{{ $i }}][item_amount]" value="" />
                                 </div>
@@ -228,55 +232,56 @@
 
                     </div>
 
-
-
-
-
-                    <div class="flex w-full mt-20 space-x-4">
-
-
-                        {{-- add a dropdown for the vat, with 0, 6 or 21 as possible values --}}
-                        <div class="w-1/4 mt-4">
-                            <x-label for="vat">BTW</x-label>
-                            <select name="vat" id="vat" x-model.number="vat" class="block w-full mt-1"
-                                @change="recalc()">
-                                <option value="0" @if ($invoice->vat == 0) selected @endif>0 %</option>
-                                <option value="9" @if ($invoice->vat == 9) selected @endif>9 %</option>
-                                <option value="21" @if ($invoice->vat == 21 || is_null($invoice->vat)) selected @endif>21 %</option>
-                            </select>
+                    <div class="mt-20">
+                        <!-- Row for Totaal -->
+                        <div class="flex justify-end">
+                            <div class="w-1/4">
+                                <x-label for="Amount" class="text-right">Totaal</x-label>
+                                <x-input id="amount" class="block w-full mt-1 text-right" type="text"
+                                    name="amount" value="{{ number_format($invoice->amount / 100, 2, ',', '.') }}"
+                                    required disabled />
+                            </div>
                         </div>
 
-
-                        <div class="w-1/4 mt-4 text-align">
-                            <x-label for="Amount" class="text-right">Totaal</x-label>
-                            <x-input id="amount" class="block w-full mt-1 text-right" type="text"
-                                name="amount" value="{{ number_format($invoice->amount / 100, 2, ',', '.') }}"
-                                required disabled />
+                        <!-- Row for BTW pulldown and BTW bedrag -->
+                        <div class="flex justify-end mt-4">
+                            <div class="flex items-end justify-end w-1/4 space-x-2">
+                                <div>
+                                    <x-label for="vat" class="text-right">BTW</x-label>
+                                    <select name="vat" id="vat" x-model.number="vat" class="block mt-1"
+                                        @change="recalc()">
+                                        <option value="0" @if ($invoice->vat == 0) selected @endif>0 %
+                                        </option>
+                                        <option value="9" @if ($invoice->vat == 9) selected @endif>9 %
+                                        </option>
+                                        <option value="21" @if ($invoice->vat == 21 || is_null($invoice->vat)) selected @endif>21 %
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="self-center">
+                                    <span>-</span>
+                                </div>
+                                <div>
+                                    <x-label for="amount_vat" class="text-right">BTW bedrag</x-label>
+                                    <x-input id="amount_vat" class="block w-full mt-1 text-right" type="text"
+                                        name="amount_vat"
+                                        value="{{ number_format($invoice->amount_vat / 100, 2, ',', '.') }}" required
+                                        disabled />
+                                </div>
+                            </div>
                         </div>
 
-
-                        {{-- add a field for the vat amount --}}
-                        <div class="w-1/4 mt-4 text-align">
-                            <x-label for="amount_vat" class="text-right">BTW bedrag</x-label>
-                            <x-input id="amount_vat" class="block w-full mt-1 text-right" type="text"
-                                name="amount_vat"
-                                value="{{ number_format($invoice->amount_vat / 100, 2, ',', '.') }}" required
-                                disabled />
+                        <!-- Row for Bedrag inclusief BTW -->
+                        <div class="flex justify-end mt-4">
+                            <div class="w-1/4">
+                                <x-label for="amount_inc" class="text-right">Bedrag inclusief BTW</x-label>
+                                <x-input id="amount_inc" class="block w-full mt-1 text-right" type="text"
+                                    name="amount_inc"
+                                    value="{{ number_format($invoice->amount_inc / 100, 2, ',', '.') }}" required
+                                    disabled />
+                            </div>
                         </div>
-
-                        {{-- add a field for the amount including vat --}}
-                        <div class="w-1/4 mt-4 text-align">
-                            <x-label for="amount_inc" class="text-right">Bedrag inclusief BTW</x-label>
-                            <x-input id="amount_inc" class="block w-full mt-1 text-right" type="text"
-                                name="amount_inc"
-                                value="{{ number_format($invoice->amount_inc / 100, 2, ',', '.') }}" required
-                                disabled />
-                        </div>
-
                     </div>
-
-
-
 
                     <div class="flex w-full mt-4 space-x-4">
 

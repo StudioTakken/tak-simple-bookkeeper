@@ -89,7 +89,6 @@ class InvoiceController extends Controller
      */
     public function edit($id)
     {
-
         $invoice = Invoice::find($id);
         $details = json_decode($invoice->details);
         $clients = Client::all();
@@ -137,10 +136,13 @@ class InvoiceController extends Controller
 
         // if there is no description, remove the item
         foreach ($aItems as $key => $item) {
-            if ($aItems[$key]['description'] == '') {
+            if (trim($aItems[$key]['description']) == '') {
                 unset($aItems[$key]);
+                // continue;
             }
         }
+
+        ddl($aItems);
 
         foreach ($aItems as $key => $item) {
 
@@ -149,6 +151,8 @@ class InvoiceController extends Controller
             if (isset($aItems[$key]['description']) && strlen($aItems[$key]['description']) > 80) {
                 $aItems[$key]['description'] = substr($aItems[$key]['description'], 0, 80) . '...';
             }
+
+
 
 
 
@@ -167,7 +171,6 @@ class InvoiceController extends Controller
 
             $nTotal += $aItems[$key]['item_amount'];
         }
-
 
         if ($request->vat == '') {
             $request->merge(['vat' => 0]);
